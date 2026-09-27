@@ -113,8 +113,8 @@ stage_code() {
 	# The binary check matters most: it sees the Go version that actually built it.
 	for os in linux openbsd; do
 		if sh "$repo/deploy/build.sh" "$os" >/dev/null 2>&1; then
-			check "binary $os/amd64 ($(go version "$repo/dist/wintermute-$os-amd64" | awk '{print $2}'))" \
-				go run "$GOVULNCHECK" -mode=binary "$repo/dist/wintermute-$os-amd64"
+			check "binary $os/amd64 ($(go version "$repo/dist/wintermuteconsulting-$os-amd64" | awk '{print $2}'))" \
+				go run "$GOVULNCHECK" -mode=binary "$repo/dist/wintermuteconsulting-$os-amd64"
 		else
 			bad "build $os"
 		fi
@@ -296,7 +296,7 @@ stage_local() {
 	cd "$repo"
 	port=${PORT:-18089}
 	sh deploy/build.sh linux "$(go env GOARCH)" >/dev/null
-	./dist/wintermute-linux-"$(go env GOARCH)" -addr "127.0.0.1:$port" 2>"$here/.local.log" &
+	./dist/wintermuteconsulting-linux-"$(go env GOARCH)" -addr "127.0.0.1:$port" 2>"$here/.local.log" &
 	pid=$!
 	trap 'kill $pid 2>/dev/null || true' EXIT INT TERM
 	i=0
@@ -372,9 +372,9 @@ host_openbsd() {
 	if [ -z "$p" ]; then ok "syspatch: up to date"; else bad "syspatch: pending: $(printf "%s " $p)"; fi
 
 	section "Services"
-	for s in wintermute httpd relayd; do check "rcctl check $s" rcctl check $s; done
-	u=$(ps -axo user,command | awk '$2 == "/usr/local/bin/wintermute" {print $1; exit}')
-	[ "$u" = _wintermute ] && ok "site runs as _wintermute" || bad "site runs as '${u:-not running}'"
+	for s in wintermuteconsulting httpd relayd; do check "rcctl check $s" rcctl check $s; done
+	u=$(ps -axo user,command | awk '$2 == "/usr/local/bin/wintermuteconsulting" {print $1; exit}')
+	[ "$u" = _wintermuteconsulting ] && ok "site runs as _wintermuteconsulting" || bad "site runs as '${u:-not running}'"
 	check "httpd.conf syntax" httpd -n
 	check "relayd.conf syntax" relayd -n
 	check "acme-client.conf syntax" acme-client -n
@@ -415,15 +415,15 @@ host_openbsd() {
 host_linux() {
 	section "Service sandbox"
 	if have systemd-analyze; then
-		score=$(systemd-analyze security wintermute 2>/dev/null | awk '/Overall exposure level/ {print $(NF-1)}')
+		score=$(systemd-analyze security wintermuteconsulting 2>/dev/null | awk '/Overall exposure level/ {print $(NF-1)}')
 		case $score in
-		'') bad "wintermute.service not installed" ;;
+		'') bad "wintermuteconsulting.service not installed" ;;
 		0.* | 1.* | 2.*) ok "systemd exposure score $score" ;;
 		*) meh "systemd exposure score $score (want < 3)" ;;
 		esac
 	fi
-	systemctl is-active --quiet wintermute && ok "wintermute active" || bad "wintermute not running"
-	envf=/etc/wintermute/wintermute.env
+	systemctl is-active --quiet wintermuteconsulting && ok "wintermuteconsulting active" || bad "wintermuteconsulting not running"
+	envf=/etc/wintermuteconsulting/wintermuteconsulting.env
 	addr=$(sed -n 's/^ADDR=//p' "$envf" 2>/dev/null | tail -1)
 	trust=$(sed -n 's/^TRUST_PROXY=//p' "$envf" 2>/dev/null | tail -1)
 	case $addr in
@@ -431,7 +431,7 @@ host_linux() {
 	'') bad "no ADDR in $envf" ;;
 	*) [ "$trust" = 1 ] && bad "ADDR=$addr is reachable directly while TRUST_PROXY=1: clients can spoof their IP" || meh "site listens on $addr (not loopback); nginx is meant to be the public side" ;;
 	esac
-	mm=$(systemctl show -p MemoryMax --value wintermute 2>/dev/null || true)
+	mm=$(systemctl show -p MemoryMax --value wintermuteconsulting 2>/dev/null || true)
 	case $mm in '' | infinity) meh "no MemoryMax on the service" ;; *) ok "service memory capped ($((mm / 1048576)) MB)" ;; esac
 
 	section "nginx in front"

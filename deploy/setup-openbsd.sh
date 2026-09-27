@@ -5,7 +5,7 @@
 #   httpd   :80   Let's Encrypt HTTP-01 challenges, redirect everything else to HTTPS
 #   relayd  :443  TLS termination + HSTS, proxies to the Go service on loopback
 #   acme-client   certificate issuance, renewed daily from root's crontab
-#   rc.d          runs the binary as the unprivileged _wintermute user
+#   rc.d          runs the binary as the unprivileged _wintermuteconsulting user
 #
 # Run as root on the target host. Safe to re-run: it replaces the binary,
 # rewrites changed config (keeping a timestamped .bak) and restarts.
@@ -13,12 +13,12 @@
 #   DOMAIN=wintermuteconsulting.com WWW=1 sh setup-openbsd.sh
 #
 # Build the binary on your dev machine and copy it over alongside this script:
-#   deploy/build.sh openbsd && scp dist/wintermute-openbsd-amd64 deploy/setup-openbsd.sh host:
+#   deploy/build.sh openbsd && scp dist/wintermuteconsulting-openbsd-amd64 deploy/setup-openbsd.sh host:
 #
 # Settings (environment):
 #   DOMAIN          public hostname (required). DNS must already point here.
 #   WWW=1           also get a certificate for www.$DOMAIN (default 0)
-#   BIN             binary to install (default: wintermute-openbsd-<arch> next
+#   BIN             binary to install (default: wintermuteconsulting-openbsd-<arch> next
 #                   to this script, else ../dist/)
 #   PORT            loopback port for the Go service (default 8080)
 #   ACME_STAGING=1  use Let's Encrypt's staging CA while testing (default 0;
@@ -69,27 +69,27 @@ here=$(cd "$(dirname "$0")" && pwd)
 # --- binary -----------------------------------------------------------------
 
 if [ -z "${BIN:-}" ]; then
-	BIN=$here/wintermute-openbsd-$arch
-	[ -f "$BIN" ] || BIN=$here/../dist/wintermute-openbsd-$arch
+	BIN=$here/wintermuteconsulting-openbsd-$arch
+	[ -f "$BIN" ] || BIN=$here/../dist/wintermuteconsulting-openbsd-$arch
 fi
 [ -f "$BIN" ] || die "no binary at $BIN; run 'deploy/build.sh openbsd $arch' on your dev machine and copy it here"
 
-id _wintermute >/dev/null 2>&1 ||
-	useradd -L daemon -g =uid -c "Wintermute website" -d /var/empty -s /sbin/nologin _wintermute
+id _wintermuteconsulting >/dev/null 2>&1 ||
+	useradd -L daemon -g =uid -c "Wintermute Consulting website" -d /var/empty -s /sbin/nologin _wintermuteconsulting
 
-say "installing /usr/local/bin/wintermute"
-install -o root -g bin -m 0555 "$BIN" /usr/local/bin/wintermute.new
-mv -f /usr/local/bin/wintermute.new /usr/local/bin/wintermute
+say "installing /usr/local/bin/wintermuteconsulting"
+install -o root -g bin -m 0555 "$BIN" /usr/local/bin/wintermuteconsulting.new
+mv -f /usr/local/bin/wintermuteconsulting.new /usr/local/bin/wintermuteconsulting
 
 # --- service ----------------------------------------------------------------
 
 # Output (including contact submissions, for now) goes to syslog: /var/log/daemon.
-put /etc/rc.d/wintermute 0555 <<EOF
+put /etc/rc.d/wintermuteconsulting 0555 <<EOF
 #!/bin/ksh
 
-daemon="/usr/local/bin/wintermute"
+daemon="/usr/local/bin/wintermuteconsulting"
 daemon_flags="-addr 127.0.0.1:$PORT -trust-proxy"
-daemon_user="_wintermute"
+daemon_user="_wintermuteconsulting"
 daemon_logger="daemon.info"
 
 . /etc/rc.d/rc.subr
@@ -100,8 +100,8 @@ rc_reload=NO
 rc_cmd \$1
 EOF
 
-rcctl enable wintermute
-rcctl restart wintermute
+rcctl enable wintermuteconsulting
+rcctl restart wintermuteconsulting
 
 # --- httpd: ACME challenges and HTTP -> HTTPS -------------------------------
 
@@ -185,9 +185,9 @@ for addr in $LISTEN4 $LISTEN6; do
 	relays="$relays
 relay \"https-$addr\" {
 	listen on $addr port 443 tls
-	protocol \"wintermute\"
+	protocol \"wintermuteconsulting\"
 	session timeout 60
-	forward to <wintermute> port $PORT check http \"/healthz\" code 200
+	forward to <wintermuteconsulting> port $PORT check http \"/healthz\" code 200
 }
 "
 done
@@ -196,9 +196,9 @@ done
 # "append" makes the address relayd actually saw.
 put /etc/relayd.conf 0600 <<EOF
 # Managed by setup-openbsd.sh. Local edits are backed up and replaced on re-run.
-table <wintermute> { 127.0.0.1 }
+table <wintermuteconsulting> { 127.0.0.1 }
 
-http protocol "wintermute" {
+http protocol "wintermuteconsulting" {
 	tls keypair "$DOMAIN"
 	tls { no tlsv1.0, no tlsv1.1 }
 

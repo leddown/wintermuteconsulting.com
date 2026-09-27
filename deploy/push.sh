@@ -42,10 +42,10 @@ esac
 
 sh "$root/deploy/build.sh" "$os" "$arch"
 
-dir=wintermute-deploy
+dir=wintermuteconsulting-deploy
 # shellcheck disable=SC2029 # $dir is meant to expand here
 ssh "$target" "mkdir -p $dir"
-scp -q "$root/dist/wintermute-$os-$arch" "$root/deploy/setup-$os.sh" "$root/security/run.sh" "$target:$dir/"
+scp -q "$root/dist/wintermuteconsulting-$os-$arch" "$root/deploy/setup-$os.sh" "$root/security/run.sh" "$target:$dir/"
 
 if [ "$os" = openbsd ]; then su=doas; else su=sudo; fi
 # Quote each setting for the remote shell.

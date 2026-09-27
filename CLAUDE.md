@@ -29,7 +29,7 @@ Make sure the user understands the operational and legal requirements that come 
 go run . -dev                 # http://127.0.0.1:8080; templates/static read from disk and re-parsed per request
 go test ./...                 # all tests
 go test -run TestContact ./...  # single test
-go build -o wintermute .      # single self-contained binary (templates + assets embedded)
+go build -o wintermuteconsulting .      # single self-contained binary (templates + assets embedded)
 ```
 
 Deployment (see header comments in each script for settings). Three machines: this **workstation** builds and runs every test and scanner; the **LAN dev server** (~1 GB RAM) only runs the binary; **production** is OpenBSD. Servers never compile anything.
@@ -40,7 +40,7 @@ deploy/push.sh linux user@devbox               # build here, scp, run setup-linu
 deploy/push.sh openbsd user@vps DOMAIN=example.com WWW=1   # same for production (doas)
 ```
 
-- `setup-linux.sh` (LAN dev) only installs the binary and a hardened systemd unit (`MemoryMax=256M`). Settings live in `/etc/wintermute/wintermute.env` (`ADDR=127.0.0.1:8080`, `TRUST_PROXY=1`, `GOMEMLIMIT`), created once and never overwritten. The box's own nginx (set up manually, not by us) proxies to it and must send `proxy_set_header Host $host;` (else the contact form's Origin check 403s) and `proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;` (else TRUST_PROXY is spoofable). No firewall or package changes.
+- `setup-linux.sh` (LAN dev) only installs the binary and a hardened systemd unit (`MemoryMax=256M`). Settings live in `/etc/wintermuteconsulting/wintermuteconsulting.env` (`ADDR=127.0.0.1:8080`, `TRUST_PROXY=1`, `GOMEMLIMIT`), created once and never overwritten. The box's own nginx (set up manually, not by us) proxies to it and must send `proxy_set_header Host $host;` (else the contact form's Origin check 403s) and `proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;` (else TRUST_PROXY is spoofable). No firewall or package changes.
 - `setup-openbsd.sh` (production) uses base only: rc.d + httpd (ACME/redirect) + relayd (TLS, HSTS) + acme-client + pf.
 
 Security testing (`security/run.sh` with no args prints all options; exits non-zero on any FAIL):

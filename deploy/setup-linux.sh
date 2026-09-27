@@ -10,16 +10,16 @@
 # a timestamped .bak) and restarts. The env file is created once and never
 # overwritten, so your edits survive redeploys.
 #
-#   /etc/wintermute/wintermute.env    listen address/port and options (edit this)
-#   /etc/systemd/system/wintermute.service
-#   /usr/local/bin/wintermute
+#   /etc/wintermuteconsulting/wintermuteconsulting.env    listen address/port and options (edit this)
+#   /etc/systemd/system/wintermuteconsulting.service
+#   /usr/local/bin/wintermuteconsulting
 #
 # Settings (environment):
-#   BIN   prebuilt binary (default: wintermute-linux-<arch> next to this script,
+#   BIN   prebuilt binary (default: wintermuteconsulting-linux-<arch> next to this script,
 #         else ../dist/). Never built on this host.
 set -eu
 
-ENV_FILE=/etc/wintermute/wintermute.env
+ENV_FILE=/etc/wintermuteconsulting/wintermuteconsulting.env
 
 say() { printf '==> %s\n' "$*"; }
 die() {
@@ -60,22 +60,22 @@ repo=$(cd "$here/.." && pwd)
 # --- binary -----------------------------------------------------------------
 
 if [ -z "${BIN:-}" ]; then
-	BIN=$here/wintermute-linux-$arch
-	[ -f "$BIN" ] || BIN=$repo/dist/wintermute-linux-$arch
+	BIN=$here/wintermuteconsulting-linux-$arch
+	[ -f "$BIN" ] || BIN=$repo/dist/wintermuteconsulting-linux-$arch
 fi
 [ -f "$BIN" ] || die "no binary at $BIN. Build on the workstation (deploy/build.sh linux $arch) or use deploy/push.sh"
 
-say "installing /usr/local/bin/wintermute"
-install -m 0755 "$BIN" /usr/local/bin/wintermute.new
-mv -f /usr/local/bin/wintermute.new /usr/local/bin/wintermute
+say "installing /usr/local/bin/wintermuteconsulting"
+install -m 0755 "$BIN" /usr/local/bin/wintermuteconsulting.new
+mv -f /usr/local/bin/wintermuteconsulting.new /usr/local/bin/wintermuteconsulting
 
 # --- env file (created once, then yours) ------------------------------------
 
 if [ ! -f "$ENV_FILE" ]; then
 	install -d -m 0755 "$(dirname "$ENV_FILE")"
 	cat >"$ENV_FILE" <<'EOF'
-# Wintermute site settings. Read by wintermute.service; apply changes with:
-#   sudo systemctl restart wintermute
+# Wintermute site settings. Read by wintermuteconsulting.service; apply changes with:
+#   sudo systemctl restart wintermuteconsulting
 # Redeploys never overwrite this file.
 
 # Where the site listens. Keep it on loopback: nginx is the public side.
@@ -97,18 +97,28 @@ else
 	say "keeping existing $ENV_FILE"
 fi
 
+addr=$(sed -n 's/^ADDR=//p' "$ENV_FILE" | tail -1)
+port=${addr##*:}
+case $port in '' | *[!0-9]*) die "cannot read a port from ADDR= in $ENV_FILE" ;; esac
+# Other services run on this box: if the port is taken while our service is
+# down, it belongs to someone else.
+if ! systemctl is-active --quiet wintermuteconsulting && command -v ss >/dev/null &&
+	ss -Htln "sport = :$port" | grep -q .; then
+	die "port $port is already in use by another service. Set a free port in ADDR= in $ENV_FILE, then re-run"
+fi
+
 # --- service ----------------------------------------------------------------
 
 # DynamicUser gives the service a throwaway unprivileged account; it needs no
 # files on disk because templates and assets are embedded in the binary.
-put /etc/systemd/system/wintermute.service 0644 <<EOF
+put /etc/systemd/system/wintermuteconsulting.service 0644 <<EOF
 [Unit]
-Description=Wintermute website
+Description=Wintermute Consulting website
 After=network.target
 
 [Service]
 EnvironmentFile=$ENV_FILE
-ExecStart=/usr/local/bin/wintermute
+ExecStart=/usr/local/bin/wintermuteconsulting
 Restart=on-failure
 RestartSec=2s
 MemoryMax=256M
@@ -144,23 +154,21 @@ WantedBy=multi-user.target
 EOF
 
 systemctl daemon-reload
-systemctl enable wintermute >/dev/null 2>&1
-systemctl restart wintermute
+systemctl enable wintermuteconsulting >/dev/null 2>&1
+systemctl restart wintermuteconsulting
 
 # --- check ------------------------------------------------------------------
 
 sleep 1
-systemctl is-active --quiet wintermute || die "service did not start; see: journalctl -u wintermute -n 50"
-addr=$(sed -n 's/^ADDR=//p' "$ENV_FILE" | tail -1)
-port=${addr##*:}
+systemctl is-active --quiet wintermuteconsulting || die "service did not start; see: journalctl -u wintermuteconsulting -n 50"
 if command -v curl >/dev/null && ! curl -fsS "http://127.0.0.1:$port/healthz" >/dev/null; then
-	die "service is not answering on port $port; see: journalctl -u wintermute -n 50"
+	die "service is not answering on port $port; see: journalctl -u wintermuteconsulting -n 50"
 fi
 
 say "done: listening on $addr"
 cat <<EOF
-    settings: $ENV_FILE  (then: sudo systemctl restart wintermute)
-    logs:     journalctl -u wintermute -f   (contact submissions are logged here for now)
+    settings: $ENV_FILE  (then: sudo systemctl restart wintermuteconsulting)
+    logs:     journalctl -u wintermuteconsulting -f   (contact submissions are logged here for now)
 
     nginx location block for the site (both headers matter):
         location / {

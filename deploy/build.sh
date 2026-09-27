@@ -1,8 +1,8 @@
 #!/bin/sh
 # Cross-compile the site into a single static binary for a target host.
 #
-#   deploy/build.sh linux            # -> dist/wintermute-linux-amd64
-#   deploy/build.sh openbsd arm64    # -> dist/wintermute-openbsd-arm64
+#   deploy/build.sh linux            # -> dist/wintermuteconsulting-linux-amd64
+#   deploy/build.sh openbsd arm64    # -> dist/wintermuteconsulting-openbsd-arm64
 #
 # Templates and assets are embedded, so the binary is the whole deployment.
 # Run from anywhere inside the repo; needs Go on the build machine only.
@@ -20,7 +20,7 @@ linux | openbsd) ;;
 esac
 
 root=$(cd "$(dirname "$0")/.." && pwd)
-out="$root/dist/wintermute-$os-$arch"
+out="$root/dist/wintermuteconsulting-$os-$arch"
 mkdir -p "$root/dist"
 
 cd "$root"
