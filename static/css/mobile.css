@@ -181,18 +181,6 @@ html.m-menu-open { overflow: hidden; }
 
 /* Varg: amber on near-black. Defaults above are Varg's. */
 
-/* Vitt: the light one. Big thin headline, pale snow-washed photo. */
-.m--vitt .m-hero__media img { filter: grayscale(1) brightness(1.5) contrast(0.7); opacity: 0.6; }
-.is-flashing .m--vitt .m-hero__media img { filter: grayscale(1) brightness(0.6) contrast(1.3); }
-.m--vitt .m-hero__title { font-size: clamp(3.2rem, 17vw, 4.6rem); font-weight: 300; letter-spacing: -0.05em; }
-.m--vitt .m-hero__lede { color: var(--muted); }
-.m--vitt .m-section h2 { font-weight: 300; }
-.m--vitt .m-ai__label { display: inline-block; padding: 5px 9px; border: 1px solid var(--ink); font: 500 0.72rem/1 var(--font-mono); letter-spacing: 0.3em; }
-.m--vitt .m-ai__statement { margin-top: 24px !important; font: 300 1.6rem/1.3 var(--font-display) !important; color: var(--ink) !important; letter-spacing: -0.01em; }
-.m--vitt .m-ai__statement em { font-style: normal; color: var(--accent); }
-.m--vitt .field input, .m--vitt .field textarea { background: var(--surface); }
-.m--vitt .m-bar::before { background: color-mix(in srgb, var(--bg) 80%, transparent); }
-
 /* Signal: a console. The hero is a framed camera feed, not a full-bleed photo. */
 .m--signal { font-size: 0.9375rem; }
 .m-hero--console { min-height: 0; justify-content: flex-start; padding-top: 20px; }
@@ -244,20 +232,6 @@ html.m-menu-open { overflow: hidden; }
 .m--signal .m-bar__logo .logo-sub { letter-spacing: 0.91em; } /* monospace glyphs are wider */
 
 /* ---- Professional-services family ---- */
-
-/* Hytte: the cabin scene as a panel, so the copy never covers the cabin. */
-.m-hero--stack { min-height: 0; justify-content: flex-start; }
-.m-panel { aspect-ratio: 1 / 1; overflow: hidden; background: #070729; }
-.m--hytte .m-hero__content { padding-top: 32px; }
-.m--hytte .m-hero__title em { font-style: normal; color: var(--brand); opacity: 0.55; }
-.m--hytte .m-hero__lede { color: var(--muted); }
-.m--hytte .m-services__code, .m--hytte .m-approach__num { color: var(--accent-text); }
-.m--hytte .m-section h2 em { color: var(--accent-text); }
-.m--hytte .m-quote p { color: var(--brand); }
-.m--hytte .field input, .m--hytte .field textarea { background: var(--surface); }
-.m--hytte .m-proof { background: var(--brand); color: var(--brand-ink); border: 0; }
-.m--hytte .m-proof dt { color: rgb(244 243 255 / 0.7); }
-.m--hytte .m-proof div { border-left-color: rgb(244 243 255 / 0.18); }
 
 /* Natt: amber second line, eyes in the tree band. */
 .m--natt .m-hero__media img { filter: none; object-position: 62% 30%; }

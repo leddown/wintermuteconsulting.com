@@ -1,0 +1,29 @@
+{{/* Varg 2 on a phone: a copy of templates/m/varg.html. */}}
+{{/* Varg on a phone: night forest hero, eyes in the canopy, amber on near-black. */}}
+{{define "m-theme-color"}}#07090a{{end}}
+{{define "m-scripts"}}<script type="module" src="/static/js/wolfeyes.js"></script>{{end}}
+
+{{define "m-hero"}}
+<section class="m-hero">
+  <div class="m-hero__media">{{template "forest-picture"}}</div>
+  <canvas class="m-hero__eyes" data-wolf-eyes data-pairs="3" aria-hidden="true"></canvas>
+  <div class="m-hero__content">
+    <p class="m-status" aria-hidden="true"><span class="dot"></span>Watching</p>
+    <p class="eyebrow">{{.Site.Descriptor}}</p>
+    <h1 class="m-hero__title">{{template "glitch-text" .Site.Tagline}}</h1>
+    <p class="m-hero__lede">{{.Site.Lede}}</p>
+    {{template "m-actions" .}}
+  </div>
+</section>
+{{end}}
+
+{{define "m-services-title"}}Security leadership for <em>the long night</em>{{end}}
+
+{{define "m-supervision"}}
+<section class="m-section m-ai" id="supervision" data-reveal>
+  <p class="eyebrow">Supervision</p>
+  <h2>We know where<br>{{template "glitch-text" "the supervisor looks."}}</h2>
+  <p>We have prepared institutions for ECB on-site inspections and supervisory reviews, answered the follow-up letters, and carried the findings through to closure.</p>
+  <blockquote class="m-quote"><p>“The wolf doesn't check every tree. It knows where to look.”</p></blockquote>
+</section>
+{{end}}

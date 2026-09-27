@@ -19,11 +19,11 @@ type Variant struct {
 
 // variantTheme maps a variant to the design whose stylesheet (and mobile
 // treatment) it reuses, for variants that are a tweak of another design.
-var variantTheme = map[string]string{"signal2": "signal"}
+var variantTheme = map[string]string{"signal2": "signal", "varg2": "varg", "morke2": "morke", "spor2": "spor", "natt2": "natt"}
 
 // noGlitch lists designs without the digital glitch: no glitch.js, no flash
 // layer, no glitching text, and so no wolf eyes (they only appear on flashes).
-var noGlitch = map[string]bool{"signal2": true, "hytte": true, "natt": true, "rim": true}
+var noGlitch = map[string]bool{"signal2": true, "natt": true, "natt2": true, "rim": true}
 
 // Glitch reports whether the design uses the glitch effects.
 func (v Variant) Glitch() bool { return !noGlitch[v.Slug] }
@@ -37,15 +37,17 @@ func (v Variant) Theme() string {
 }
 
 var variants = []Variant{
-	{"varg", "Varg", "Night forest, glowing wolf eyes that track the cursor, RGB-split glitch on the headline."},
-	{"vitt", "Vitt", "Whiteout. Pale, cold and quiet, with drifting snow and inverted glitch flashes."},
+	{"varg", "Varg", "Night forest, wolf eyes glimpsed between the trees when the lights dip, RGB-split glitch on the headline."},
+	{"varg2", "Varg 2", "A copy of Varg to develop separately."},
 	{"signal", "Signal", "A supervision console: monospace, a live remediation tracker, scanlines over the forest."},
 	{"signal2", "Signal 2", "Signal without the glitch: the same console, tracker and scanlines, with no flashes, scrambling or glitching text."},
 	{"morke", "Mørke", "Nordic editorial. Big serif type, a strict grid, glitch only on interaction."},
+	{"morke2", "Mørke 2", "A copy of Mørke to develop separately."},
 	{"spor", "Spor", "Scroll-driven descent into the forest that ends face to face with the wolf."},
-	{"hytte", "Hytte", "Advisory-firm layout in snow light: a lit cabin in the moonlit forest, amber only where its light falls."},
-	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the signal, eyes between the trees."},
-	{"rim", "Rim", "White and structured, serif headlines, the night as a panorama. The most corporate of the three."},
+	{"spor2", "Spor 2", "A copy of Spor to develop separately."},
+	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the single signal colour."},
+	{"natt2", "Natt 2", "A copy of Natt to develop separately."},
+	{"rim", "Rim", "White and structured, serif headlines, the night as a panorama. The most corporate of the designs."},
 }
 
 func findVariant(slug string) (Variant, bool) {

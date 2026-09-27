@@ -1,4 +1,4 @@
-/* Professional-services family (Hytte, Natt, Rim): the page furniture of a
+/* Professional-services family (Natt, Rim): the page furniture of a
    large advisory firm. Utility bar, nav, service tiles, figures, industries,
    insights, steps, contact and a column footer. Each design's stylesheet sets
    the tokens (--bg, --ink, --brand, --accent, fonts) and its own hero. */
@@ -128,20 +128,3 @@
 .ps .switcher { background: var(--footer-bg, var(--brand)); color: color-mix(in srgb, var(--footer-ink, var(--brand-ink)) 65%, transparent); margin: 0; }
 .ps .switcher a:hover, .ps .switcher a[aria-current] { color: var(--footer-ink, var(--brand-ink)); }
 
-/* ---- The cabin scene ---- */
-.scene { display: block; width: 100%; height: 100%; }
-.cabin__light, .cabin__halo, .cabin__spill { transition: opacity 0.08s; }
-.is-flashing .cabin__light { opacity: 0.25; }
-.is-flashing .cabin__halo, .is-flashing .cabin__spill { opacity: 0.1; }
-@media (prefers-reduced-motion: no-preference) {
-  .cabin__smoke circle { animation: smoke 7s ease-out infinite; transform-box: fill-box; transform-origin: center; opacity: 0; }
-  .cabin__smoke circle:nth-child(2) { animation-delay: 2.3s; }
-  .cabin__smoke circle:nth-child(3) { animation-delay: 4.6s; }
-  .cabin__halo { animation: hearth 5s ease-in-out infinite alternate; }
-}
-@keyframes smoke {
-  0% { opacity: 0; transform: translate(0, 30px) scale(0.6); }
-  25% { opacity: 0.55; }
-  100% { opacity: 0; transform: translate(26px, -40px) scale(1.5); }
-}
-@keyframes hearth { to { opacity: 0.7; } }

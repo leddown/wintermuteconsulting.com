@@ -59,7 +59,7 @@ func getAs(t *testing.T, path, ua string) (int, http.Header, string) {
 func TestServesLayoutForDevice(t *testing.T) {
 	for _, v := range variants {
 		mobileBody := `class="m m--` + v.Slug
-		desktopBody := regexp.MustCompile(`<body class="([a-z]+ )?` + v.Slug + `">`)
+		desktopBody := regexp.MustCompile(`<body class="([a-z]+ )*` + v.Slug + `">`)
 
 		code, hdr, body := getAs(t, "/v/"+v.Slug, uaIPhone)
 		if code != 200 || !strings.Contains(body, mobileBody) {
@@ -168,8 +168,8 @@ func TestNoGlitchDesigns(t *testing.T) {
 			off = append(off, v.Slug)
 		}
 	}
-	if got := strings.Join(off, ","); got != "signal2,hytte,natt,rim" {
-		t.Fatalf("designs without glitch = %s, want signal2,hytte,natt,rim", got)
+	if got := strings.Join(off, ","); got != "signal2,natt,natt2,rim" {
+		t.Fatalf("designs without glitch = %s, want signal2,natt,natt2,rim", got)
 	}
 	for _, slug := range off {
 		bad := validForm()

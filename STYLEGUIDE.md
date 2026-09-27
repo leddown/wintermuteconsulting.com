@@ -15,13 +15,13 @@ bleak, cold, forest, snow, threat, wolf, wolf eyes, dangers, AI, digital glitch,
 
 ## Palette
 
-| Token | Varg (default) | Vitt | Signal | Mørke | Use |
-|---|---|---|---|---|---|
-| `--bg` | `#07090a` | `#eef2f3` | `#040607` | `#0f1010` | page background |
-| `--ink` | `#e4ebe8` | `#0e1518` | `#d6ecf2` | `#ecebe5` | body text |
-| `--muted` | `#8d9b96` | `#5a676d` | `#6f8990` | `#8f8e88` | secondary text |
-| `--accent` | `#e9a441` wolf amber | `#173f4e` fjord | `#7fd4e8` ice | `#ecebe5` | CTAs, highlights |
-| `--glitch-a/b` | pale ghost / `#6b0f16` | ink ghost / `#6b0f16` | inherited | inherited | glitch split only, never bright |
+| Token | Varg (default) | Signal | Mørke | Use |
+|---|---|---|---|---|
+| `--bg` | `#07090a` | `#040607` | `#0f1010` | page background |
+| `--ink` | `#e4ebe8` | `#d6ecf2` | `#ecebe5` | body text |
+| `--muted` | `#8d9b96` | `#6f8990` | `#8f8e88` | secondary text |
+| `--accent` | `#e9a441` wolf amber | `#7fd4e8` ice | `#ecebe5` | CTAs, highlights |
+| `--glitch-a/b` | pale ghost / `#6b0f16` | inherited | inherited | glitch split only, never bright |
 
 Amber is reserved for the eyes and primary actions. Nothing else should glow.
 
@@ -30,18 +30,18 @@ Amber is reserved for the eyes and primary actions. Nothing else should glow.
 - **Space Grotesk** (display): geometric with slightly mechanical terminals, reads as both "technical" and "modern Nordic".
 - **Inter** (body): neutral and highly legible.
 - **JetBrains Mono** (labels, codes, eyebrows): uppercase with wide tracking, for the "machine" voice.
-- **Instrument Serif** (Mørke only): editorial contrast.
+- **Instrument Serif** (Mørke, Rim): editorial contrast.
 
 ## Imagery
 
 Fog, spruce, moss, snow, dusk. Desaturate and darken photos. The forest should feel quiet, not horror-movie. Wolf eyes: real eyeshine footage (trail-camera style, eyes only, on black) composited over the forest, with a procedural canvas fallback. No stock-wolf clichés.
-**Still needed:** higher-resolution originals. `juliaboldt-woods` is only 640 px wide and looks soft on large screens. Winter/snow and wolf photography would strengthen Vitt and Spor.
+**Still needed:** higher-resolution originals. `juliaboldt-woods` is only 640 px wide and looks soft on large screens. Winter/snow and wolf photography would strengthen Spor.
 
 ## Motion rules
 
-1. One ambient motion per viewport: eyes, snow, *or* terminal.
+1. One ambient motion per viewport: eyes *or* terminal.
 2. A glitch is an *event*: a short flash every 5 to 11 s, never a constant jitter. It goes *darker*, never brighter: the screen dims, a few 1-3 px black tears, no neon RGB bands and no inverted images.
-3. No motion under `prefers-reduced-motion`. Eyes and snow render as a still frame.
+3. No motion under `prefers-reduced-motion`. Eyes render as a still frame.
 4. Anything interactive responds to hover/focus with a small scramble, never a layout shift.
 5. Wolf eyes are only seen when the lights dip: hidden until a glitch flash, then they linger 1–3 s and fade, and may be elsewhere or gone by the next flash. They never follow the pointer. Real eyeshine footage (`data-footage`) is preferred; the drawn fallback is dim almond eyeshine with no pupils.
 
