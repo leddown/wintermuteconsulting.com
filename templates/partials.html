@@ -29,19 +29,18 @@
 </picture>
 {{end}}
 
-{{/* Signal's simulated AI reasoning feed, typed out by terminal.js. */}}
+{{/* Signal's simulated remediation tracker, typed out by terminal.js. */}}
 {{define "terminal-lines"}}
 <template data-lines>
-  <li>&gt; boot wintermute-consulting-core v4.2 … ok</li>
-  <li>&gt; loading adversary models [apt28, apt29, fin7, scattered-spider, 214 more]</li>
-  <li>&gt; mapping perimeter … 14 203 hosts, 612 exposed services</li>
-  <li class="warn">! anomaly: kerberos ticket reuse, vlan 40, 03:12:07</li>
-  <li>&gt; correlating with 2.1 M attack paths …</li>
-  <li class="warn">! llm agent “helpdesk-bot” accepts instructions from retrieved documents</li>
-  <li class="crit">!! prompt-injection path to finance share: CONFIRMED</li>
-  <li>&gt; ranking by blast radius … 3 paths worth a human</li>
-  <li>&gt; escalating to operator on watch</li>
-  <li class="ok">✓ operator acknowledged. hunt begins.</li>
+  <li>&gt; open supervisory letter … 14 findings, 3 rated high</li>
+  <li>&gt; map findings to DORA art. 5–16, RTS on ICT risk, EBA GL/2019/04</li>
+  <li class="warn">! F-03: ICT third-party register incomplete (DORA art. 28)</li>
+  <li class="warn">! F-07: backup restore never tested end to end</li>
+  <li class="crit">!! F-11: management body has not approved the ICT risk framework</li>
+  <li>&gt; draft remediation plan … owners, deadlines, evidence per control</li>
+  <li>&gt; board crisis exercise scheduled: ransomware, day 1, 06:40</li>
+  <li>&gt; plan submitted to the joint supervisory team</li>
+  <li class="ok">✓ plan accepted. remediation begins.</li>
 </template>
 {{end}}
 
@@ -56,7 +55,7 @@
 
 {{define "contact-form"}}
 {{if .Sent}}
-<p class="form-status form-status--ok" role="status">Message received. We'll answer within one working day.</p>
+<p class="form-status form-status--ok" role="status">Thank you. Your enquiry has been received in confidence, and a senior advisor will reply within one working day.</p>
 {{else}}
 <form class="contact-form" method="post" action="/contact#contact" novalidate>
   {{with .Errors.form}}<p class="form-status form-status--err" role="alert">{{.}}</p>{{end}}
@@ -81,12 +80,12 @@
     {{with .Errors.company}}<p class="field-err">{{.}}</p>{{end}}
   </div>
   <div class="field field--wide{{if .Errors.message}} field--err{{end}}">
-    <label for="f-message">What are you worried about?</label>
+    <label for="f-message">How may we help?</label>
     <textarea id="f-message" name="message" rows="5" required maxlength="5000"{{if .Errors.message}} aria-invalid="true" aria-describedby="e-message"{{end}}>{{.Form.Message}}</textarea>
     {{with .Errors.message}}<p class="field-err" id="e-message">{{.}}</p>{{end}}
   </div>
   <button class="btn btn--primary" type="submit">Send securely</button>
-  <p class="form-note">Sent over TLS. Used only to reply to you, never shared.</p>
+  <p class="form-note">Sent encrypted. Used only to reply to you, and never shared.</p>
 </form>
 {{end}}
 {{end}}

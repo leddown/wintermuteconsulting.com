@@ -1,0 +1,56 @@
+/* Hytte: advisory-firm layout in snow light. Night-indigo brand from the
+   illustration, amber only where the cabin's light falls. */
+
+:root {
+  --bg: #f7f8fc;
+  --surface: #ffffff;
+  --ink: #10132e;
+  --muted: #565e78;
+  --line: rgb(16 19 46 / 0.12);
+  --brand: #1b1650;
+  --brand-ink: #f4f3ff;
+  --accent: #e39a2f;
+  --accent-ink: #1a1003;
+  --accent-text: #9a5a0a;
+  --err: #b3261e;
+  --ok: #1d6b45;
+  --glitch-a: rgb(16 19 46 / 0.4);
+  --glitch-b: #6b0f16;
+  color-scheme: light;
+}
+
+.hytte .btn--ghost { border-color: rgb(16 19 46 / 0.25); }
+.hytte .btn--ghost:hover { border-color: var(--ink); }
+
+/* Hero: copy on snow light, the cabin scene as a tall panel. */
+.ps main > .hytte-hero { display: grid; gap: 3rem; padding: clamp(3rem, 6vw, 5rem) var(--gutter); max-width: 1440px; margin: 0 auto; align-items: center; }
+@media (min-width: 960px) { .ps main > .hytte-hero { grid-template-columns: 1fr 1.05fr; gap: 5rem; min-height: calc(100svh - 110px); } }
+.hytte-hero h1 { margin: 1.5rem 0; font-size: clamp(2.6rem, 5.4vw, 4.6rem); line-height: 1.02; letter-spacing: -0.035em; }
+.hytte-hero h1 em { font-style: normal; color: var(--brand); display: block; opacity: 0.55; }
+.hytte-hero__lede { max-width: 34rem; color: var(--muted); font-size: 1.12rem; }
+.hytte-hero__cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.25rem; }
+.hytte-hero__proof { list-style: none; padding: 0; margin-top: 2.75rem; display: flex; flex-wrap: wrap; gap: 0.75rem 1.75rem; font-size: 0.88rem; color: var(--muted); }
+.hytte-hero__proof li { display: flex; align-items: center; gap: 0.5rem; }
+.hytte-hero__proof li::before { content: ""; width: 14px; height: 8px; border-left: 2px solid var(--accent-text); border-bottom: 2px solid var(--accent-text); transform: rotate(-45deg) translateY(-3px); }
+.hytte-hero__scene { position: relative; aspect-ratio: 4 / 5; max-height: 78svh; width: 100%; background: #070729; overflow: hidden; }
+.hytte-hero__scene figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 1.25rem 1.5rem;
+  font-size: 0.85rem; color: #1b1650;
+  background: linear-gradient(to top, rgb(203 219 249 / 0.95), rgb(203 219 249 / 0));
+}
+
+/* Figures on the night-indigo band. */
+.ps main > .hytte-band { background: var(--brand); color: var(--brand-ink); padding-block: 4rem; }
+.hytte-band .ps-figures dt { color: rgb(244 243 255 / 0.7); }
+
+.hytte-ai { background: var(--surface); border-block: 1px solid var(--line); }
+.hytte-ai__grid { display: grid; gap: 3rem 5rem; align-items: center; }
+@media (min-width: 900px) { .hytte-ai__grid { grid-template-columns: 1.2fr 1fr; } }
+.hytte-ai h2 { margin: 1rem 0 1.25rem; font-size: clamp(2rem, 4vw, 3.1rem); line-height: 1.08; }
+.hytte-ai p:not(.ps-kicker) { color: var(--muted); max-width: 36rem; font-size: 1.05rem; }
+.hytte-quote { padding: 2.5rem; background: var(--brand); color: var(--brand-ink); border-left: 4px solid var(--accent); }
+.hytte-ai .hytte-quote p { color: var(--brand-ink); max-width: none; font: 400 clamp(1.4rem, 2.4vw, 1.9rem)/1.3 var(--font-display); letter-spacing: -0.01em; }
+.hytte-quote footer { margin-top: 1.25rem; font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.65; }
+
+.hytte-insights { background: color-mix(in srgb, var(--brand) 4%, var(--bg)); }
+.hytte-contact { background: var(--surface); border-top: 1px solid var(--line); }

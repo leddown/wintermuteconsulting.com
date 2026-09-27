@@ -1,0 +1,101 @@
+{{define "page"}}<!doctype html>
+<html lang="en">
+<head>
+{{template "head-common" .}}
+<title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
+<link rel="stylesheet" href="/static/css/ps.css">
+<link rel="stylesheet" href="/static/css/natt.css">
+<script type="module" src="/static/js/wolfeyes.js"></script>
+<script type="module" src="/static/js/reveal.js"></script>
+</head>
+<body class="ps natt">
+<a class="skip" href="#main">Skip to content</a>
+{{template "flash"}}
+{{template "ps-util" .}}
+{{template "ps-nav" .}}
+
+<main id="main">
+  <section class="natt-hero">
+    <div class="natt-hero__media">{{template "night-picture"}}</div>
+    <canvas class="natt-hero__eyes" data-wolf-eyes data-pairs="2" aria-hidden="true"></canvas>
+    <div class="natt-hero__content">
+      <p class="ps-kicker">{{.Site.Descriptor}}</p>
+      <h1>{{template "glitch-text" "Crises come at night."}}<span class="natt-hero__line2">Be ready before they do.</span></h1>
+      <p class="natt-hero__lede">{{.Site.Lede}}</p>
+      <div class="natt-hero__cta">
+        <a class="btn btn--primary" href="#contact">Arrange a private briefing</a>
+        <a class="btn btn--ghost" href="#insights">Read our insights</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="natt-figures" aria-label="In numbers">
+    <div class="ps-wrap">{{template "ps-figures" .}}</div>
+  </section>
+
+  <section id="services">
+    <div class="ps-wrap">
+      <header class="ps-head">
+        <div><p class="ps-kicker">Services</p><h2>What we do, and how</h2></div>
+        <p>Security leadership, regulatory readiness and resilience, from the board's agenda to the technical control. Senior advisors end to end.</p>
+      </header>
+      {{template "ps-services" .}}
+    </div>
+  </section>
+
+  <section class="natt-ai" id="supervision">
+    <div class="ps-wrap natt-ai__grid">
+      <p class="ps-kicker">Supervision</p>
+      <h2 data-reveal>The supervisor will ask how you would respond. <em>Rehearse the answer first.</em></h2>
+      <p data-reveal>We prepare institutions for ECB inspections and cyber resilience reviews, and run crisis exercises that put the management body in the room before the real night comes. Every finding that follows is carried through to closure.</p>
+    </div>
+  </section>
+
+  <section class="natt-insights" id="insights">
+    <div class="ps-wrap">
+      <header class="ps-head">
+        <div><p class="ps-kicker">Insights</p><h2>From the watch</h2></div>
+        <p>Short, practical notes from current engagements. No fear, no product pitches.</p>
+      </header>
+      {{template "ps-insights" .}}
+    </div>
+  </section>
+
+  <section id="industries">
+    <div class="ps-wrap">
+      <header class="ps-head">
+        <div><p class="ps-kicker">Industries</p><h2>Private capital, regulated markets</h2></div>
+      </header>
+      {{template "ps-industries" .}}
+    </div>
+  </section>
+
+  <section class="natt-approach" id="approach">
+    <div class="ps-wrap">
+      <header class="ps-head">
+        <div><p class="ps-kicker">How we work</p><h2>A small pack, by design</h2></div>
+      </header>
+      {{template "ps-approach" .}}
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="ps-wrap ps-contact">
+      <div class="ps-contact__intro">
+        <p class="ps-kicker">Contact</p>
+        <h2>Tell us where you're worried.</h2>
+        <p>A senior advisor reads every enquiry, in strict confidence, and answers within one working day.</p>
+        <ul>
+          <li>Encrypted in transit</li>
+          <li>A non-disclosure agreement first, if you prefer</li>
+          <li>We don't share or sell what you send</li>
+        </ul>
+      </div>
+      {{template "contact-form" .}}
+    </div>
+  </section>
+</main>
+{{template "ps-footer" .}}
+</body>
+</html>
+{{end}}

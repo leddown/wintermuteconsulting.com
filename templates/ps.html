@@ -1,0 +1,205 @@
+{{/* Professional-services family (Hytte, Natt, Rim): shared illustration,
+     icons and page furniture. Styled by static/css/ps.css plus each design's
+     own tokens. Parsed with every page; it only defines templates. */}}
+
+{{/* The moonlit forest illustration (brickbard, square). */}}
+{{define "night-picture"}}
+<picture>
+  <source type="image/webp" srcset="/static/images/opt/night-960.webp 960w, /static/images/opt/night-1600.webp 1600w, /static/images/opt/night-2400.webp 2400w" sizes="(min-width: 900px) 60vw, 100vw">
+  <img src="/static/images/opt/night-1600.jpg" srcset="/static/images/opt/night-960.jpg 960w, /static/images/opt/night-1600.jpg 1600w, /static/images/opt/night-2400.jpg 2400w" sizes="(min-width: 900px) 60vw, 100vw" alt="" width="1600" height="1600" decoding="async" fetchpriority="high">
+</picture>
+{{end}}
+
+{{/* The same forest with a cabin in the clearing. One SVG coordinate system
+     (the illustration's, 1200 units square) keeps the cabin planted on the hill
+     at any crop: the svg scales like object-fit: cover via "slice". */}}
+{{define "cabin-scene"}}
+<svg class="scene" viewBox="0 0 1200 1200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A snow-covered log cabin with a lit window in a clearing of a moonlit winter forest">
+  <defs>
+    <radialGradient id="cabin-glow">
+      <stop offset="0" stop-color="#ffc56b" stop-opacity="0.75"/>
+      <stop offset="0.45" stop-color="#f2a13c" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#f2a13c" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cabin-window" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd48a"/>
+      <stop offset="1" stop-color="#f09a35"/>
+    </linearGradient>
+  </defs>
+  <image href="/static/images/opt/night-1600.webp" width="1200" height="1200"/>
+
+  <g class="scene__stars" fill="#e8e5ff">
+    <circle cx="560" cy="92" r="2.2"/><circle cx="860" cy="140" r="1.6"/><circle cx="470" cy="210" r="1.4"/>
+    <circle cx="930" cy="60" r="1.8"/><circle cx="615" cy="330" r="1.3"/><circle cx="520" cy="415" r="1.7"/>
+    <circle cx="790" cy="420" r="1.2"/><circle cx="700" cy="40" r="1.4"/>
+  </g>
+
+  <g class="cabin" transform="translate(655 770) scale(1.5)">
+    <!-- chimney smoke -->
+    <g class="cabin__smoke" fill="#b9c3ea">
+      <circle cx="62" cy="-214" r="11"/><circle cx="74" cy="-240" r="14"/><circle cx="92" cy="-270" r="17"/>
+    </g>
+    <!-- chimney -->
+    <rect x="46" y="-200" width="30" height="62" fill="#221b4a"/>
+    <rect x="41" y="-206" width="40" height="10" rx="5" fill="#e3ebfd"/>
+    <!-- walls: stacked logs -->
+    <rect x="-110" y="-104" width="220" height="104" fill="#2a2257"/>
+    <g stroke="#3b3277" stroke-width="3">
+      <line x1="-110" y1="-86" x2="110" y2="-86"/><line x1="-110" y1="-68" x2="110" y2="-68"/>
+      <line x1="-110" y1="-50" x2="110" y2="-50"/><line x1="-110" y1="-32" x2="110" y2="-32"/>
+      <line x1="-110" y1="-14" x2="110" y2="-14"/>
+    </g>
+    <g fill="#3b3277">
+      <circle cx="-110" cy="-95" r="7"/><circle cx="-110" cy="-77" r="7"/><circle cx="-110" cy="-59" r="7"/>
+      <circle cx="-110" cy="-41" r="7"/><circle cx="-110" cy="-23" r="7"/>
+      <circle cx="110" cy="-95" r="7"/><circle cx="110" cy="-77" r="7"/><circle cx="110" cy="-59" r="7"/>
+      <circle cx="110" cy="-41" r="7"/><circle cx="110" cy="-23" r="7"/>
+    </g>
+    <!-- gable and roof -->
+    <path d="M-124 -100 L0 -196 L124 -100 Z" fill="#221b4a"/>
+    <circle class="cabin__light" cx="0" cy="-138" r="13" fill="url(#cabin-window)"/>
+    <path d="M-142 -92 L0 -206 L142 -92 L128 -86 L0 -188 L-128 -86 Z" fill="#171238"/>
+    <!-- snow load on the roof, drooping over the eaves -->
+    <path d="M-150 -90 Q-146 -104 -132 -106 L-6 -210 Q0 -216 6 -210 L132 -106 Q146 -104 150 -90
+             Q140 -80 128 -88 Q118 -76 104 -86 L0 -168 L-104 -86 Q-118 -76 -128 -88 Q-140 -80 -150 -90 Z" fill="#e3ebfd"/>
+    <!-- lit window with its halo -->
+    <circle class="cabin__halo" cx="-50" cy="-52" r="70" fill="url(#cabin-glow)"/>
+    <rect class="cabin__light" x="-78" y="-78" width="56" height="46" fill="url(#cabin-window)"/>
+    <path d="M-50 -78 V-32 M-78 -55 H-22" stroke="#2a2257" stroke-width="5"/>
+    <rect x="-84" y="-34" width="68" height="7" rx="3" fill="#e3ebfd"/>
+    <!-- door -->
+    <rect x="22" y="-80" width="46" height="80" fill="#171238"/>
+    <circle cx="58" cy="-40" r="3" fill="#f2a13c"/>
+    <!-- the snow bank the cabin sits in: its base sinks into the hill in the hill's own colour -->
+    <path d="M-196 46 C-184 6 -140 -8 -104 -8 L108 -8 C150 -8 184 8 204 44 C212 76 150 90 0 88 C-150 90 -206 78 -196 46 Z" fill="#cddcf9"/>
+    <path d="M-176 14 C-150 -4 -124 -7 -100 -7 L110 -7 C146 -7 172 4 190 22" fill="none" stroke="#eaf1fe" stroke-width="4" stroke-linecap="round"/>
+    <!-- warm light spilling onto the snow -->
+    <ellipse class="cabin__spill" cx="-50" cy="10" rx="120" ry="30" fill="url(#cabin-glow)"/>
+    <!-- tracks: something has circled the cabin tonight -->
+    <g class="cabin__tracks" fill="#7f95c8">
+      <ellipse cx="250" cy="150" rx="7" ry="4.5"/><ellipse cx="226" cy="132" rx="6.5" ry="4.2"/>
+      <ellipse cx="200" cy="118" rx="6" ry="4"/><ellipse cx="172" cy="104" rx="6" ry="3.8"/>
+      <ellipse cx="144" cy="94" rx="5.5" ry="3.6"/><ellipse cx="116" cy="86" rx="5" ry="3.4"/>
+      <ellipse cx="88" cy="80" rx="5" ry="3.2"/><ellipse cx="60" cy="74" rx="4.5" ry="3"/>
+    </g>
+  </g>
+</svg>
+{{end}}
+
+{{/* Brand mark: two peaks forming a W under a watchful amber point. */}}
+{{define "ps-mark"}}<svg class="ps-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" fill="currentColor"/><path class="ps-mark__w" d="M6 11 L11 23 L16 14 L21 23 L26 11" fill="none" stroke="#fff" stroke-width="2.6"/><circle class="ps-mark__dot" cx="24.5" cy="6.5" r="2.4" fill="#e9a441"/></svg>{{end}}
+
+{{/* Line icon per service, chosen by the code prefix in content.go. */}}
+{{define "svc-icon"}}{{$c := slice . 0 2}}<svg class="ps-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+{{- if eq $c "VC"}}<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8z"/><circle cx="12" cy="12" r=".8" fill="currentColor"/>
+{{- else if eq $c "RG"}}<path d="M6.5 2.5h8l4 4v15h-12z"/><path d="M14.5 2.5v4h4"/><path d="m9 14 2.2 2.2L15.5 12"/>
+{{- else if eq $c "RM"}}<path d="m12 3 9 4.5-9 4.5-9-4.5z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/>
+{{- else if eq $c "RE"}}<path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.4 1.4 0 0 0 2 2l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.4 2.4-2-.6-.6-2z"/>
+{{- else if eq $c "CX"}}<path d="M12 2.5 20 5.5v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10v-6z"/><path d="M12 8v5"/><circle cx="12" cy="16" r=".9" fill="currentColor"/>
+{{- else}}<path d="M12 6.5C10.5 5 8 4.5 3.5 4.5v14c4.5 0 7 .5 8.5 2 1.5-1.5 4-2 8.5-2v-14c-4.5 0-7 .5-8.5 2z"/><path d="M12 6.5v14"/>
+{{- end}}</svg>{{end}}
+
+{{/* Thin top bar, as on large advisory firms' sites. */}}
+{{define "ps-util"}}
+<div class="ps-util">
+  <p>{{.Site.Location}}</p>
+  <p class="ps-util__right"><span>{{.Site.Descriptor}}</span><a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></p>
+</div>
+{{end}}
+
+{{define "ps-nav"}}
+<header class="ps-nav">
+  <a class="ps-nav__brand" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "ps-mark"}}{{template "logo" .Site}}</a>
+  <nav class="ps-nav__links" aria-label="Primary">
+    <a href="#services">Services</a>
+    <a href="#industries">Industries</a>
+    <a href="#insights">Insights</a>
+    <a href="#approach">How we work</a>
+  </nav>
+  <a class="btn btn--primary ps-nav__cta" href="#contact">Contact us</a>
+</header>
+{{end}}
+
+{{define "ps-services"}}
+<ul class="ps-tiles">
+  {{range .Site.Services}}
+  <li class="ps-tile" data-reveal>
+    <span class="ps-tile__icon">{{template "svc-icon" .Code}}</span>
+    <p class="ps-tile__code">{{.Code}}</p>
+    <h3>{{.Title}}</h3>
+    <p>{{.Body}}</p>
+    <a class="ps-more" href="#contact">Discuss {{.Title}}<span class="sr-only"> with a senior advisor</span> <span aria-hidden="true">→</span></a>
+  </li>
+  {{end}}
+</ul>
+{{end}}
+
+{{define "ps-figures"}}
+<dl class="ps-figures">
+  {{range .Site.Stats}}
+  <div data-reveal><dt>{{.Label}}</dt><dd><span data-count="{{.Value}}">{{.Value}}</span>{{.Unit}}</dd></div>
+  {{end}}
+</dl>
+{{end}}
+
+{{define "ps-industries"}}
+<ul class="ps-industries">
+  {{range .Site.Industries}}
+  <li data-reveal><h3>{{.Name}}</h3><p>{{.Body}}</p></li>
+  {{end}}
+</ul>
+{{end}}
+
+{{define "ps-insights"}}
+<ul class="ps-insights">
+  {{range .Site.Insights}}
+  <li class="ps-insight" data-reveal>
+    <p class="ps-insight__tag">{{.Tag}}</p>
+    <h3>{{.Title}}</h3>
+    <p>{{.Summary}}</p>
+    <p class="ps-insight__meta">{{.Minutes}} min read · <a href="#contact">Ask us about it</a></p>
+  </li>
+  {{end}}
+</ul>
+{{end}}
+
+{{define "ps-approach"}}
+<ol class="ps-steps">
+  {{range $i, $p := .Site.Principles}}
+  <li data-reveal><span class="ps-steps__num">0{{inc $i}}</span><h3>{{$p.Title}}</h3><p>{{$p.Body}}</p></li>
+  {{end}}
+</ol>
+{{end}}
+
+{{define "ps-footer"}}
+<footer class="ps-footer">
+  <div class="ps-footer__cols">
+    <div class="ps-footer__brand">
+      <p class="ps-footer__logo">{{template "ps-mark"}}{{template "logo" .Site}}</p>
+      <p>{{.Site.Descriptor}}.</p>
+      <p>{{.Site.Location}}</p>
+    </div>
+    <div>
+      <h2>Services</h2>
+      <ul>{{range .Site.Services}}<li><a href="#services">{{.Title}}</a></li>{{end}}</ul>
+    </div>
+    <div>
+      <h2>Industries</h2>
+      <ul>{{range .Site.Industries}}<li><a href="#industries">{{.Name}}</a></li>{{end}}</ul>
+    </div>
+    <div>
+      <h2>Contact</h2>
+      <ul>
+        <li><a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></li>
+        <li><a href="#contact">Send a secure message</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ps-footer__legal">
+    <p>© {{.Site.Name}}</p>
+    <p>No cookies. No trackers. Nothing loaded from third parties.</p>
+    {{template "layout-switch" .}}
+  </div>
+</footer>
+{{template "variant-switcher" .}}
+{{end}}

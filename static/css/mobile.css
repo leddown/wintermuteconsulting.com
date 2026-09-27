@@ -183,7 +183,7 @@ html.m-menu-open { overflow: hidden; }
 
 /* Vitt: the light one. Big thin headline, pale snow-washed photo. */
 .m--vitt .m-hero__media img { filter: grayscale(1) brightness(1.5) contrast(0.7); opacity: 0.6; }
-.m--vitt .is-flashing .m-hero__media img, .is-flashing.m--vitt .m-hero__media img { filter: grayscale(1) brightness(0.6) contrast(1.3); }
+.is-flashing .m--vitt .m-hero__media img { filter: grayscale(1) brightness(0.6) contrast(1.3); }
 .m--vitt .m-hero__title { font-size: clamp(3.2rem, 17vw, 4.6rem); font-weight: 300; letter-spacing: -0.05em; }
 .m--vitt .m-hero__lede { color: var(--muted); }
 .m--vitt .m-section h2 { font-weight: 300; }
@@ -242,3 +242,40 @@ html.m-menu-open { overflow: hidden; }
 .m--morke .m-menu__sheet > a { font: 400 2.3rem/1.1 var(--serif); letter-spacing: -0.01em; }
 .m--signal .m-menu__sheet > a { font-size: 1.5rem; font-weight: 700; }
 .m--signal .m-bar__logo .logo-sub { letter-spacing: 0.91em; } /* monospace glyphs are wider */
+
+/* ---- Professional-services family ---- */
+
+/* Hytte: the cabin scene as a panel, so the copy never covers the cabin. */
+.m-hero--stack { min-height: 0; justify-content: flex-start; }
+.m-panel { aspect-ratio: 1 / 1; overflow: hidden; background: #070729; }
+.m--hytte .m-hero__content { padding-top: 32px; }
+.m--hytte .m-hero__title em { font-style: normal; color: var(--brand); opacity: 0.55; }
+.m--hytte .m-hero__lede { color: var(--muted); }
+.m--hytte .m-services__code, .m--hytte .m-approach__num { color: var(--accent-text); }
+.m--hytte .m-section h2 em { color: var(--accent-text); }
+.m--hytte .m-quote p { color: var(--brand); }
+.m--hytte .field input, .m--hytte .field textarea { background: var(--surface); }
+.m--hytte .m-proof { background: var(--brand); color: var(--brand-ink); border: 0; }
+.m--hytte .m-proof dt { color: rgb(244 243 255 / 0.7); }
+.m--hytte .m-proof div { border-left-color: rgb(244 243 255 / 0.18); }
+
+/* Natt: amber second line, eyes in the tree band. */
+.m--natt .m-hero__media img { filter: none; object-position: 62% 30%; }
+.is-flashing .m--natt .m-hero__media img { filter: brightness(0.45) saturate(0.6); }
+.m-natt-line { display: block; width: fit-content; margin-top: 4px; color: var(--accent); border-bottom: 3px solid var(--accent); }
+.m--natt .m-hero__eyes { top: 8%; height: 40%; }
+
+/* Rim: white, serif, the illustration as a panorama under the headline. */
+.m--rim .m-hero__content { padding: 40px var(--pad) 0; }
+.m--rim .m-hero__title { font: 400 clamp(2.6rem, 12vw, 3.4rem)/1 var(--serif); letter-spacing: -0.01em; }
+.m--rim .m-hero__title em, .m--rim .m-section h2 em { font-style: normal; color: var(--lavender); }
+.m--rim .m-hero__lede { color: var(--muted); }
+.m--rim .m-section h2 { font: 400 2.2rem/1.05 var(--serif); }
+.m--rim .m-services__list h3 { font: 400 1.6rem/1.15 var(--serif); }
+.m--rim .m-proof dd { font: 400 2.2rem/1 var(--serif); }
+.m--rim .m-quote { border-left-color: var(--lavender); }
+.m--rim .m-quote p { font: 400 1.7rem/1.2 var(--serif); }
+.m--rim .field input, .m--rim .field textarea { background: var(--surface); }
+.m-panorama { margin-top: 36px; aspect-ratio: 16 / 10; overflow: hidden; background: #070729; }
+.m-panorama picture, .m-panorama img { width: 100%; height: 100%; }
+.m-panorama img { object-fit: cover; object-position: 50% 24%; }

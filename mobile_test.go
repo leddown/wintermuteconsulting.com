@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"net/url"
+	"regexp"
 	"strings"
 	"testing"
 )
@@ -58,7 +59,7 @@ func getAs(t *testing.T, path, ua string) (int, http.Header, string) {
 func TestServesLayoutForDevice(t *testing.T) {
 	for _, v := range variants {
 		mobileBody := `class="m m--` + v.Slug + `"`
-		desktopBody := `<body class="` + v.Slug + `">`
+		desktopBody := regexp.MustCompile(`<body class="([a-z]+ )?` + v.Slug + `">`)
 
 		code, hdr, body := getAs(t, "/v/"+v.Slug, uaIPhone)
 		if code != 200 || !strings.Contains(body, mobileBody) {
@@ -73,7 +74,7 @@ func TestServesLayoutForDevice(t *testing.T) {
 		}
 
 		_, _, body = getAs(t, "/v/"+v.Slug, uaDesktop)
-		if !strings.Contains(body, desktopBody) {
+		if !desktopBody.MatchString(body) {
 			t.Errorf("%s: desktop did not get the desktop layout", v.Slug)
 		}
 		if strings.Contains(body, "?view=") {
@@ -81,7 +82,7 @@ func TestServesLayoutForDevice(t *testing.T) {
 		}
 
 		_, _, body = getAs(t, "/v/"+v.Slug+"?view=desktop", uaIPhone)
-		if !strings.Contains(body, desktopBody) || !strings.Contains(body, `?view=mobile"`) {
+		if !desktopBody.MatchString(body) || !strings.Contains(body, `?view=mobile"`) {
 			t.Errorf("%s: ?view=desktop on a phone should serve desktop with a way back", v.Slug)
 		}
 		if !strings.Contains(body, `href="/v/varg?view=desktop"`) {
@@ -110,7 +111,7 @@ func TestMobilePagesFollowPolicy(t *testing.T) {
 			}
 			body := rec.Body.String()
 			checkHTMLPolicy(t, "mobile "+p, body)
-			for _, want := range []string{`name="viewport"`, "viewport-fit=cover", `name="theme-color"`, `id="contact"`, `id="services"`, `id="ai"`, `id="approach"`} {
+			for _, want := range []string{`name="viewport"`, "viewport-fit=cover", `name="theme-color"`, `id="contact"`, `id="services"`, `id="supervision"`, `id="approach"`} {
 				if !strings.Contains(body, want) {
 					t.Errorf("mobile %s missing %s", p, want)
 				}

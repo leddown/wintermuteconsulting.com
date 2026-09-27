@@ -1,4 +1,4 @@
-{{/* Signal on a phone: threat console. Mono type, ice phosphor, the live feed. */}}
+{{/* Signal on a phone: the console. Mono type, ice phosphor, the live tracker. */}}
 {{define "m-theme-color"}}#040607{{end}}
 {{define "m-scripts"}}<script type="module" src="/static/js/wolfeyes.js"></script>
 <script type="module" src="/static/js/terminal.js"></script>{{end}}
@@ -12,7 +12,7 @@
   </div>
   <div class="m-hero__content">
     <p class="eyebrow">// {{.Site.Descriptor}}</p>
-    <h1 class="m-hero__title">{{template "glitch-text" "Threat detected."}}</h1>
+    <h1 class="m-hero__title">{{template "glitch-text" "Finding raised."}}</h1>
     <p class="m-hero__lede">{{.Site.Lede}}</p>
     {{template "m-actions" .}}
   </div>
@@ -23,14 +23,14 @@
 {{define "m-services-title"}}./services{{end}}
 {{define "m-approach-title"}}./operating_principles{{end}}
 
-{{define "m-ai"}}
-<section class="m-section m-ai" id="ai">
-  <p class="eyebrow">// wintermute-consulting.ai: live reasoning feed (simulated)</p>
+{{define "m-supervision"}}
+<section class="m-section m-ai" id="supervision">
+  <p class="eyebrow">// wintermute-consulting: remediation tracker (simulated)</p>
   <div class="terminal" data-terminal>
     <ol class="terminal__out" aria-live="off"></ol>
     {{template "terminal-lines"}}
   </div>
-  <p class="m-ai__note">The model narrows. The operator decides. Nothing here is automated end to end, and that's deliberate.</p>
+  <p class="m-ai__note">From the supervisor's letter to closed findings: every step documented, every control evidenced, every decision the board's own.</p>
 </section>
 {{end}}
 

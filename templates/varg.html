@@ -15,7 +15,7 @@
   <a class="varg-logo" href="/v/varg">{{template "logo" .Site}}</a>
   <nav class="varg-nav" aria-label="Primary">
     <a href="#services" data-glitch-hover>Services</a>
-    <a href="#ai" data-glitch-hover>Intelligence</a>
+    <a href="#supervision" data-glitch-hover>Supervision</a>
     <a href="#contact" data-glitch-hover>Contact</a>
   </nav>
   <span class="varg-status" aria-hidden="true"><span class="dot"></span>WATCHING</span>
@@ -32,7 +32,7 @@
       <p class="varg-hero__lede">{{.Site.Lede}}</p>
       <div class="varg-hero__cta">
         <a class="btn btn--primary" href="#contact">Start a conversation</a>
-        <a class="btn btn--ghost" href="#services">What we hunt</a>
+        <a class="btn btn--ghost" href="#services">What we do</a>
       </div>
     </div>
     <p class="varg-hero__coords" aria-hidden="true">59.9139° N · 10.7522° E · −14 °C · VIS 40 m</p>
@@ -41,7 +41,7 @@
   <section class="varg-services" id="services">
     <header class="section-head" data-reveal>
       <p class="eyebrow">Services</p>
-      <h2>What moves through your network <em>at night</em></h2>
+      <h2>Security leadership for <em>the long night</em></h2>
     </header>
     <ul class="varg-grid">
       {{range .Site.Services}}
@@ -54,11 +54,11 @@
     </ul>
   </section>
 
-  <section class="varg-ai" id="ai">
+  <section class="varg-ai" id="supervision">
     <div class="varg-ai__inner" data-reveal>
-      <p class="eyebrow">Intelligence</p>
-      <h2>Human-led.<br>{{template "glitch-text" "AI-sharpened."}}</h2>
-      <p>Our in-house models run through millions of candidate attack paths every night. They never sleep, and they never get bored. They hand our operators a short list, and people decide what's worth walking.</p>
+      <p class="eyebrow">Supervision</p>
+      <h2>We know where<br>{{template "glitch-text" "the supervisor looks."}}</h2>
+      <p>We have prepared institutions for ECB on-site inspections and supervisory reviews, answered the follow-up letters, and carried the findings through to closure. We know what an inspection team asks for on day one, and what a remediation plan needs before a supervisor will accept it.</p>
       <p class="varg-ai__quote">“The wolf doesn't check every tree. It knows where to look.”</p>
     </div>
     <dl class="varg-stats">
@@ -81,7 +81,7 @@
     <div class="varg-contact__intro" data-reveal>
       <p class="eyebrow">Contact</p>
       <h2>Tell us what keeps you awake.</h2>
-      <p>Every message is read by an operator, not a sales team.</p>
+      <p>Every message is read by a senior advisor, not a sales team.</p>
     </div>
     {{template "contact-form" .}}
   </section>

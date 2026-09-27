@@ -1,0 +1,60 @@
+/* Natt: the dark advisory site. The illustration's night as the page,
+   amber as the single signal colour (and the eyes between the trees). */
+
+:root {
+  --bg: #070729;
+  --surface: #0e0e3a;
+  --ink: #ecebff;
+  --muted: #a3a5d3;
+  --line: rgb(236 235 255 / 0.14);
+  --brand: #f2b155;
+  --brand-ink: #070729;
+  --accent: #f2b155;
+  --accent-ink: #1a1003;
+  --mark-dot: #070729;
+  --footer-bg: #04041c;
+  --footer-ink: #ecebff;
+  --glitch-a: rgb(236 235 255 / 0.45);
+  --glitch-b: #6b0f16;
+}
+
+.natt .ps-mark__dot { fill: var(--mark-dot); }
+.natt .ps-footer .ps-mark { color: var(--brand); }
+.natt .ps-footer .ps-mark__w { stroke: var(--brand-ink); }
+.natt .ps-tile__icon { color: var(--accent); background: rgb(242 177 85 / 0.1); }
+
+/* Hero: the moonlit forest, copy over the dark left side. */
+.ps main > .natt-hero {
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: calc(100svh - 110px); padding: 0;
+  display: grid; align-items: end;
+}
+.natt-hero__media, .natt-hero__media picture, .natt-hero__media img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.natt-hero__media { z-index: -3; }
+.natt-hero__media img { object-fit: cover; object-position: 60% 8%; }
+.natt-hero__media::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgb(7 7 41 / 0.92) 0%, rgb(7 7 41 / 0.7) 38%, rgb(7 7 41 / 0) 70%),
+    linear-gradient(to top, var(--bg) 0%, rgb(7 7 41 / 0) 35%);
+}
+.is-flashing .natt-hero__media img { filter: brightness(0.45) saturate(0.6); }
+/* Eyes live in the dark band between the trunks, above the snow. */
+.natt-hero__eyes { position: absolute; left: 35%; right: 0; top: 12%; height: 50%; width: 65%; z-index: -2; }
+.natt-hero__content { padding: 0 var(--gutter) clamp(4rem, 10vh, 7rem); max-width: 50rem; }
+.natt-hero h1 { margin: 1.5rem 0; font-size: clamp(2.8rem, 6.2vw, 5.4rem); line-height: 1.02; letter-spacing: -0.035em; }
+.natt-hero__line2 { display: block; width: fit-content; color: var(--accent); padding-bottom: 0.1em; border-bottom: 4px solid var(--accent); }
+.natt-hero__lede { max-width: 36rem; color: #cfd0f0; font-size: 1.12rem; }
+.natt-hero__cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.25rem; }
+.natt .btn--ghost { border-color: rgb(236 235 255 / 0.35); }
+
+.ps main > .natt-figures { padding-block: 3.5rem; border-bottom: 1px solid var(--line); }
+
+.natt-ai { background: var(--surface); }
+.natt-ai__grid { display: grid; gap: 1.5rem; max-width: 60rem; }
+.natt-ai h2 { font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1.1; letter-spacing: -0.02em; }
+.natt-ai h2 em { font-style: normal; color: var(--accent); }
+.natt-ai p:not(.ps-kicker) { color: var(--muted); font-size: 1.1rem; max-width: 42rem; }
+
+.natt-insights .ps-insight { background: var(--bg); border-top-color: var(--accent); }
+.natt-approach { background: var(--surface); }

@@ -5,7 +5,9 @@ bleak, cold, forest, snow, threat, wolf, wolf eyes, dangers, AI, digital glitch,
 
 ## Research takeaways
 
-- **Boutique offensive-security firms sell seniority and directness.** Firms like REDOPS, primeObjective, Secra and Atlan Digital all lead with "senior operators, no hand-offs, the person who scopes it runs it". Copy should sound like that: short sentences, first person plural, no buzzword stacks.
+- **Positioning: security leadership and ICT risk advisory, not offensive testing.** Virtual CISO (fractional or interim), regulatory audits and ECB inspections, remediation of findings, information security and ICT risk management frameworks (DORA and its technical standards, EBA guidelines, MiCA, ISO/IEC 27001) from regulatory text to technical implementation, training, and management-board crisis exercises. No pentest or red-team language.
+- **Audience: private capital and regulated finance**, written as if for a principal of a Gulf family office: private equity (GPs and portfolio companies: diligence, first hundred days, exit), single- and multi-family offices (principals, their families, their privacy), boutique wealth managers and funds (allocator operational due diligence), banks, trading firms, crypto-asset providers (MiCA; FSRA in ADGM). Register: discreet, formal British English. Words: counsel, principal, discretion, in strict confidence, mandate, stewardship, generational. Never: hype, fear, "hackers", exclamation marks. Nordic supervisors: Finanstilsynet (NO), Finansinspektionen (SE), Finanssivalvonta (FI), plus the ECB for significant institutions.
+- **Boutique advisors sell seniority and directness.** "Senior advisors, no hand-offs, one named advisor from first briefing to last closed finding." Short sentences, first person plural, no buzzword stacks. Regulatory terms are used precisely (management body, supervisory findings, ICT risk management framework).
 - **Dark themes are the norm in security** because they signal control and sophistication, usually dark with one vivid accent. To stand out, we pair the dark with *natural* imagery (forest, fog, snow) rather than the usual circuit-board or padlock stock.
 - **Nordic design principles** are function over decoration, sans-serif type, generous spacing, left-aligned text, clear hierarchy, and a restrained palette taken from the landscape. 2026 trends add oversized expressive type and deep teals and blue-greens with a single electric accent.
 - **Glitch effects must be accessible.** Keep them under three flashes per second (WCAG 2.3.1), disable them under `prefers-reduced-motion`, and keep the real text in the DOM for screen readers (the animated copies are `aria-hidden`).
@@ -45,7 +47,7 @@ Fog, spruce, moss, snow, dusk. Desaturate and darken photos. The forest should f
 
 ## Voice
 
-Calm, cold, precise. The AI is a tool the operators hold, not the hero: "Human-led, AI-sharpened." The name Wintermute Consulting nods to Wintermute, the AI in Gibson's *Neuromancer*.
+Calm, cold, precise. The forest is the regulatory and risk landscape; we are the guides who know where the supervisor looks and where the ground gives way. The wolf knows where to look. The name Wintermute Consulting nods to Wintermute, the AI in Gibson's *Neuromancer*.
 
 ## Sources
 

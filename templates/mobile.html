@@ -1,6 +1,6 @@
 {{/* Mobile layout shared by every design. Served to phones at the same URL
      (see mobile.go). Each templates/m/<slug>.html overrides the blocks below to
-     give the design its own hero, AI section, colours and motion. */}}
+     give the design its own hero, supervision section, colours and motion. */}}
 {{define "page"}}<!doctype html>
 <html lang="en">
 <head>
@@ -30,7 +30,7 @@
     <summary class="m-menu__toggle" aria-label="Menu"><span class="m-menu__icon" aria-hidden="true"></span></summary>
     <nav class="m-menu__sheet" aria-label="Primary">
       <a href="#services"><span>01</span>Services</a>
-      <a href="#ai"><span>02</span>Intelligence</a>
+      <a href="#supervision"><span>02</span>Supervision</a>
       <a href="#approach"><span>03</span>Approach</a>
       <a href="#contact"><span>04</span>Contact</a>
       <p class="m-menu__foot">{{.Site.Location}}<br><a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></p>
@@ -61,7 +61,7 @@
 
   <section class="m-section m-services" id="services">
     <p class="eyebrow">Services</p>
-    <h2>{{block "m-services-title" .}}What we hunt{{end}}</h2>
+    <h2>{{block "m-services-title" .}}What we do{{end}}</h2>
     <ol class="m-services__list">
       {{range $i, $s := .Site.Services}}
       <li data-reveal>
@@ -73,11 +73,11 @@
     </ol>
   </section>
 
-  {{block "m-ai" .}}
-  <section class="m-section m-ai" id="ai" data-reveal>
-    <p class="eyebrow">Intelligence</p>
-    <h2>Human-led.<br>AI-sharpened.</h2>
-    <p>Our in-house models run through millions of candidate attack paths every night. They hand our operators a short list, and people decide what's worth walking.</p>
+  {{block "m-supervision" .}}
+  <section class="m-section m-ai" id="supervision" data-reveal>
+    <p class="eyebrow">Supervision</p>
+    <h2>We know where the supervisor looks.</h2>
+    <p>We have prepared institutions for ECB on-site inspections and supervisory reviews, answered the follow-up letters, and carried the findings through to closure.</p>
   </section>
   {{end}}
 
@@ -94,7 +94,7 @@
   <section class="m-section m-contact" id="contact">
     <p class="eyebrow">Contact</p>
     <h2>{{block "m-contact-title" .}}Tell us what keeps you awake.{{end}}</h2>
-    <p class="m-contact__lede">Every message is read by an operator, not a sales team. We answer within one working day.</p>
+    <p class="m-contact__lede">Every enquiry is read by a senior advisor and treated in strict confidence. We answer within one working day.</p>
     {{template "contact-form" .}}
     <p class="m-contact__alt">Prefer email? <a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></p>
   </section>

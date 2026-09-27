@@ -20,9 +20,12 @@ type Variant struct {
 var variants = []Variant{
 	{"varg", "Varg", "Night forest, glowing wolf eyes that track the cursor, RGB-split glitch on the headline."},
 	{"vitt", "Vitt", "Whiteout. Pale, cold and quiet, with drifting snow and inverted glitch flashes."},
-	{"signal", "Signal", "An AI threat console: monospace, a live typed feed, scanlines over the forest."},
+	{"signal", "Signal", "A supervision console: monospace, a live remediation tracker, scanlines over the forest."},
 	{"morke", "Mørke", "Nordic editorial. Big serif type, a strict grid, glitch only on interaction."},
 	{"spor", "Spor", "Scroll-driven descent into the forest that ends face to face with the wolf."},
+	{"hytte", "Hytte", "Advisory-firm layout in snow light: a lit cabin in the moonlit forest, amber only where its light falls."},
+	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the signal, eyes between the trees."},
+	{"rim", "Rim", "White and structured, serif headlines, the night as a panorama. The most corporate of the three."},
 }
 
 func findVariant(slug string) (Variant, bool) {
@@ -69,7 +72,7 @@ func (a *app) parseTemplates() error {
 		sets["m/"+v.Slug] = []string{"templates/mobile.html", "templates/m/" + v.Slug + ".html"}
 	}
 	for name, files := range sets {
-		t, err := template.New(name).Funcs(templateFuncs).ParseFS(a.assets, append([]string{"templates/partials.html"}, files...)...)
+		t, err := template.New(name).Funcs(templateFuncs).ParseFS(a.assets, append([]string{"templates/partials.html", "templates/ps.html"}, files...)...)
 		if err != nil {
 			return fmt.Errorf("parse %s: %w", name, err)
 		}

@@ -17,7 +17,7 @@
   <a class="signal-logo" href="/v/signal">{{template "logo" .Site}}<span class="blink" aria-hidden="true">_</span></a>
   <nav aria-label="Primary">
     <a href="#services" data-glitch-hover>./services</a>
-    <a href="#ai" data-glitch-hover>./model</a>
+    <a href="#supervision" data-glitch-hover>./supervision</a>
     <a href="#contact" data-glitch-hover>./contact</a>
   </nav>
   <span class="signal-clock" data-clock aria-hidden="true">--:--:-- UTC</span>
@@ -31,19 +31,19 @@
     </div>
     <div class="signal-hero__text">
       <p class="eyebrow">// {{.Site.Descriptor}}</p>
-      <h1>{{template "glitch-text" "Threat detected."}}</h1>
+      <h1>{{template "glitch-text" "Finding raised."}}</h1>
       <p>{{.Site.Lede}}</p>
       <a class="btn btn--primary" href="#contact">&gt; open_channel</a>
     </div>
   </section>
 
-  <section class="signal-console" id="ai" aria-labelledby="console-title">
-    <h2 id="console-title" class="eyebrow">// wintermute-consulting.ai: live reasoning feed (simulated)</h2>
+  <section class="signal-console" id="supervision" aria-labelledby="console-title">
+    <h2 id="console-title" class="eyebrow">// wintermute-consulting: remediation tracker (simulated)</h2>
     <div class="terminal" data-terminal>
       <ol class="terminal__out" aria-live="off"></ol>
       {{template "terminal-lines"}}
     </div>
-    <p class="signal-console__note">The model narrows. The operator decides. Nothing here is automated end to end, and that's deliberate.</p>
+    <p class="signal-console__note">From the supervisor's letter to closed findings: every step documented, every control evidenced, every decision the board's own.</p>
   </section>
 
   <section class="signal-services" id="services">
@@ -66,7 +66,7 @@
 
   <section class="signal-contact" id="contact">
     <h2 class="eyebrow">// open_channel</h2>
-    <p class="signal-contact__lede">Encrypted in transit. Read by a human operator within one working day.</p>
+    <p class="signal-contact__lede">Encrypted in transit. Read by a senior advisor within one working day.</p>
     {{template "contact-form" .}}
   </section>
 </main>

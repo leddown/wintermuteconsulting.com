@@ -1,0 +1,28 @@
+{{/* Rim on a phone: editorial serif headline, the night as a panorama. */}}
+{{define "m-theme-color"}}#ffffff{{end}}
+
+{{define "m-hero"}}
+<section class="m-hero m-hero--type">
+  <div class="m-hero__content">
+    <p class="eyebrow">{{.Site.Descriptor}}</p>
+    <h1 class="m-hero__title">Security advice for the long <em>Nordic night.</em></h1>
+    <p class="m-hero__lede">{{.Site.Lede}}</p>
+    {{template "m-actions" .}}
+  </div>
+  <div class="m-panorama">{{template "night-picture"}}</div>
+</section>
+{{end}}
+
+{{define "m-cta"}}Request a briefing{{end}}
+{{define "m-services-title"}}Six disciplines. One small, senior team.{{end}}
+{{define "m-approach-title"}}Our principles{{end}}
+
+{{define "m-supervision"}}
+<section class="m-section m-ai" id="supervision" data-reveal>
+  <p class="eyebrow">Point of view</p>
+  <blockquote class="m-quote"><p>“A framework that exists only on paper fails twice: once in the inspection, and once in the crisis.”</p></blockquote>
+  <p>We work from regulatory documents to technical implementation, so the framework your board approves is the one your systems actually run.</p>
+</section>
+{{end}}
+
+{{define "m-contact-title"}}Write to us. <em>Quietly.</em>{{end}}

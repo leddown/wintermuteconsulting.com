@@ -24,18 +24,18 @@ type contactForm struct {
 func (f contactForm) validate() map[string]string {
 	errs := map[string]string{}
 	if f.Name == "" {
-		errs["name"] = "Tell us who you are."
+		errs["name"] = "Please tell us your name."
 	} else if utf8.RuneCountInString(f.Name) > 100 {
 		errs["name"] = "Keep the name under 100 characters."
 	}
 	if a, err := mail.ParseAddress(f.Email); err != nil || a.Address != f.Email || utf8.RuneCountInString(f.Email) > 254 {
-		errs["email"] = "We need a valid email address to reply."
+		errs["email"] = "Please enter a valid email address so that we can reply."
 	}
 	if utf8.RuneCountInString(f.Company) > 120 {
 		errs["company"] = "Keep the company name under 120 characters."
 	}
 	if n := utf8.RuneCountInString(f.Message); n < 10 {
-		errs["message"] = "Give us a little more to go on (at least 10 characters)."
+		errs["message"] = "Please add a little more detail (at least 10 characters)."
 	} else if n > 5000 {
 		errs["message"] = "Keep the message under 5000 characters."
 	}
@@ -88,7 +88,7 @@ func (a *app) handleContact(w http.ResponseWriter, r *http.Request) {
 
 	if !a.limiter.allow(rateKey(a.clientIP(r))) {
 		a.renderVariant(w, r, http.StatusTooManyRequests, pageData{Variant: v, Form: form, View: view,
-			Errors: map[string]string{"form": "Too many messages from your network. Try again in a few minutes, or email us directly."}})
+			Errors: map[string]string{"form": "We have received several enquiries from your network. Please try again in a few minutes, or write to us directly."}})
 		return
 	}
 
