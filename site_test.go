@@ -123,6 +123,7 @@ func TestRateLimiterWindow(t *testing.T) {
 	now := time.Unix(0, 0)
 	l := newRateLimiter(2, time.Minute)
 	l.now = func() time.Time { return now }
+	//lint:ignore SA4000 allow() has side effects: this is three successive calls
 	if !l.allow("a") || !l.allow("a") || l.allow("a") {
 		t.Fatal("limit not enforced")
 	}

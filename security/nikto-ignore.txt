@@ -1,0 +1,3 @@
+Allowed HTTP Methods: GET, HEAD
+The X-Content-Type-Options header is not set
+Uncommon header 'cross-origin-(embedder|resource|opener)-policy' found

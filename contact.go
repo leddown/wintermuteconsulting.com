@@ -4,6 +4,7 @@ import (
 	"net"
 	"net/http"
 	"net/mail"
+	"net/netip"
 	"net/url"
 	"strings"
 	"sync"
@@ -80,7 +81,7 @@ func (a *app) handleContact(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !a.limiter.allow(a.clientIP(r)) {
+	if !a.limiter.allow(rateKey(a.clientIP(r))) {
 		a.render(w, http.StatusTooManyRequests, v.Slug, pageData{Variant: v, Form: form,
 			Errors: map[string]string{"form": "Too many messages from your network. Try again in a few minutes, or email us directly."}})
 		return
@@ -106,6 +107,21 @@ func (a *app) clientIP(r *http.Request) string {
 		return r.RemoteAddr
 	}
 	return host
+}
+
+// rateKey groups IPv6 clients by /64: one subscriber usually gets a whole /64
+// and could otherwise rotate through addresses to dodge the limit.
+func rateKey(ip string) string {
+	addr, err := netip.ParseAddr(ip)
+	if err != nil {
+		return ip
+	}
+	addr = addr.Unmap()
+	if addr.Is4() {
+		return addr.String()
+	}
+	p, _ := addr.WithZone("").Prefix(64)
+	return p.String()
 }
 
 // rateLimiter is a fixed-window, in-memory limiter keyed by client IP. It is

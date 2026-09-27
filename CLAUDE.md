@@ -32,7 +32,29 @@ go test -run TestContact ./...  # single test
 go build -o wintermute .      # single self-contained binary (templates + assets embedded)
 ```
 
-Flags/env: `-addr` / `ADDR` (default `127.0.0.1:8080`), `-dev` / `DEV=1`, `-trust-proxy` / `TRUST_PROXY=1` (use the last `X-Forwarded-For` hop as the client IP; enable only behind Caddy/nginx).
+Deployment (see header comments in each script for settings):
+
+```sh
+deploy/build.sh linux|openbsd [amd64|arm64]    # tests, then static binary in dist/
+sudo DOMAIN=dev.example.com deploy/setup-linux.sh     # Linux dev server: systemd + Caddy + ufw/firewalld
+doas env DOMAIN=example.com WWW=1 sh setup-openbsd.sh  # OpenBSD VPS: rc.d + httpd + relayd + acme-client + pf
+```
+
+Security testing (`security/run.sh` with no args prints all options; exits non-zero on any FAIL):
+
+```sh
+security/run.sh code                 # gofmt, vet, staticcheck, gosec, govulncheck (source + built binaries), go test -race, fuzzing
+FUZZTIME=30m security/run.sh code    # before a release
+security/run.sh local                # start the binary on loopback; curl probes + ZAP full scan, nuclei, nikto
+security/run.sh prod example.com     # production from outside: nmap, TLS/testssl.sh, headers, passive ZAP (ACTIVE=1 to attack)
+doas sh run.sh host                  # on the OpenBSD server: syspatch, pf, listeners, rc services, key perms, sshd
+```
+
+- `security_test.go` pins the security properties (headers, no inline/third-party code, escaping, traversal, Origin check, log injection, rate-limit spoofing, server timeouts). `fuzz_test.go` holds the fuzz targets; crashers saved in `testdata/fuzz/` run as regression tests on every `go test`.
+- Reviewed scanner false positives / accepted risks live in `security/zap-rules.tsv` and `security/nikto-ignore.txt`; each needs a reason. Don't add entries just to make a run green.
+- Scanner tool versions are pinned in `security/run.sh`; `go.mod` pins the Go toolchain (`toolchain` line). Keep it on a supported, patched Go release: govulncheck in binary mode fails otherwise.
+
+Flags/env: `-addr` / `ADDR` (default `127.0.0.1:8080`), `-dev` / `DEV=1`, `-trust-proxy` / `TRUST_PROXY=1` (use the last `X-Forwarded-For` hop as the client IP; enable only behind Caddy (dev) or relayd (prod)).
 
 ## Architecture
 

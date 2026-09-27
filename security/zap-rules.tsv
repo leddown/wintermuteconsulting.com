@@ -1,0 +1,3 @@
+# OWASP ZAP rule overrides: <rule id> <tab> IGNORE|INFO|WARN|FAIL <tab> (reason)
+# Anti-CSRF tokens: the site sets no cookies and has no sessions; POST /contact rejects foreign Origin headers (TestContactOriginCheck).
+10202	IGNORE	(No cookies or sessions; cross-site posts are rejected by the Origin check)

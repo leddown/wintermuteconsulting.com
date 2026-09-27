@@ -111,5 +111,5 @@ func (a *app) render(w http.ResponseWriter, status int, name string, data pageDa
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(status)
-	buf.WriteTo(w)
+	_, _ = buf.WriteTo(w) // client gone mid-response; nothing useful to do
 }
