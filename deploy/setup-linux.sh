@@ -3,8 +3,8 @@
 # service. That's all it does: no packages, no nginx or firewall changes. The
 # box's own nginx proxies to the port set in the env file.
 #
-#   deploy/push.sh linux user@devbox     # from the workstation: build, copy, run this
-#   sudo sh setup-linux.sh               # or by hand on the server
+#   deploy/update-linux.sh               # usual route, on the server: git pull, build, run this
+#   deploy/push.sh linux user@devbox     # alternative from the workstation: build, copy, run this
 #
 # Safe to re-run: replaces the binary, rewrites the unit if it changed (keeping
 # a timestamped .bak) and restarts. The env file is created once and never
@@ -15,8 +15,8 @@
 #   /usr/local/bin/wintermuteconsulting
 #
 # Settings (environment):
-#   BIN   prebuilt binary (default: wintermuteconsulting-linux-<arch> next to this script,
-#         else ../dist/). Never built on this host.
+#   BIN   binary to install (default: wintermuteconsulting-linux-<arch> next to this
+#         script, else ../dist/). This script only installs; update-linux.sh builds.
 set -eu
 
 ENV_FILE=/etc/wintermuteconsulting/wintermuteconsulting.env
@@ -63,7 +63,7 @@ if [ -z "${BIN:-}" ]; then
 	BIN=$here/wintermuteconsulting-linux-$arch
 	[ -f "$BIN" ] || BIN=$repo/dist/wintermuteconsulting-linux-$arch
 fi
-[ -f "$BIN" ] || die "no binary at $BIN. Build on the workstation (deploy/build.sh linux $arch) or use deploy/push.sh"
+[ -f "$BIN" ] || die "no binary at $BIN. Use deploy/update-linux.sh (builds here) or deploy/push.sh from the workstation"
 
 say "installing /usr/local/bin/wintermuteconsulting"
 install -m 0755 "$BIN" /usr/local/bin/wintermuteconsulting.new

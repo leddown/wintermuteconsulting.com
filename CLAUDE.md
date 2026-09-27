@@ -32,12 +32,13 @@ go test -run TestContact ./...  # single test
 go build -o wintermuteconsulting .      # single self-contained binary (templates + assets embedded)
 ```
 
-Deployment (see header comments in each script for settings). Three machines: this **workstation** builds and runs every test and scanner; the **LAN dev server** (~1 GB RAM) only runs the binary; **production** is OpenBSD. Servers never compile anything.
+Deployment (see header comments in each script for settings). Three machines: this **workstation** runs every test and scanner; the **LAN dev server** (~1 GB RAM) keeps a git checkout and builds itself with low-memory flags (`deploy/update-linux.sh`: ~230 MB peak first build, ~30 MB cached; no tests or scanners there); **production** is OpenBSD with the base system only: it never compiles and has nothing installed, and updates are a single binary pushed from the workstation.
 
 ```sh
 deploy/build.sh linux|openbsd [amd64|arm64]    # tests, then static binary in dist/
-deploy/push.sh linux user@devbox               # build here, scp, run setup-linux.sh there (sudo)
-deploy/push.sh openbsd user@vps DOMAIN=example.com WWW=1   # same for production (doas)
+deploy/update-linux.sh                         # ON the dev server, in its checkout: git pull, build, redeploy
+deploy/push.sh openbsd user@vps DOMAIN=example.com WWW=1   # production first setup / config change (doas)
+deploy/push.sh openbsd user@vps                # production update: new binary + restart, auto-rollback on failed health check
 ```
 
 - `setup-linux.sh` (LAN dev) only installs the binary and a hardened systemd unit (`MemoryMax=256M`). Settings live in `/etc/wintermuteconsulting/wintermuteconsulting.env` (`ADDR=127.0.0.1:8080`, `TRUST_PROXY=1`, `GOMEMLIMIT`), created once and never overwritten. The box's own nginx (set up manually, not by us) proxies to it and must send `proxy_set_header Host $host;` (else the contact form's Origin check 403s) and `proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;` (else TRUST_PROXY is spoofable). No firewall or package changes.
