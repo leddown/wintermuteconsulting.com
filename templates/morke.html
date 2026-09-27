@@ -1,0 +1,81 @@
+{{define "page"}}<!doctype html>
+<html lang="en">
+<head>
+{{template "head-common" .}}
+<title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
+<link rel="stylesheet" href="/static/css/morke.css">
+<script type="module" src="/static/js/reveal.js"></script>
+</head>
+<body class="morke">
+<a class="skip" href="#main">Skip to content</a>
+{{template "flash"}}
+
+<header class="morke-header">
+  <a class="morke-logo" href="/v/morke">{{.Site.Name}}</a>
+  <p class="morke-issue" aria-hidden="true">Vol. IV · Winter</p>
+  <nav aria-label="Primary">
+    <a href="#services" data-glitch-hover>Services</a>
+    <a href="#essay" data-glitch-hover>Point of view</a>
+    <a href="#contact" data-glitch-hover>Contact</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="morke-hero">
+    <h1 class="morke-hero__title">
+      <span class="line">Cold.</span>
+      <span class="line"><em>Patient.</em></span>
+      <span class="line" data-glitch-hover>{{template "glitch-text" "Watching."}}</span>
+    </h1>
+    <div class="morke-hero__aside">
+      <p>{{.Site.Lede}}</p>
+      <a class="morke-link" href="#contact" data-glitch-hover>Request a briefing →</a>
+    </div>
+  </section>
+
+  <figure class="morke-figure" data-reveal>
+    {{template "forest-picture"}}
+    <figcaption><span>Fig. 1</span> Spruce stand, 04:12. Visibility thirty metres. Somewhere in here, something is watching you back.</figcaption>
+  </figure>
+
+  <section class="morke-services" id="services">
+    <h2 class="morke-kicker">Services</h2>
+    <ol>
+      {{range $i, $s := .Site.Services}}
+      <li data-reveal>
+        <span class="morke-services__num">{{inc $i}}</span>
+        <h3>{{$s.Title}}</h3>
+        <p>{{$s.Body}}</p>
+      </li>
+      {{end}}
+    </ol>
+  </section>
+
+  <section class="morke-essay" id="essay">
+    <h2 class="morke-kicker">Point of view</h2>
+    <div class="morke-essay__cols" data-reveal>
+      <p class="morke-dropcap">Security in the North has always been about reading the landscape. For decades that landscape was networks and people. Now it includes machines that write, reason and act. Every AI system a company deploys is another path into the forest.</p>
+      <p>We use machine intelligence the way a tracker uses a good pair of binoculars: to see further, not to walk for us. Our models surface the faint signals. Our operators, each with more than a decade in the field, decide what they mean.</p>
+      <blockquote><p>“Attackers don't wait for your AI governance policy to be approved.”</p></blockquote>
+    </div>
+    <div class="morke-side" data-reveal>
+      {{template "woods-picture"}}
+      <p class="morke-side__cap">Fig. 2. The path looks clear. It rarely is.</p>
+    </div>
+  </section>
+
+  <section class="morke-principles">
+    {{range .Site.Principles}}
+    <article data-reveal><h3>{{.Title}}</h3><p>{{.Body}}</p></article>
+    {{end}}
+  </section>
+
+  <section class="morke-contact" id="contact">
+    <h2>Write to us. <em>Quietly.</em></h2>
+    {{template "contact-form" .}}
+  </section>
+</main>
+{{template "footer" .}}
+</body>
+</html>
+{{end}}

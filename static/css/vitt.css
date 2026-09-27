@@ -1,0 +1,62 @@
+/* Vitt (whiteout): pale, cold, quiet. The one light variant. */
+
+:root {
+  --bg: #eef2f3;
+  --surface: #ffffff;
+  --ink: #0e1518;
+  --muted: #5a676d;
+  --line: rgb(14 21 24 / 0.14);
+  --accent: #173f4e;
+  --accent-ink: #eef2f3;
+  --err: #b3261e;
+  --ok: #1d6b45;
+  --glitch-a: rgb(14 21 24 / 0.4);
+  --glitch-b: #6b0f16;
+  color-scheme: light;
+}
+
+.vitt-header {
+  position: absolute; inset: 0 0 auto; z-index: 20;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.25rem var(--gutter);
+}
+.vitt-logo { font: 500 0.95rem/1 var(--font-display); letter-spacing: 0.45em; text-transform: uppercase; text-decoration: none; }
+.vitt-header nav { display: none; gap: 2rem; font-size: 0.9rem; }
+.vitt-header nav a { text-decoration: none; }
+@media (min-width: 720px) { .vitt-header nav { display: flex; } }
+
+.vitt-hero { position: relative; min-height: 100svh; display: grid; place-items: center; text-align: center; overflow: hidden; isolation: isolate; }
+.vitt-hero__media, .vitt-hero__media picture, .vitt-hero__media img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.vitt-hero__media { z-index: -3; }
+.vitt-hero__media img { object-fit: cover; filter: grayscale(1) brightness(1.55) contrast(0.7); opacity: 0.55; }
+.vitt-hero__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgb(238 242 243 / 0.75), rgb(238 242 243 / 0.35) 45%, var(--bg)); }
+.is-flashing .vitt-hero__media img { filter: grayscale(1) brightness(0.6) contrast(1.3); }
+.vitt-hero__snow, .vitt-hero__eyes { position: absolute; inset: 0; width: 100%; height: 100%; }
+.vitt-hero__snow { z-index: -1; }
+.vitt-hero__eyes { z-index: -2; opacity: 0.8; }
+.vitt-hero__content { padding: 6rem var(--gutter) 4rem; }
+.vitt-temp { font: 400 0.8rem/1 var(--font-mono); letter-spacing: 0.3em; color: var(--muted); }
+.vitt-hero h1 { margin: 1.5rem 0; font-size: clamp(3.4rem, 13vw, 10rem); font-weight: 300; letter-spacing: -0.05em; }
+.vitt-hero__sub { max-width: 34rem; margin: 0 auto 2.5rem; color: var(--muted); font-size: clamp(1rem, 1.5vw, 1.2rem); }
+
+.vitt main > section:not(.vitt-hero) { padding: clamp(4.5rem, 10vw, 8rem) var(--gutter); max-width: 1080px; margin: 0 auto; }
+.vitt-intro__text { margin-top: 1.5rem; font: 300 clamp(1.4rem, 3vw, 2.2rem)/1.35 var(--font-display); letter-spacing: -0.01em; }
+
+.vitt-list { list-style: none; padding: 0; margin-top: 2.5rem; border-top: 1px solid var(--line); }
+.vitt-list li { display: grid; gap: 0.5rem 2rem; padding: 2rem 0; border-bottom: 1px solid var(--line); }
+@media (min-width: 760px) { .vitt-list li { grid-template-columns: 4rem 1fr 1.5fr; align-items: baseline; } }
+.vitt-list__num { font: 400 0.8rem/1 var(--font-mono); color: var(--muted); }
+.vitt-list h3 { font-size: 1.4rem; font-weight: 400; }
+.vitt-list p { color: var(--muted); }
+
+.vitt-ai { text-align: center; }
+.vitt-ai__label { display: inline-block; padding: 0.3rem 0.7rem; border: 1px solid var(--ink); font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.3em; }
+.vitt-ai__text { max-width: 44rem; margin: 2rem auto 0; font: 300 clamp(1.5rem, 3.4vw, 2.6rem)/1.3 var(--font-display); }
+.vitt-ai__text em { font-style: normal; color: var(--accent); }
+
+.vitt-approach { display: grid; gap: 2.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+.vitt-approach h3 { font-size: 1.15rem; font-weight: 500; margin-bottom: 0.5rem; }
+.vitt-approach p { color: var(--muted); }
+
+.vitt-contact h2 { font-size: clamp(2.4rem, 6vw, 4.5rem); font-weight: 300; margin-bottom: 2.5rem; }
+.vitt .field input, .vitt .field textarea { background: var(--surface); }

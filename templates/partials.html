@@ -1,0 +1,82 @@
+{{/* Shared building blocks. Each page file defines "page" and pulls these in. */}}
+
+{{define "head-common"}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{{.Site.Name}}: {{.Site.Descriptor}}. {{.Site.Lede}}">
+<link rel="icon" href="/static/images/opt/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/static/css/base.css">
+<script type="module" src="/static/js/glitch.js"></script>
+{{end}}
+
+{{/* Glitch text: the real text stays readable to assistive tech; the animated copy is decorative. */}}
+{{define "glitch-text"}}<span class="sr-only">{{.}}</span><span class="glitch" data-glitch data-text="{{.}}" aria-hidden="true">{{.}}</span>{{end}}
+
+{{define "forest-picture"}}
+<picture>
+  <source type="image/webp" srcset="/static/images/opt/forest-960.webp 960w, /static/images/opt/forest-1600.webp 1600w, /static/images/opt/forest-2400.webp 2400w" sizes="100vw">
+  <img src="/static/images/opt/forest-1600.jpg" srcset="/static/images/opt/forest-960.jpg 960w, /static/images/opt/forest-1600.jpg 1600w, /static/images/opt/forest-2400.jpg 2400w" sizes="100vw" alt="" width="1600" height="1067" decoding="async" fetchpriority="high">
+</picture>
+{{end}}
+
+{{define "woods-picture"}}
+<picture>
+  <source type="image/webp" srcset="/static/images/opt/woods-640.webp">
+  <img src="/static/images/opt/woods-640.jpg" alt="" width="640" height="427" decoding="async">
+</picture>
+{{end}}
+
+{{define "flash"}}<div class="flash-layer" data-flash aria-hidden="true"></div>{{end}}
+
+{{define "variant-switcher"}}
+<nav class="switcher" aria-label="Design alternatives">
+  <a href="/">All designs</a>
+  {{range .Variants}}<a href="/v/{{.Slug}}"{{if eq .Slug $.Variant.Slug}} aria-current="page"{{end}}>{{.Name}}</a>{{end}}
+</nav>
+{{end}}
+
+{{define "contact-form"}}
+{{if .Sent}}
+<p class="form-status form-status--ok" role="status">Message received. We'll answer within one working day.</p>
+{{else}}
+<form class="contact-form" method="post" action="/contact#contact" novalidate>
+  {{with .Errors.form}}<p class="form-status form-status--err" role="alert">{{.}}</p>{{end}}
+  <input type="hidden" name="variant" value="{{.Variant.Slug}}">
+  <div class="hp" aria-hidden="true">
+    <label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+  </div>
+  <div class="field{{if .Errors.name}} field--err{{end}}">
+    <label for="f-name">Name</label>
+    <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="100" value="{{.Form.Name}}"{{if .Errors.name}} aria-invalid="true" aria-describedby="e-name"{{end}}>
+    {{with .Errors.name}}<p class="field-err" id="e-name">{{.}}</p>{{end}}
+  </div>
+  <div class="field{{if .Errors.email}} field--err{{end}}">
+    <label for="f-email">Email</label>
+    <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="254" value="{{.Form.Email}}"{{if .Errors.email}} aria-invalid="true" aria-describedby="e-email"{{end}}>
+    {{with .Errors.email}}<p class="field-err" id="e-email">{{.}}</p>{{end}}
+  </div>
+  <div class="field{{if .Errors.company}} field--err{{end}}">
+    <label for="f-company">Company <span class="optional">(optional)</span></label>
+    <input id="f-company" name="company" type="text" autocomplete="organization" maxlength="120" value="{{.Form.Company}}">
+    {{with .Errors.company}}<p class="field-err">{{.}}</p>{{end}}
+  </div>
+  <div class="field field--wide{{if .Errors.message}} field--err{{end}}">
+    <label for="f-message">What are you worried about?</label>
+    <textarea id="f-message" name="message" rows="5" required maxlength="5000"{{if .Errors.message}} aria-invalid="true" aria-describedby="e-message"{{end}}>{{.Form.Message}}</textarea>
+    {{with .Errors.message}}<p class="field-err" id="e-message">{{.}}</p>{{end}}
+  </div>
+  <button class="btn btn--primary" type="submit">Send securely</button>
+  <p class="form-note">Sent over TLS. Used only to reply to you, never shared.</p>
+</form>
+{{end}}
+{{end}}
+
+{{define "footer"}}
+<footer class="site-footer">
+  <p class="site-footer__brand">{{.Site.Name}}</p>
+  <p>{{.Site.Descriptor}} · {{.Site.Location}}</p>
+  <p class="site-footer__note">No cookies. No trackers. Nothing loaded from third parties.</p>
+  <p><a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></p>
+</footer>
+{{template "variant-switcher" .}}
+{{end}}

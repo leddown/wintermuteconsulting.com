@@ -1,0 +1,75 @@
+{{define "page"}}<!doctype html>
+<html lang="en">
+<head>
+{{template "head-common" .}}
+<title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
+<link rel="stylesheet" href="/static/css/spor.css">
+<script type="module" src="/static/js/wolfeyes.js"></script>
+<script type="module" src="/static/js/reveal.js"></script>
+<script type="module" src="/static/js/descent.js"></script>
+</head>
+<body class="spor">
+<a class="skip" href="#main">Skip to content</a>
+{{template "flash"}}
+
+<header class="spor-header">
+  <a class="spor-logo" href="/v/spor">{{.Site.Name}}</a>
+  <a class="spor-header__cta" href="#contact">Contact</a>
+  <div class="spor-depth" aria-hidden="true"><span data-depth-bar></span></div>
+</header>
+
+<main id="main">
+  <!-- Fixed backdrop: the path fades into the deep forest, then to black, as you scroll. -->
+  <div class="spor-backdrop" aria-hidden="true">
+    <div class="spor-backdrop__woods">{{template "woods-picture"}}</div>
+    <div class="spor-backdrop__forest">{{template "forest-picture"}}</div>
+    <div class="spor-backdrop__night"></div>
+  </div>
+
+  <section class="spor-scene spor-scene--1">
+    <p class="eyebrow">{{.Site.Descriptor}}</p>
+    <h1>Every forest looks empty.</h1>
+    <p class="spor-scroll" aria-hidden="true">Scroll ↓</p>
+  </section>
+
+  <section class="spor-scene spor-scene--2" data-reveal>
+    <h2>Until you learn<br>to read the tracks.</h2>
+    <p>{{.Site.Lede}}</p>
+  </section>
+
+  <section class="spor-trail" aria-labelledby="trail-title">
+    <h2 id="trail-title" class="eyebrow" data-reveal>What we hunt</h2>
+    <ol>
+      {{range .Site.Services}}
+      <li data-reveal>
+        <span class="spor-trail__paw" aria-hidden="true"></span>
+        <p class="spor-trail__code">{{.Code}}</p>
+        <h3>{{.Title}}</h3>
+        <p>{{.Body}}</p>
+      </li>
+      {{end}}
+    </ol>
+  </section>
+
+  <section class="spor-scene spor-scene--3" data-reveal>
+    <h2>Deeper in, the trees<br>begin to <em>think</em>.</h2>
+    <p>AI agents, copilots and automations now walk your network with real permissions. We test them like any other predator would: patiently, and from angles nobody planned for.</p>
+  </section>
+
+  <section class="spor-stats">
+    {{range .Site.Stats}}
+    <div data-reveal><p class="spor-stats__v"><span data-count="{{.Value}}">{{.Value}}</span>{{.Unit}}</p><p>{{.Label}}</p></div>
+    {{end}}
+  </section>
+
+  <section class="spor-finale" id="contact">
+    <canvas data-wolf-eyes data-pairs="1" data-size="lg" aria-hidden="true"></canvas>
+    <h2>{{template "glitch-text" "We see them first."}}</h2>
+    <p>Tell us where you're worried. An operator will answer within one working day.</p>
+    {{template "contact-form" .}}
+  </section>
+</main>
+{{template "footer" .}}
+</body>
+</html>
+{{end}}

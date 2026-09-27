@@ -1,0 +1,74 @@
+{{define "page"}}<!doctype html>
+<html lang="en">
+<head>
+{{template "head-common" .}}
+<title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
+<link rel="stylesheet" href="/static/css/vitt.css">
+<script type="module" src="/static/js/snow.js"></script>
+<script type="module" src="/static/js/wolfeyes.js"></script>
+<script type="module" src="/static/js/reveal.js"></script>
+</head>
+<body class="vitt">
+<a class="skip" href="#main">Skip to content</a>
+{{template "flash"}}
+
+<header class="vitt-header">
+  <a class="vitt-logo" href="/v/vitt">{{.Site.Name}}</a>
+  <nav aria-label="Primary">
+    <a href="#services">Services</a>
+    <a href="#approach">Approach</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="vitt-hero">
+    <div class="vitt-hero__media">{{template "forest-picture"}}</div>
+    <canvas class="vitt-hero__snow" data-snow aria-hidden="true"></canvas>
+    <canvas class="vitt-hero__eyes" data-wolf-eyes data-pairs="1" data-color="ice" aria-hidden="true"></canvas>
+    <div class="vitt-hero__content">
+      <p class="vitt-temp" aria-hidden="true">−22 °C</p>
+      <h1>{{template "glitch-text" "Whiteout."}}</h1>
+      <p class="vitt-hero__sub">In the snow, every threat looks the same, until it moves.<br>We watch for the movement.</p>
+      <a class="btn btn--primary" href="#contact">Talk to an operator</a>
+    </div>
+  </section>
+
+  <section class="vitt-intro" data-reveal>
+    <p class="eyebrow">{{.Site.Descriptor}}</p>
+    <p class="vitt-intro__text">{{.Site.Lede}}</p>
+  </section>
+
+  <section class="vitt-services" id="services">
+    <h2 class="eyebrow" data-reveal>Services</h2>
+    <ol class="vitt-list">
+      {{range $i, $s := .Site.Services}}
+      <li data-reveal>
+        <span class="vitt-list__num">0{{inc $i}}</span>
+        <h3>{{$s.Title}}</h3>
+        <p>{{$s.Body}}</p>
+      </li>
+      {{end}}
+    </ol>
+  </section>
+
+  <section class="vitt-ai" data-reveal>
+    <p class="vitt-ai__label">AI</p>
+    <p class="vitt-ai__text">Attackers already use machine intelligence to move faster. So do we. Our models map the terrain, <em>and our people read the tracks.</em></p>
+  </section>
+
+  <section class="vitt-approach" id="approach">
+    {{range .Site.Principles}}
+    <article data-reveal><h3>{{.Title}}</h3><p>{{.Body}}</p></article>
+    {{end}}
+  </section>
+
+  <section class="vitt-contact" id="contact">
+    <h2 data-reveal>Break the silence.</h2>
+    {{template "contact-form" .}}
+  </section>
+</main>
+{{template "footer" .}}
+</body>
+</html>
+{{end}}

@@ -1,0 +1,72 @@
+/* Varg: night forest, wolf eyes, amber on near-black. */
+
+.varg-header {
+  position: fixed; inset: 0 0 auto; z-index: 20;
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 1.1rem var(--gutter);
+  background: linear-gradient(rgb(7 9 10 / 0.85), transparent);
+}
+.varg-logo { font: 600 0.95rem/1 var(--font-display); letter-spacing: 0.35em; text-transform: uppercase; text-decoration: none; }
+.varg-nav { display: none; gap: 1.75rem; margin-left: auto; font-size: 0.9rem; }
+.varg-nav a { text-decoration: none; color: var(--muted); transition: color 0.2s; }
+.varg-nav a:hover { color: var(--ink); }
+.varg-status { margin-left: auto; display: flex; align-items: center; gap: 0.5rem; font: 500 0.7rem/1 var(--font-mono); letter-spacing: 0.2em; color: var(--accent); }
+.varg-status .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: pulse 2.4s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: 0.25; } }
+@media (min-width: 760px) { .varg-nav { display: flex; } .varg-status { margin-left: 0; } }
+
+/* Hero */
+.varg-hero { position: relative; min-height: 100svh; display: grid; align-items: end; overflow: hidden; isolation: isolate; }
+.varg-hero__media, .varg-hero__media picture, .varg-hero__media img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.varg-hero__media { z-index: -3; }
+.varg-hero__media img { object-fit: cover; filter: saturate(0.55) brightness(0.55) contrast(1.1); transform: scale(1.06); animation: breathe 30s ease-in-out infinite alternate; }
+@keyframes breathe { to { transform: scale(1.12) translateX(-1%); } }
+.is-flashing .varg-hero__media img { filter: grayscale(1) brightness(0.55) contrast(1.4); transform: scale(1.08) translateX(-3px); }
+.varg-hero__fog {
+  position: absolute; inset: 0; z-index: -2;
+  background:
+    radial-gradient(ellipse 80% 40% at 30% 65%, rgb(160 190 185 / 0.14), transparent 70%),
+    radial-gradient(ellipse 60% 30% at 75% 55%, rgb(160 190 185 / 0.1), transparent 70%),
+    linear-gradient(to bottom, rgb(7 9 10 / 0.5) 0%, transparent 30%, transparent 55%, var(--bg) 100%);
+  animation: drift 40s linear infinite alternate;
+}
+@keyframes drift { to { background-position: 12% 0, -10% 0, 0 0; } }
+.varg-hero__eyes { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; }
+.varg-hero__content { padding: 0 var(--gutter) clamp(4rem, 12vh, 8rem); max-width: 60rem; }
+.varg-hero__title { margin: 1.25rem 0 1.5rem; font-size: clamp(2.6rem, 7.5vw, 6rem); font-weight: 500; }
+.varg-hero__lede { max-width: 38rem; color: #c5d0cc; font-size: clamp(1rem, 1.4vw, 1.15rem); }
+.varg-hero__cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+.varg-hero__coords { position: absolute; right: var(--gutter); bottom: 1.5rem; font: 0.7rem/1 var(--font-mono); letter-spacing: 0.15em; color: var(--muted); display: none; }
+@media (min-width: 900px) { .varg-hero__coords { display: block; } }
+
+/* Sections */
+.varg main > section:not(.varg-hero) { padding: clamp(5rem, 12vw, 9rem) var(--gutter); max-width: var(--max); margin: 0 auto; }
+.section-head { margin-bottom: 3.5rem; }
+.section-head h2, .varg-ai h2, .varg-contact h2 { margin-top: 1rem; font-size: clamp(2rem, 5vw, 3.6rem); }
+.varg h2 em { font-style: normal; color: var(--accent); }
+
+.varg-grid { list-style: none; padding: 0; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.varg-card { position: relative; padding: 2.2rem 1.8rem 2.6rem; background: var(--bg); transition: background 0.35s; }
+.varg-card::after { content: ""; position: absolute; left: 0; top: 0; height: 2px; width: 0; background: var(--accent); transition: width 0.5s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.varg-card:hover { background: var(--surface); }
+.varg-card:hover::after { width: 100%; }
+.varg-card__code { font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.15em; color: var(--accent); }
+.varg-card h3 { margin: 1.4rem 0 0.8rem; font-size: 1.45rem; }
+.varg-card p { color: var(--muted); font-size: 0.95rem; }
+
+.varg-ai { display: grid; gap: 4rem; }
+@media (min-width: 900px) { .varg-ai { grid-template-columns: 1.4fr 1fr; align-items: end; } }
+.varg-ai__inner p:not(.eyebrow) { margin-top: 1.5rem; max-width: 36rem; color: #c5d0cc; }
+.varg-ai__quote { font: italic 400 1.2rem/1.5 var(--font-display); color: var(--ice) !important; border-left: 2px solid var(--accent); padding-left: 1rem; }
+.varg-stats { display: grid; gap: 2rem; }
+.varg-stats div { border-top: 1px solid var(--line); padding-top: 1rem; display: flex; flex-direction: column-reverse; }
+.varg-stats dt { color: var(--muted); font-size: 0.9rem; }
+.varg-stats dd { font: 500 clamp(2.8rem, 6vw, 4rem)/1 var(--font-display); letter-spacing: -0.03em; }
+
+.varg-principles { display: grid; gap: 2.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); border-top: 1px solid var(--line); }
+.varg-principles h3 { font-size: 1.3rem; margin-bottom: 0.6rem; }
+.varg-principles p { color: var(--muted); }
+
+.varg-contact { display: grid; gap: 3rem; }
+@media (min-width: 900px) { .varg-contact { grid-template-columns: 1fr 1.4fr; } }
+.varg-contact__intro p:last-child { margin-top: 1rem; color: var(--muted); }

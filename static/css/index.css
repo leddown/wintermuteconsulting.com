@@ -1,0 +1,15 @@
+.chooser__main { max-width: 960px; margin: 0 auto; padding: clamp(3rem, 10vw, 8rem) var(--gutter); }
+.chooser__eyebrow { font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.chooser__title { margin: 1rem 0; font-size: clamp(2.4rem, 7vw, 4.8rem); }
+.chooser__lede { max-width: 48ch; color: var(--muted); }
+.chooser__list { list-style: none; padding: 0; margin-top: 3rem; border-top: 1px solid var(--line); }
+.chooser__card {
+  display: grid; grid-template-columns: 3rem 1fr auto; gap: 0.25rem 1rem; align-items: baseline;
+  padding: 1.5rem 0; border-bottom: 1px solid var(--line); text-decoration: none;
+  transition: padding 0.25s, background 0.25s;
+}
+.chooser__card:hover { padding-left: 0.75rem; background: rgb(255 255 255 / 0.02); }
+.chooser__num { font: 500 0.8rem/1 var(--font-mono); color: var(--accent); }
+.chooser__name { font: 500 clamp(1.5rem, 4vw, 2.2rem)/1 var(--font-display); }
+.chooser__arrow { grid-row: 1; grid-column: 3; font-size: 1.4rem; color: var(--muted); }
+.chooser__summary { grid-column: 2 / 4; color: var(--muted); font-size: 0.95rem; }

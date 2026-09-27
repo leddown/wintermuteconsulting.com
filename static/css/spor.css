@@ -1,0 +1,59 @@
+/* Spor (tracks): scroll-driven descent. --depth (0 → 1) is set by descent.js. */
+
+:root { --depth: 0; }
+
+.spor-header {
+  position: fixed; inset: 0 0 auto; z-index: 30;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.1rem var(--gutter);
+}
+.spor-logo { font: 600 0.9rem/1 var(--font-display); letter-spacing: 0.4em; text-transform: uppercase; text-decoration: none; }
+.spor-header__cta { font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; padding: 0.6rem 0.9rem; border: 1px solid var(--line); }
+.spor-depth { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--line); }
+.spor-depth span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); }
+
+/* Backdrop layers cross-fade with depth: misty path → deep spruce → black. */
+.spor-backdrop { position: fixed; inset: 0; z-index: -1; }
+.spor-backdrop > div, .spor-backdrop picture, .spor-backdrop img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.spor-backdrop img { object-fit: cover; }
+.spor-backdrop__woods img { filter: saturate(0.6) brightness(0.8); transform: scale(calc(1 + var(--depth) * 0.25)); }
+.spor-backdrop__woods { opacity: calc(1 - var(--depth) * 3.5); }
+.spor-backdrop__forest { opacity: clamp(0, calc(var(--depth) * 3 - 0.35), 1); }
+.spor-backdrop__forest img { filter: saturate(0.5) brightness(calc(0.75 - var(--depth) * 0.4)); transform: scale(calc(1.2 - var(--depth) * 0.15)); }
+.spor-backdrop__night { background: radial-gradient(ellipse at 50% 40%, rgb(0 0 0 / 0.3), #000 75%); opacity: clamp(0.35, calc(var(--depth) * 1.5 - 0.3), 1); }
+.is-flashing .spor-backdrop img { filter: grayscale(1) brightness(0.5) contrast(1.4); }
+
+.spor-scene { min-height: 100svh; display: grid; align-content: center; padding: 6rem var(--gutter); max-width: var(--max); margin: 0 auto; }
+.spor-scene h1, .spor-scene h2 { font-size: clamp(2.6rem, 8vw, 6.5rem); font-weight: 400; letter-spacing: -0.035em; text-shadow: 0 2px 30px rgb(0 0 0 / 0.5); }
+.spor-scene h1 { margin-top: 1rem; }
+.spor-scene p:not(.eyebrow) { max-width: 36rem; margin-top: 1.75rem; font-size: 1.1rem; color: #d3dcd8; }
+.spor-scene em { font-style: normal; color: var(--accent); }
+.spor-scene--1 .eyebrow { color: #d3dcd8; }
+.spor-scroll { position: absolute; bottom: 2rem; font: 0.7rem/1 var(--font-mono); letter-spacing: 0.25em; text-transform: uppercase; color: #d3dcd8 !important; animation: nudge 2s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateY(6px); } }
+.spor-scene--2, .spor-scene--3 { justify-items: end; text-align: right; }
+.spor-scene--2 p, .spor-scene--3 p { margin-left: auto; }
+
+.spor-trail { max-width: 880px; margin: 0 auto; padding: 4rem var(--gutter) 8rem; }
+.spor-trail ol { list-style: none; padding: 0; margin-top: 2.5rem; position: relative; }
+.spor-trail ol::before { content: ""; position: absolute; left: 11px; top: 0; bottom: 0; border-left: 1px dashed var(--line); }
+.spor-trail li { position: relative; padding: 0 0 3.5rem 3.5rem; }
+.spor-trail li:nth-child(even) { padding-left: 4.25rem; }
+.spor-trail__paw { position: absolute; left: 0; top: 0.1rem; width: 24px; height: 24px; background: url("/static/images/opt/paw.svg") center / contain no-repeat; opacity: 0.85; }
+.spor-trail li:nth-child(even) .spor-trail__paw { left: 10px; transform: rotate(12deg); }
+.spor-trail li:nth-child(odd) .spor-trail__paw { transform: rotate(-8deg); }
+.spor-trail__code { font: 500 0.72rem/1 var(--font-mono); letter-spacing: 0.15em; color: var(--accent); }
+.spor-trail h3 { margin: 0.6rem 0; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 400; }
+.spor-trail li p:last-child { color: #b9c4c0; max-width: 36rem; }
+
+.spor-stats { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); max-width: var(--max); margin: 0 auto; padding: 4rem var(--gutter) 8rem; }
+.spor-stats__v { font: 400 clamp(3rem, 8vw, 5.5rem)/1 var(--font-display); letter-spacing: -0.04em; }
+.spor-stats p:last-child { color: var(--muted); margin-top: 0.5rem; }
+
+.spor-finale { position: relative; min-height: 100svh; padding: 45vh var(--gutter) 6rem; max-width: var(--max); margin: 0 auto; display: grid; justify-items: center; text-align: center; }
+.spor-finale canvas { position: absolute; left: 0; right: 0; top: 0; height: 60vh; width: 100%; pointer-events: none; }
+.spor-finale h2 { font-size: clamp(2.4rem, 7vw, 5.5rem); font-weight: 400; }
+.spor-finale > p { margin: 1.25rem 0 2.5rem; color: var(--muted); max-width: 32rem; }
+.spor-finale .contact-form, .spor-finale .form-status { text-align: left; width: 100%; }
+.spor .site-footer { background: #000; }
+.spor .switcher { background: #000; margin: 0; }

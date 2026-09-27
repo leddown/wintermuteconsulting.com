@@ -1,0 +1,29 @@
+{{define "page"}}<!doctype html>
+<html lang="en">
+<head>
+{{template "head-common" .}}
+<title>{{.Site.Name}}: design alternatives</title>
+<link rel="stylesheet" href="/static/css/index.css">
+</head>
+<body class="chooser">
+{{template "flash"}}
+<main class="chooser__main">
+  <p class="chooser__eyebrow">{{.Site.Name}} / internal preview</p>
+  <h1 class="chooser__title">{{template "glitch-text" "Five ways into the forest"}}</h1>
+  <p class="chooser__lede">Five homepage directions built on the same copy, content and Go backend. Open each one, then pick one (or mix them).</p>
+  <ol class="chooser__list">
+    {{range $i, $v := .Variants}}
+    <li>
+      <a class="chooser__card" href="/v/{{$v.Slug}}">
+        <span class="chooser__num">0{{inc $i}}</span>
+        <span class="chooser__name">{{$v.Name}}</span>
+        <span class="chooser__summary">{{$v.Summary}}</span>
+        <span class="chooser__arrow" aria-hidden="true">→</span>
+      </a>
+    </li>
+    {{end}}
+  </ol>
+</main>
+</body>
+</html>
+{{end}}
