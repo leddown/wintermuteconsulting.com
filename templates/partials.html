@@ -1,11 +1,16 @@
 {{/* Shared building blocks. Each page file defines "page" and pulls these in. */}}
 
-{{define "head-common"}}
+{{/* Head without any glitch: for designs that opt out (signal2). */}}
+{{define "head-base"}}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="{{.Site.Name}}: {{.Site.Descriptor}}. {{.Site.Lede}}">
 <link rel="icon" href="/static/images/opt/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/css/base.css">
+{{end}}
+
+{{define "head-common"}}
+{{template "head-base" .}}
 <script type="module" src="/static/js/glitch.js"></script>
 {{end}}
 

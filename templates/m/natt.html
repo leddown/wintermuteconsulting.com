@@ -1,14 +1,12 @@
-{{/* Natt on a phone: the moonlit night, amber signal, eyes between the trees. */}}
+{{/* Natt on a phone: the moonlit night and the amber signal. No glitch. */}}
 {{define "m-theme-color"}}#070729{{end}}
-{{define "m-scripts"}}<script type="module" src="/static/js/wolfeyes.js"></script>{{end}}
 
 {{define "m-hero"}}
 <section class="m-hero">
   <div class="m-hero__media">{{template "night-picture"}}</div>
-  <canvas class="m-hero__eyes" data-wolf-eyes data-pairs="2" aria-hidden="true"></canvas>
   <div class="m-hero__content">
     <p class="eyebrow">{{.Site.Descriptor}}</p>
-    <h1 class="m-hero__title">{{template "glitch-text" "Crises come at night."}} <span class="m-natt-line">Be ready before they do.</span></h1>
+    <h1 class="m-hero__title">Crises come at night. <span class="m-natt-line">Be ready before they do.</span></h1>
     <p class="m-hero__lede">{{.Site.Lede}}</p>
     {{template "m-actions" .}}
   </div>

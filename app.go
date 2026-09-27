@@ -17,10 +17,30 @@ type Variant struct {
 	Summary string
 }
 
+// variantTheme maps a variant to the design whose stylesheet (and mobile
+// treatment) it reuses, for variants that are a tweak of another design.
+var variantTheme = map[string]string{"signal2": "signal"}
+
+// noGlitch lists designs without the digital glitch: no glitch.js, no flash
+// layer, no glitching text, and so no wolf eyes (they only appear on flashes).
+var noGlitch = map[string]bool{"signal2": true, "hytte": true, "natt": true, "rim": true}
+
+// Glitch reports whether the design uses the glitch effects.
+func (v Variant) Glitch() bool { return !noGlitch[v.Slug] }
+
+// Theme is the design whose stylesheet and tokens this variant uses.
+func (v Variant) Theme() string {
+	if t, ok := variantTheme[v.Slug]; ok {
+		return t
+	}
+	return v.Slug
+}
+
 var variants = []Variant{
 	{"varg", "Varg", "Night forest, glowing wolf eyes that track the cursor, RGB-split glitch on the headline."},
 	{"vitt", "Vitt", "Whiteout. Pale, cold and quiet, with drifting snow and inverted glitch flashes."},
 	{"signal", "Signal", "A supervision console: monospace, a live remediation tracker, scanlines over the forest."},
+	{"signal2", "Signal 2", "Signal without the glitch: the same console, tracker and scanlines, with no flashes, scrambling or glitching text."},
 	{"morke", "Mørke", "Nordic editorial. Big serif type, a strict grid, glitch only on interaction."},
 	{"spor", "Spor", "Scroll-driven descent into the forest that ends face to face with the wolf."},
 	{"hytte", "Hytte", "Advisory-firm layout in snow light: a lit cabin in the moonlit forest, amber only where its light falls."},

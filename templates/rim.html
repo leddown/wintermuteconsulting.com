@@ -1,7 +1,7 @@
 {{define "page"}}<!doctype html>
 <html lang="en">
 <head>
-{{template "head-common" .}}
+{{template "head-base" .}}
 <title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
 <link rel="stylesheet" href="/static/css/ps.css">
 <link rel="stylesheet" href="/static/css/rim.css">
@@ -9,7 +9,6 @@
 </head>
 <body class="ps rim">
 <a class="skip" href="#main">Skip to content</a>
-{{template "flash"}}
 {{template "ps-util" .}}
 {{template "ps-nav" .}}
 

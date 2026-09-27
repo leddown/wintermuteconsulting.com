@@ -1,0 +1,75 @@
+{{/* Signal 2: Signal without any glitch (no glitch.js, flash layer, glitch text or
+     eyes, which only appear on flashes). Reuses static/css/signal.css. */}}
+{{define "page"}}<!doctype html>
+<html lang="en">
+<head>
+{{template "head-base" .}}
+<title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
+<link rel="stylesheet" href="/static/css/signal.css">
+<script type="module" src="/static/js/terminal.js"></script>
+<script type="module" src="/static/js/reveal.js"></script>
+</head>
+<body class="signal signal2">
+<a class="skip" href="#main">Skip to content</a>
+<div class="signal-scanlines" aria-hidden="true"></div>
+
+<header class="signal-header">
+  <a class="signal-logo" href="/v/signal2{{.ViewQuery}}">{{template "logo" .Site}}<span class="blink" aria-hidden="true">_</span></a>
+  <nav aria-label="Primary">
+    <a href="#services">./services</a>
+    <a href="#supervision">./supervision</a>
+    <a href="#contact">./contact</a>
+  </nav>
+  <span class="signal-clock" data-clock aria-hidden="true">--:--:-- UTC</span>
+</header>
+
+<main id="main">
+  <section class="signal-hero">
+    <div class="signal-viewport">
+      <div class="signal-viewport__media">{{template "forest-picture"}}</div>
+    </div>
+    <div class="signal-hero__text">
+      <p class="eyebrow">// {{.Site.Descriptor}}</p>
+      <h1>Finding raised.</h1>
+      <p>{{.Site.Lede}}</p>
+      <a class="btn btn--primary" href="#contact">&gt; open_channel</a>
+    </div>
+  </section>
+
+  <section class="signal-console" id="supervision" aria-labelledby="console-title">
+    <h2 id="console-title" class="eyebrow">// wintermute-consulting: remediation tracker (simulated)</h2>
+    <div class="terminal" data-terminal>
+      <ol class="terminal__out" aria-live="off"></ol>
+      {{template "terminal-lines"}}
+    </div>
+    <p class="signal-console__note">From the supervisor's letter to closed findings: every step documented, every control evidenced, every decision the board's own.</p>
+  </section>
+
+  <section class="signal-services" id="services">
+    <h2 class="eyebrow">// services</h2>
+    <table class="signal-table">
+      <thead><tr><th scope="col">id</th><th scope="col">service</th><th scope="col">description</th></tr></thead>
+      <tbody>
+        {{range .Site.Services}}
+        <tr data-reveal><td class="code">{{.Code}}</td><th scope="row">{{.Title}}</th><td>{{.Body}}</td></tr>
+        {{end}}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="signal-principles">
+    {{range .Site.Principles}}
+    <article data-reveal><h3>[ {{.Title}} ]</h3><p>{{.Body}}</p></article>
+    {{end}}
+  </section>
+
+  <section class="signal-contact" id="contact">
+    <h2 class="eyebrow">// open_channel</h2>
+    <p class="signal-contact__lede">Encrypted in transit. Read by a senior advisor within one working day.</p>
+    {{template "contact-form" .}}
+  </section>
+</main>
+{{template "footer" .}}
+</body>
+</html>
+{{end}}

@@ -58,7 +58,7 @@ func getAs(t *testing.T, path, ua string) (int, http.Header, string) {
 
 func TestServesLayoutForDevice(t *testing.T) {
 	for _, v := range variants {
-		mobileBody := `class="m m--` + v.Slug + `"`
+		mobileBody := `class="m m--` + v.Slug
 		desktopBody := regexp.MustCompile(`<body class="([a-z]+ )?` + v.Slug + `">`)
 
 		code, hdr, body := getAs(t, "/v/"+v.Slug, uaIPhone)
@@ -143,5 +143,52 @@ func TestContactKeepsLayout(t *testing.T) {
 	f.Set("view", "javascript:alert(1)")
 	if _, loc, _ := post(f, uaIPhone); loc != "/v/signal?sent=1#contact" {
 		t.Errorf("bogus view leaked into redirect: %q", loc)
+	}
+}
+
+// Designs without the glitch (and the chooser page): nothing that flashes,
+// scrambles or glitches may reach the page in either layout, including the
+// contact form's 422 re-render.
+func TestNoGlitchDesigns(t *testing.T) {
+	h := testApp(t).routes()
+	glitch := []string{"glitch.js", "data-glitch", "data-flash", "flash-layer", "wolfeyes.js", "data-wolf-eyes"}
+	check := func(name, body string) {
+		t.Helper()
+		for _, g := range glitch {
+			if strings.Contains(body, g) {
+				t.Errorf("%s: contains %q", name, g)
+			}
+		}
+	}
+	check("chooser", do(h, "GET", "/", nil, nil).Body.String())
+
+	var off []string
+	for _, v := range variants {
+		if !v.Glitch() {
+			off = append(off, v.Slug)
+		}
+	}
+	if got := strings.Join(off, ","); got != "signal2,hytte,natt,rim" {
+		t.Fatalf("designs without glitch = %s, want signal2,hytte,natt,rim", got)
+	}
+	for _, slug := range off {
+		bad := validForm()
+		bad.Set("variant", slug)
+		bad.Set("email", "nope")
+		for _, ua := range []string{uaDesktop, uaIPhone} {
+			check("GET "+slug+" "+ua[13:20], do(h, "GET", "/v/"+slug, nil, map[string]string{"User-Agent": ua}).Body.String())
+			rec := do(h, "POST", "/contact", strings.NewReader(bad.Encode()), map[string]string{
+				"Content-Type": "application/x-www-form-urlencoded", "User-Agent": ua,
+			})
+			if rec.Code != http.StatusUnprocessableEntity {
+				t.Fatalf("%s 422 re-render: code %d", slug, rec.Code)
+			}
+			check("422 "+slug+" "+ua[13:20], rec.Body.String())
+		}
+	}
+
+	// And the designs that keep it still load it.
+	if body := do(h, "GET", "/v/varg", nil, nil).Body.String(); !strings.Contains(body, "glitch.js") {
+		t.Error("varg lost its glitch")
 	}
 }

@@ -11,17 +11,17 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="icon" href="/static/images/opt/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/css/base.css">
-<link rel="stylesheet" href="/static/css/{{.Variant.Slug}}.css">
+<link rel="stylesheet" href="/static/css/{{.Variant.Theme}}.css">
 <link rel="stylesheet" href="/static/css/mobile.css">
-<script type="module" src="/static/js/glitch.js"></script>
+{{if .Variant.Glitch}}<script type="module" src="/static/js/glitch.js"></script>{{end}}
 <script type="module" src="/static/js/reveal.js"></script>
 <script type="module" src="/static/js/mnav.js"></script>
 {{block "m-scripts" .}}{{end}}
 <title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
 </head>
-<body class="m m--{{.Variant.Slug}}">
+<body class="m m--{{.Variant.Slug}}{{if ne .Variant.Theme .Variant.Slug}} m--{{.Variant.Theme}}{{end}}">
 <a class="skip" href="#main">Skip to content</a>
-{{template "flash"}}
+{{if .Variant.Glitch}}{{template "flash"}}{{end}}
 
 <header class="m-bar">
   <a class="m-bar__logo" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "logo" .Site}}</a>

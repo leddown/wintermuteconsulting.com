@@ -1,26 +1,23 @@
 {{define "page"}}<!doctype html>
 <html lang="en">
 <head>
-{{template "head-common" .}}
+{{template "head-base" .}}
 <title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
 <link rel="stylesheet" href="/static/css/ps.css">
 <link rel="stylesheet" href="/static/css/natt.css">
-<script type="module" src="/static/js/wolfeyes.js"></script>
 <script type="module" src="/static/js/reveal.js"></script>
 </head>
 <body class="ps natt">
 <a class="skip" href="#main">Skip to content</a>
-{{template "flash"}}
 {{template "ps-util" .}}
 {{template "ps-nav" .}}
 
 <main id="main">
   <section class="natt-hero">
     <div class="natt-hero__media">{{template "night-picture"}}</div>
-    <canvas class="natt-hero__eyes" data-wolf-eyes data-pairs="2" aria-hidden="true"></canvas>
     <div class="natt-hero__content">
       <p class="ps-kicker">{{.Site.Descriptor}}</p>
-      <h1>{{template "glitch-text" "Crises come at night."}}<span class="natt-hero__line2">Be ready before they do.</span></h1>
+      <h1>Crises come at night.<span class="natt-hero__line2">Be ready before they do.</span></h1>
       <p class="natt-hero__lede">{{.Site.Lede}}</p>
       <div class="natt-hero__cta">
         <a class="btn btn--primary" href="#contact">Arrange a private briefing</a>

@@ -1,16 +1,15 @@
 {{define "page"}}<!doctype html>
 <html lang="en">
 <head>
-{{template "head-common" .}}
+{{template "head-base" .}}
 <title>{{.Site.Name}}: design alternatives</title>
 <link rel="stylesheet" href="/static/css/index.css">
 </head>
 <body class="chooser">
-{{template "flash"}}
 <main class="chooser__main">
   <p class="chooser__eyebrow">{{.Site.Name}} / internal preview</p>
-  <h1 class="chooser__title">{{template "glitch-text" "Five ways into the forest"}}</h1>
-  <p class="chooser__lede">Five homepage directions built on the same copy, content and Go backend. Open each one, then pick one (or mix them).</p>
+  <h1 class="chooser__title">{{len .Variants}} ways into the forest</h1>
+  <p class="chooser__lede">{{len .Variants}} homepage directions built on the same copy, content and Go backend. Open each one, then pick one (or mix them).</p>
   <ol class="chooser__list">
     {{range $i, $v := .Variants}}
     <li>
