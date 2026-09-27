@@ -1,5 +1,5 @@
 // Wolf eyeshine that is only seen when the lights dip. Pairs stay hidden until
-// glitch.js fires a flash ('wintermute:flash'), snap into view in the dark,
+// glitch.js fires a flash ('wintermute-consulting:flash'), snap into view in the dark,
 // linger a moment, then fade. By the next flash they may be somewhere else,
 // or gone. The eyes never track the pointer.
 //
@@ -222,7 +222,7 @@ const fields = [...document.querySelectorAll('canvas[data-wolf-eyes]')].map(c =>
 if (reduced) {
   fields.forEach(f => f.drawStatic());
 } else if (fields.length) {
-  document.addEventListener('wintermute:flash', () => fields.forEach(f => f.visible && f.onFlash()));
+  document.addEventListener('wintermute-consulting:flash', () => fields.forEach(f => f.visible && f.onFlash()));
   let last = performance.now();
   const loop = now => {
     const dt = Math.min(now - last, 100);

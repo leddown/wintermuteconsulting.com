@@ -34,8 +34,12 @@ html.m-menu-open { overflow: hidden; }
   margin-right: auto;
   font: 600 0.8rem/1 var(--font-display); letter-spacing: 0.32em; text-transform: uppercase;
   text-decoration: none;
-  padding: 14px 0; /* tap target */
+  padding: 10px 0; /* tap target */
 }
+/* On a phone the qualifier stacks under the mark, small and wide-tracked,
+   so the bar keeps room for Contact and the menu. */
+.m-bar__logo .logo { flex-direction: column; align-items: flex-start; gap: 5px; }
+.m-bar__logo .logo-sub { font-size: 0.5rem; letter-spacing: 0.98em; opacity: 0.6; }
 .m-bar__cta {
   display: inline-flex; align-items: center; height: 36px; padding: 0 14px;
   border: 1px solid var(--line); border-radius: 2px;
@@ -237,3 +241,4 @@ html.m-menu-open { overflow: hidden; }
 .m--spor .m-ai h2 { font-weight: 400; }
 .m--morke .m-menu__sheet > a { font: 400 2.3rem/1.1 var(--serif); letter-spacing: -0.01em; }
 .m--signal .m-menu__sheet > a { font-size: 1.5rem; font-weight: 700; }
+.m--signal .m-bar__logo .logo-sub { letter-spacing: 0.91em; } /* monospace glyphs are wider */

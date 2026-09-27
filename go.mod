@@ -1,4 +1,4 @@
-module wintermute_site
+module wintermuteconsulting
 
 go 1.23
 

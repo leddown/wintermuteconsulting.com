@@ -315,7 +315,7 @@ func TestStaticCannotEscape(t *testing.T) {
 		"/static/css", "/static/images/opt", "/static/js/", "/static/css/base.css/",
 		"/static/css/base.css%00.js", "/static/css/base.css;.js", "/static/%84", "/static/css//base.css",
 	}
-	secrets := []string{"package main", "module wintermute_site", "{{define", "[core]", "root:"}
+	secrets := []string{"package main", "module wintermuteconsulting", "{{define", "[core]", "root:"}
 	for _, p := range paths {
 		rec := do(h, "GET", p, nil, nil)
 		if rec.Code == http.StatusOK {

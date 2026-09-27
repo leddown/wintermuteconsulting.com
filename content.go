@@ -21,7 +21,9 @@ type Stat struct {
 }
 
 type Site struct {
-	Name       string
+	Name       string // full name: titles, meta, footers
+	LogoMark   string // logo lockup: the word mark...
+	LogoSub    string // ...and the lighter qualifier beside or under it
 	Descriptor string
 	Tagline    string
 	Lede       string
@@ -33,7 +35,9 @@ type Site struct {
 }
 
 var site = Site{
-	Name:       "Wintermute",
+	Name:       "Wintermute Consulting",
+	LogoMark:   "Wintermute",
+	LogoSub:    "Consulting",
 	Descriptor: "Nordic security consultancy",
 	Tagline:    "The threat is already in the forest.",
 	Lede: "We are a small pack of senior operators who hunt the way attackers do: " +

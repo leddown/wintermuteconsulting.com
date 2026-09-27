@@ -9,6 +9,9 @@
 <script type="module" src="/static/js/glitch.js"></script>
 {{end}}
 
+{{/* Logo lockup, called with .Site. Kept as one link-able phrase for screen readers. */}}
+{{define "logo"}}<span class="logo"><span class="logo-mark">{{.LogoMark}}</span> <span class="logo-sub">{{.LogoSub}}</span></span>{{end}}
+
 {{/* Glitch text: the real text stays readable to assistive tech; the animated copy is decorative. */}}
 {{define "glitch-text"}}<span class="sr-only">{{.}}</span><span class="glitch" data-glitch data-text="{{.}}" aria-hidden="true">{{.}}</span>{{end}}
 
@@ -29,7 +32,7 @@
 {{/* Signal's simulated AI reasoning feed, typed out by terminal.js. */}}
 {{define "terminal-lines"}}
 <template data-lines>
-  <li>&gt; boot wintermute-core v4.2 … ok</li>
+  <li>&gt; boot wintermute-consulting-core v4.2 … ok</li>
   <li>&gt; loading adversary models [apt28, apt29, fin7, scattered-spider, 214 more]</li>
   <li>&gt; mapping perimeter … 14 203 hosts, 612 exposed services</li>
   <li class="warn">! anomaly: kerberos ticket reuse, vlan 40, 03:12:07</li>

@@ -85,7 +85,7 @@ function flash() {
   };
   pulse(110);
   // wolfeyes.js reveals the eyes on this: they are only seen when the lights dip.
-  document.dispatchEvent(new CustomEvent('wintermute:flash'));
+  document.dispatchEvent(new CustomEvent('wintermute-consulting:flash'));
   if (Math.random() < 0.5) setTimeout(() => pulse(70), 220);
 
   document.querySelectorAll('[data-glitch]').forEach(el => {

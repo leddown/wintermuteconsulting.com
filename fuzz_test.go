@@ -118,7 +118,7 @@ func FuzzStaticPath(f *testing.F) {
 			t.Fatalf("GET %q served %q, which is not an embedded static file", u, u.Path)
 		}
 		body := rec.Body.String()
-		if strings.Contains(body, "package main") || strings.Contains(body, "{{define") || strings.Contains(body, "module wintermute_site") {
+		if strings.Contains(body, "package main") || strings.Contains(body, "{{define") || strings.Contains(body, "module wintermuteconsulting") {
 			t.Fatalf("GET %q leaked source", u)
 		}
 	})

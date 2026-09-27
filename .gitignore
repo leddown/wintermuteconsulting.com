@@ -1,5 +1,4 @@
 dist/
-/wintermuteconsulting
-security/reports/
 security/.local.log
-/wintermute_site
+security/reports/
+/wintermuteconsulting

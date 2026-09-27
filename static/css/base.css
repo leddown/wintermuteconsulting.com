@@ -55,6 +55,11 @@ p { text-wrap: pretty; }
 .skip { position: absolute; left: 16px; top: -100px; z-index: 100; padding: 8px 14px; background: var(--accent); color: var(--accent-ink); }
 .skip:focus { top: 16px; }
 
+/* Logo lockup: the word mark carries the weight, the qualifier sits back.
+   Inherits each design's logo font, size and tracking. */
+.logo { display: inline-flex; align-items: baseline; gap: 0.55em; white-space: nowrap; }
+.logo-sub { font-weight: 400; opacity: 0.62; }
+
 .eyebrow {
   font: 500 0.75rem/1.4 var(--font-mono);
   letter-spacing: 0.18em;

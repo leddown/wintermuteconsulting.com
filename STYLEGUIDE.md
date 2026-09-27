@@ -1,4 +1,4 @@
-# Wintermute style guide (draft)
+# Wintermute Consulting style guide (draft)
 
 Direction for a Nordic boutique security consultancy. Keywords from the brief:
 bleak, cold, forest, snow, threat, wolf, wolf eyes, dangers, AI, digital glitch, modern, high-quality imagery.
@@ -45,7 +45,7 @@ Fog, spruce, moss, snow, dusk. Desaturate and darken photos. The forest should f
 
 ## Voice
 
-Calm, cold, precise. The AI is a tool the operators hold, not the hero: "Human-led, AI-sharpened." The name Wintermute nods to the AI in Gibson's *Neuromancer*.
+Calm, cold, precise. The AI is a tool the operators hold, not the hero: "Human-led, AI-sharpened." The name Wintermute Consulting nods to Wintermute, the AI in Gibson's *Neuromancer*.
 
 ## Sources
 

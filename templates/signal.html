@@ -14,7 +14,7 @@
 <div class="signal-scanlines" aria-hidden="true"></div>
 
 <header class="signal-header">
-  <a class="signal-logo" href="/v/signal">{{.Site.Name}}<span class="blink" aria-hidden="true">_</span></a>
+  <a class="signal-logo" href="/v/signal">{{template "logo" .Site}}<span class="blink" aria-hidden="true">_</span></a>
   <nav aria-label="Primary">
     <a href="#services" data-glitch-hover>./services</a>
     <a href="#ai" data-glitch-hover>./model</a>
@@ -38,7 +38,7 @@
   </section>
 
   <section class="signal-console" id="ai" aria-labelledby="console-title">
-    <h2 id="console-title" class="eyebrow">// wintermute.ai: live reasoning feed (simulated)</h2>
+    <h2 id="console-title" class="eyebrow">// wintermute-consulting.ai: live reasoning feed (simulated)</h2>
     <div class="terminal" data-terminal>
       <ol class="terminal__out" aria-live="off"></ol>
       {{template "terminal-lines"}}
