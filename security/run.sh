@@ -1,12 +1,18 @@
 #!/bin/sh
 # Security test runner. Each stage exits non-zero if anything FAILs.
 #
+# Where to run what: everything except `host` runs on the workstation (it
+# builds, fuzzes and drives the scanners). `host` is a light audit meant to run
+# ON a server, including the ~1 GB LAN dev box. The heavy stages refuse to run
+# on hosts with less than 2 GB of RAM (override: FORCE=1).
+#
 #   security/run.sh code                  static analysis, vuln scan, tests (-race), fuzzing
 #   security/run.sh local                 build, start on loopback, attack it with every scanner
 #   security/run.sh dev http://10.0.0.5   same active attack against the (LAN) dev server
 #   security/run.sh prod example.com      external posture of production: ports, TLS, headers,
 #                                         passive web scan. ACTIVE=1 adds the attack scans.
-#   security/run.sh host                  run ON a server: audit OS, services, firewall, keys
+#   sh run.sh host                        run ON a server: audit OS, services, firewall, keys
+#                                         (deploy/push.sh copies run.sh there)
 #   security/run.sh all                   code + local
 #
 # Settings (environment):
@@ -346,6 +352,7 @@ stage_host() {
 host_common() {
 	section "SSH"
 	if have sshd; then
+		[ "$(id -u)" -eq 0 ] || meh "not root: sshd settings cannot be read (run with sudo/doas)"
 		cfg=$(sshd -T 2>/dev/null || true)
 		for kv in "permitrootlogin no" "passwordauthentication no" "kbdinteractiveauthentication no"; do
 			if printf '%s\n' "$cfg" | grep -qi "^$kv\$"; then ok "sshd: $kv"; else meh "sshd: want '$kv' (have '$(printf '%s\n' "$cfg" | grep -i "^${kv% *} " | head -1)')"; fi
@@ -416,14 +423,44 @@ host_linux() {
 		esac
 	fi
 	systemctl is-active --quiet wintermute && ok "wintermute active" || bad "wintermute not running"
+	envf=/etc/wintermute/wintermute.env
+	addr=$(sed -n 's/^ADDR=//p' "$envf" 2>/dev/null | tail -1)
+	trust=$(sed -n 's/^TRUST_PROXY=//p' "$envf" 2>/dev/null | tail -1)
+	case $addr in
+	127.0.0.1:* | localhost:* | \[::1\]:*) ok "site listens on loopback only ($addr)" ;;
+	'') bad "no ADDR in $envf" ;;
+	*) [ "$trust" = 1 ] && bad "ADDR=$addr is reachable directly while TRUST_PROXY=1: clients can spoof their IP" || meh "site listens on $addr (not loopback); nginx is meant to be the public side" ;;
+	esac
+	mm=$(systemctl show -p MemoryMax --value wintermute 2>/dev/null || true)
+	case $mm in '' | infinity) meh "no MemoryMax on the service" ;; *) ok "service memory capped ($((mm / 1048576)) MB)" ;; esac
+
+	section "nginx in front"
+	if have nginx; then
+		ngx=$(nginx -T 2>/dev/null || true)
+		if [ -z "$ngx" ]; then
+			meh "cannot read nginx config (run as root)"
+		else
+			# shellcheck disable=SC2016 # literal $host in nginx syntax
+			printf '%s' "$ngx" | grep -q 'proxy_set_header[[:space:]]*Host[[:space:]]*\$host' && ok "nginx passes Host (contact form Origin check)" ||
+				bad "nginx lacks 'proxy_set_header Host \$host;': every contact form post will get 403"
+			if [ "$trust" = 1 ]; then
+				# shellcheck disable=SC2016 # literal nginx variable
+				printf '%s' "$ngx" | grep -q 'X-Forwarded-For[[:space:]]*\$proxy_add_x_forwarded_for' && ok "nginx appends the client IP to X-Forwarded-For" ||
+					bad "TRUST_PROXY=1 but nginx lacks 'proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;': spoofable"
+			fi
+		fi
+	else
+		meh "nginx not found"
+	fi
 
 	section "Listening sockets"
 	if have ss; then
 		for a in $(ss -Htln | awk '{print $4}' | sort -u); do
 			case $a in
-			127.0.0.* | \[::1\]:*) ok "loopback only: $a" ;;
-			*:22 | *:80 | *:443) ok "public: $a" ;;
-			*) meh "other listener (fine on a LAN dev box if intended): $a" ;;
+			127.0.0.* | \[::1\]:* | \[::ffff:127.*) ok "loopback only: $a" ;;
+			*:22) ok "ssh: $a" ;;
+			*:80 | *:443) ok "web (nginx): $a" ;;
+			*) meh "other listener (check it is intended): $a" ;;
 			esac
 		done
 	fi
@@ -437,8 +474,29 @@ host_linux() {
 	host_common
 }
 
+mem_mb() {
+	case $(uname -s) in
+	Linux) awk '/^MemTotal:/ { print int($2 / 1024) }' /proc/meminfo ;;
+	OpenBSD) echo $(($(sysctl -n hw.physmem) / 1048576)) ;;
+	*) echo 0 ;;
+	esac
+}
+
+# heavy STAGE: keep builds, fuzzing and scanners off small servers.
+heavy() {
+	m=$(mem_mb)
+	if [ "$m" -lt 2048 ] && [ "${FORCE:-0}" != 1 ]; then
+		printf 'error: the "%s" stage builds, fuzzes or runs scanners and needs 2 GB+ RAM (this host: %s MB).
+' "$1" "$m" >&2
+		printf 'Run it from the workstation. On this host, use: sh run.sh host
+' >&2
+		exit 2
+	fi
+}
+
 cmd=${1:-}
 [ $# -gt 0 ] && shift
+case $cmd in code | local | dev | prod | all) heavy "$cmd" ;; esac
 case $cmd in
 code) stage_code ;;
 local) stage_local ;;
@@ -450,7 +508,7 @@ all)
 	stage_local
 	;;
 *)
-	sed -n '2,24p' "$0" | sed 's/^# \{0,1\}//'
+	sed -n '2,29p' "$0" | sed 's/^# \{0,1\}//'
 	exit 2
 	;;
 esac

@@ -1,0 +1,30 @@
+{{/* Spor on a phone: the misty path, a trail of tracks, eyes waiting in the dark. */}}
+{{define "m-theme-color"}}#07090a{{end}}
+{{define "m-scripts"}}<script type="module" src="/static/js/wolfeyes.js"></script>{{end}}
+
+{{define "m-hero"}}
+<section class="m-hero">
+  <div class="m-hero__media">{{template "woods-picture"}}</div>
+  <div class="m-hero__content">
+    <p class="eyebrow">{{.Site.Descriptor}}</p>
+    <h1 class="m-hero__title">Every forest looks empty.</h1>
+    <p class="m-hero__lede">Until you learn to read the tracks. {{.Site.Lede}}</p>
+    {{template "m-actions" .}}
+  </div>
+</section>
+{{end}}
+
+{{define "m-services-title"}}The tracks we follow{{end}}
+
+{{define "m-ai"}}
+<section class="m-section m-ai" id="ai">
+  <canvas class="m-ai__eyes" data-wolf-eyes data-pairs="1" data-size="lg" aria-hidden="true"></canvas>
+  <div data-reveal>
+    <p class="eyebrow">Intelligence</p>
+    <h2>Deeper in, the trees begin to <em>think</em>.</h2>
+    <p>AI agents, copilots and automations now walk your network with real permissions. We test them like any other predator would: patiently, and from angles nobody planned for.</p>
+  </div>
+</section>
+{{end}}
+
+{{define "m-contact-title"}}{{template "glitch-text" "We see them first."}}{{end}}

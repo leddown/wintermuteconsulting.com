@@ -27,21 +27,30 @@ func fuzzApp(f *testing.F) http.Handler {
 
 func FuzzContact(f *testing.F) {
 	for _, p := range xssPayloads {
-		f.Add("varg", p, "a@b.co", p, p, "", "")
+		f.Add("varg", p, "a@b.co", p, p, "", "", p)
 	}
-	f.Add("signal", "Ada", "ada@example.com", "", "Hello there, long enough.", "", "")
-	f.Add("../x", "\x00", "\"a\"@b", "\xff\xfe", strings.Repeat("é", 5001), "bot", "null")
+	f.Add("signal", "Ada", "ada@example.com", "", "Hello there, long enough.", "", "", "desktop")
+	f.Add("../x", "\x00", "\"a\"@b", "\xff\xfe", strings.Repeat("é", 5001), "bot", "null", "mobile")
 	h := fuzzApp(f)
 
-	f.Fuzz(func(t *testing.T, variant, name, email, company, message, website, origin string) {
-		form := url.Values{"variant": {variant}, "name": {name}, "email": {email}, "company": {company}, "message": {message}, "website": {website}}
+	post := func(form url.Values, phone bool, origin string) *httptest.ResponseRecorder {
 		req := httptest.NewRequest(http.MethodPost, "/contact", strings.NewReader(form.Encode()))
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		if phone {
+			req.Header.Set("User-Agent", uaIPhone)
+		}
 		if origin != "" {
 			req.Header.Set("Origin", origin)
 		}
 		rec := httptest.NewRecorder()
 		h.ServeHTTP(rec, req)
+		return rec
+	}
+
+	f.Fuzz(func(t *testing.T, variant, name, email, company, message, website, origin, view string) {
+		form := url.Values{"variant": {variant}, "name": {name}, "email": {email}, "company": {company}, "message": {message}, "website": {website}, "view": {view}}
+		phone := len(name)%2 == 1 // exercise both layouts
+		rec := post(form, phone, origin)
 
 		switch rec.Code {
 		case http.StatusSeeOther:
@@ -49,13 +58,22 @@ func FuzzContact(f *testing.F) {
 			if !strings.HasPrefix(loc, "/v/") || strings.ContainsAny(loc, "\r\n\\") || strings.HasPrefix(loc, "//") {
 				t.Fatalf("unsafe redirect %q", loc)
 			}
-			if _, ok := findVariant(strings.TrimSuffix(strings.TrimPrefix(loc, "/v/"), "?sent=1#contact")); !ok {
+			u, err := url.Parse(loc)
+			if err != nil || u.Host != "" || u.Scheme != "" {
+				t.Fatalf("unsafe redirect %q", loc)
+			}
+			if _, ok := findVariant(strings.TrimPrefix(u.Path, "/v/")); !ok {
 				t.Fatalf("redirect to unknown page %q", loc)
 			}
 		case http.StatusUnprocessableEntity:
+			// Compare with the same page rendered without the input, so markup that
+			// merely resembles it (maxlength="5000" vs `000"`) doesn't count. A bare &
+			// is ignored: its escape (&amp;) contains it, and it cannot break out of markup.
 			body := rec.Body.String()
+			blank := url.Values{"variant": {variant}, "view": {view}, "email": {"x"}}
+			baseline := post(blank, phone, "").Body.String()
 			for _, in := range []string{name, email, company, message} {
-				if len(in) > 3 && strings.ContainsAny(in, "<>\"'&") && strings.Contains(body, in) {
+				if len(in) > 3 && strings.ContainsAny(in, "<>\"'") && strings.Count(body, in) > strings.Count(baseline, in) {
 					t.Fatalf("input echoed unescaped: %q", in)
 				}
 			}

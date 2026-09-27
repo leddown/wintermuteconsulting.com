@@ -61,11 +61,16 @@ func (a *app) handleContact(w http.ResponseWriter, r *http.Request) {
 	if !ok {
 		v = variants[0]
 	}
-	back := "/v/" + v.Slug
+	view := viewOverride(r.PostFormValue("view"))
+	q := url.Values{"sent": {"1"}}
+	if view != "" {
+		q.Set("view", view)
+	}
+	back := "/v/" + v.Slug + "?" + q.Encode() + "#contact"
 
 	// Honeypot: humans never see this field. Pretend success so bots move on.
 	if r.PostFormValue("website") != "" {
-		http.Redirect(w, r, back+"?sent=1#contact", http.StatusSeeOther)
+		http.Redirect(w, r, back, http.StatusSeeOther)
 		return
 	}
 
@@ -77,12 +82,12 @@ func (a *app) handleContact(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if errs := form.validate(); len(errs) > 0 {
-		a.render(w, http.StatusUnprocessableEntity, v.Slug, pageData{Variant: v, Form: form, Errors: errs})
+		a.renderVariant(w, r, http.StatusUnprocessableEntity, pageData{Variant: v, Form: form, Errors: errs, View: view})
 		return
 	}
 
 	if !a.limiter.allow(rateKey(a.clientIP(r))) {
-		a.render(w, http.StatusTooManyRequests, v.Slug, pageData{Variant: v, Form: form,
+		a.renderVariant(w, r, http.StatusTooManyRequests, pageData{Variant: v, Form: form, View: view,
 			Errors: map[string]string{"form": "Too many messages from your network. Try again in a few minutes, or email us directly."}})
 		return
 	}
@@ -91,7 +96,7 @@ func (a *app) handleContact(w http.ResponseWriter, r *http.Request) {
 	// Until then submissions only reach the server log.
 	a.log.Info("contact submission", "name", form.Name, "email", form.Email, "company", form.Company, "message", form.Message)
 
-	http.Redirect(w, r, back+"?sent=1#contact", http.StatusSeeOther)
+	http.Redirect(w, r, back, http.StatusSeeOther)
 }
 
 func (a *app) clientIP(r *http.Request) string {

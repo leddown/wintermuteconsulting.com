@@ -1,0 +1,31 @@
+{{/* Vitt on a phone: pale whiteout, drifting snow, one pale pair of eyes. */}}
+{{define "m-theme-color"}}#eef2f3{{end}}
+{{define "m-scripts"}}<script type="module" src="/static/js/snow.js"></script>
+<script type="module" src="/static/js/wolfeyes.js"></script>{{end}}
+
+{{define "m-hero"}}
+<section class="m-hero">
+  <div class="m-hero__media">{{template "forest-picture"}}</div>
+  <canvas class="m-hero__eyes" data-wolf-eyes data-pairs="1" data-color="ice" aria-hidden="true"></canvas>
+  <canvas class="m-hero__snow" data-snow aria-hidden="true"></canvas>
+  <div class="m-hero__content">
+    <p class="eyebrow">−22 °C · {{.Site.Descriptor}}</p>
+    <h1 class="m-hero__title">{{template "glitch-text" "Whiteout."}}</h1>
+    <p class="m-hero__lede">In the snow, every threat looks the same, until it moves. We watch for the movement.</p>
+    {{template "m-actions" .}}
+  </div>
+</section>
+{{end}}
+
+{{define "m-cta"}}Talk to an operator{{end}}
+{{define "m-services-title"}}Six ways we find what moves{{end}}
+
+{{define "m-ai"}}
+<section class="m-section m-ai" id="ai" data-reveal>
+  <p class="m-ai__label">AI</p>
+  <p class="m-ai__statement">Attackers already use machine intelligence to move faster. So do we. Our models map the terrain, <em>and our people read the tracks.</em></p>
+  <p>{{.Site.Lede}}</p>
+</section>
+{{end}}
+
+{{define "m-contact-title"}}Break the silence.{{end}}

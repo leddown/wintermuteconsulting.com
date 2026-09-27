@@ -46,7 +46,7 @@ type app struct {
 	limiter    *rateLimiter
 
 	mu    sync.Mutex
-	pages map[string]*template.Template // "index" and one entry per variant slug
+	pages map[string]*template.Template // "index", each variant slug, and "m/<slug>" for its mobile layout
 }
 
 func newApp(assets fs.FS, dev, trustProxy bool, log *slog.Logger) (*app, error) {
@@ -58,15 +58,18 @@ func newApp(assets fs.FS, dev, trustProxy bool, log *slog.Logger) (*app, error) 
 }
 
 // parseTemplates builds one template set per page: the shared partials plus
-// that page's own file, so each page can define its own "page" block.
+// that page's own file, so each page can define its own "page" block. Mobile
+// pages share templates/mobile.html, whose {{block}}s each templates/m/<slug>.html
+// overrides.
 func (a *app) parseTemplates() error {
 	pages := map[string]*template.Template{}
-	names := []string{"index"}
+	sets := map[string][]string{"index": {"templates/index.html"}}
 	for _, v := range variants {
-		names = append(names, v.Slug)
+		sets[v.Slug] = []string{"templates/" + v.Slug + ".html"}
+		sets["m/"+v.Slug] = []string{"templates/mobile.html", "templates/m/" + v.Slug + ".html"}
 	}
-	for _, name := range names {
-		t, err := template.New(name).Funcs(templateFuncs).ParseFS(a.assets, "templates/partials.html", "templates/"+name+".html")
+	for name, files := range sets {
+		t, err := template.New(name).Funcs(templateFuncs).ParseFS(a.assets, append([]string{"templates/partials.html"}, files...)...)
 		if err != nil {
 			return fmt.Errorf("parse %s: %w", name, err)
 		}
@@ -85,6 +88,30 @@ type pageData struct {
 	Form     contactForm
 	Errors   map[string]string
 	Sent     bool
+
+	Mobile bool   // serving the mobile layout
+	Phone  bool   // the device looks like a phone (offer a layout switch)
+	View   string // explicit ?view= override to carry through links and the form
+}
+
+// ViewQuery is the query string that keeps an explicit layout choice on internal links.
+func (d pageData) ViewQuery() string {
+	if d.View == "" {
+		return ""
+	}
+	return "?view=" + d.View
+}
+
+// renderVariant serves a design in the layout that suits the request.
+func (a *app) renderVariant(w http.ResponseWriter, r *http.Request, status int, data pageData) {
+	data.Phone = isPhone(r)
+	data.Mobile = wantMobile(r, data.View)
+	varyOnDevice(w)
+	name := data.Variant.Slug
+	if data.Mobile {
+		name = "m/" + name
+	}
+	a.render(w, status, name, data)
 }
 
 func (a *app) render(w http.ResponseWriter, status int, name string, data pageData) {

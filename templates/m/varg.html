@@ -1,0 +1,28 @@
+{{/* Varg on a phone: night forest hero, eyes in the canopy, amber on near-black. */}}
+{{define "m-theme-color"}}#07090a{{end}}
+{{define "m-scripts"}}<script type="module" src="/static/js/wolfeyes.js"></script>{{end}}
+
+{{define "m-hero"}}
+<section class="m-hero">
+  <div class="m-hero__media">{{template "forest-picture"}}</div>
+  <canvas class="m-hero__eyes" data-wolf-eyes data-pairs="3" aria-hidden="true"></canvas>
+  <div class="m-hero__content">
+    <p class="m-status" aria-hidden="true"><span class="dot"></span>Watching</p>
+    <p class="eyebrow">{{.Site.Descriptor}}</p>
+    <h1 class="m-hero__title">{{template "glitch-text" .Site.Tagline}}</h1>
+    <p class="m-hero__lede">{{.Site.Lede}}</p>
+    {{template "m-actions" .}}
+  </div>
+</section>
+{{end}}
+
+{{define "m-services-title"}}What moves through your network <em>at night</em>{{end}}
+
+{{define "m-ai"}}
+<section class="m-section m-ai" id="ai" data-reveal>
+  <p class="eyebrow">Intelligence</p>
+  <h2>Human-led.<br>{{template "glitch-text" "AI-sharpened."}}</h2>
+  <p>Our in-house models run through millions of candidate attack paths every night. They never sleep, and they never get bored. They hand our operators a short list, and people decide what's worth walking.</p>
+  <blockquote class="m-quote"><p>“The wolf doesn't check every tree. It knows where to look.”</p></blockquote>
+</section>
+{{end}}

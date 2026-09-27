@@ -1,0 +1,36 @@
+{{/* Mørke on a phone: editorial. Serif display type first, photography second. */}}
+{{define "m-theme-color"}}#0f1010{{end}}
+
+{{define "m-hero"}}
+<section class="m-hero m-hero--type">
+  <div class="m-hero__content">
+    <p class="eyebrow">{{.Site.Descriptor}}</p>
+    <h1 class="m-hero__title">
+      <span class="line">Cold.</span>
+      <span class="line"><em>Patient.</em></span>
+      <span class="line">{{template "glitch-text" "Watching."}}</span>
+    </h1>
+    <p class="m-hero__lede">{{.Site.Lede}}</p>
+    {{template "m-actions" .}}
+  </div>
+  <figure class="m-figure">
+    {{template "forest-picture"}}
+    <figcaption><span>Fig. 1</span> Spruce stand, 04:12. Visibility thirty metres.</figcaption>
+  </figure>
+</section>
+{{end}}
+
+{{define "m-cta"}}Request a briefing{{end}}
+{{define "m-services-title"}}Six disciplines, one small team{{end}}
+{{define "m-approach-title"}}<em>Principles</em>{{end}}
+
+{{define "m-ai"}}
+<section class="m-section m-ai" id="ai" data-reveal>
+  <p class="eyebrow">Point of view</p>
+  <p class="m-dropcap">Security in the North has always been about reading the landscape. Now that landscape includes machines that write, reason and act. Every AI system a company deploys is another path into the forest.</p>
+  <p>We use machine intelligence the way a tracker uses a good pair of binoculars: to see further, not to walk for us.</p>
+  <blockquote class="m-quote"><p>“Attackers don't wait for your AI governance policy to be approved.”</p></blockquote>
+</section>
+{{end}}
+
+{{define "m-contact-title"}}Write to us. <em>Quietly.</em>{{end}}

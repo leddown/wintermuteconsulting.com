@@ -1,31 +1,25 @@
 #!/bin/sh
-# Set up (or update) the site on a Linux server: systemd service behind Caddy.
+# Install (or update) the site on the Linux dev deploy server as a systemd
+# service. That's all it does: no packages, no nginx or firewall changes. The
+# box's own nginx proxies to the port set in the env file.
 #
-# Run as root on the target host. Safe to re-run: it replaces the binary,
-# rewrites changed config (keeping a timestamped .bak) and restarts.
+#   deploy/push.sh linux user@devbox     # from the workstation: build, copy, run this
+#   sudo sh setup-linux.sh               # or by hand on the server
 #
-#   DOMAIN=dev.example.com sh deploy/setup-linux.sh   # public host, automatic TLS
-#   sh deploy/setup-linux.sh                          # no DOMAIN: plain HTTP on :80 (LAN only)
+# Safe to re-run: replaces the binary, rewrites the unit if it changed (keeping
+# a timestamped .bak) and restarts. The env file is created once and never
+# overwritten, so your edits survive redeploys.
+#
+#   /etc/wintermute/wintermute.env    listen address/port and options (edit this)
+#   /etc/systemd/system/wintermute.service
+#   /usr/local/bin/wintermute
 #
 # Settings (environment):
-#   DOMAIN     public hostname; Caddy fetches a Let's Encrypt cert for it.
-#              Its DNS A/AAAA records must already point here, with 80/443 open.
-#   WWW=1      also serve www.$DOMAIN as a redirect to $DOMAIN (default 0)
-#   BIN        binary to install (default: dist/wintermute-linux-<arch>, built
-#              with deploy/build.sh if missing and Go is available)
-#   PORT       loopback port the Go service listens on (default 8080)
-#   NOINDEX=1  send X-Robots-Tag: noindex so search engines skip a dev/staging
-#              host (default 1; set 0 for production)
-#   FIREWALL=1 open SSH/80/443 in ufw or firewalld and enable it (default 1)
-#
-# Tested against Debian 12+/Ubuntu 22.04+ (apt) and Fedora (dnf).
+#   BIN   prebuilt binary (default: wintermute-linux-<arch> next to this script,
+#         else ../dist/). Never built on this host.
 set -eu
 
-DOMAIN=${DOMAIN:-}
-WWW=${WWW:-0}
-PORT=${PORT:-8080}
-NOINDEX=${NOINDEX:-1}
-FIREWALL=${FIREWALL:-1}
+ENV_FILE=/etc/wintermute/wintermute.env
 
 say() { printf '==> %s\n' "$*"; }
 die() {
@@ -65,21 +59,43 @@ repo=$(cd "$here/.." && pwd)
 
 # --- binary -----------------------------------------------------------------
 
-BIN=${BIN:-$repo/dist/wintermute-linux-$arch}
-if [ ! -f "$BIN" ]; then
-	command -v go >/dev/null || die "no binary at $BIN and Go is not installed; build elsewhere with deploy/build.sh linux $arch and pass BIN=..."
-	say "building $BIN"
-	# Build as the invoking user so root doesn't own their Go cache.
-	if [ -n "${SUDO_USER:-}" ]; then
-		su "$SUDO_USER" -c "sh '$here/build.sh' linux $arch"
-	else
-		sh "$here/build.sh" linux "$arch"
-	fi
+if [ -z "${BIN:-}" ]; then
+	BIN=$here/wintermute-linux-$arch
+	[ -f "$BIN" ] || BIN=$repo/dist/wintermute-linux-$arch
 fi
+[ -f "$BIN" ] || die "no binary at $BIN. Build on the workstation (deploy/build.sh linux $arch) or use deploy/push.sh"
 
 say "installing /usr/local/bin/wintermute"
 install -m 0755 "$BIN" /usr/local/bin/wintermute.new
 mv -f /usr/local/bin/wintermute.new /usr/local/bin/wintermute
+
+# --- env file (created once, then yours) ------------------------------------
+
+if [ ! -f "$ENV_FILE" ]; then
+	install -d -m 0755 "$(dirname "$ENV_FILE")"
+	cat >"$ENV_FILE" <<'EOF'
+# Wintermute site settings. Read by wintermute.service; apply changes with:
+#   sudo systemctl restart wintermute
+# Redeploys never overwrite this file.
+
+# Where the site listens. Keep it on loopback: nginx is the public side.
+# Change the port here and in nginx's proxy_pass.
+ADDR=127.0.0.1:8080
+
+# Take the client IP from the last X-Forwarded-For hop (used by the contact
+# form's rate limit). Correct behind nginx ONLY if the proxy block has:
+#   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+# Without that line clients can spoof the header; then set this to 0.
+TRUST_PROXY=1
+
+# The Go runtime tries to stay under this; keep it below the unit's MemoryMax (256M).
+GOMEMLIMIT=180MiB
+EOF
+	chmod 0644 "$ENV_FILE"
+	say "wrote $ENV_FILE (edit it to change the port)"
+else
+	say "keeping existing $ENV_FILE"
+fi
 
 # --- service ----------------------------------------------------------------
 
@@ -91,11 +107,11 @@ Description=Wintermute website
 After=network.target
 
 [Service]
+EnvironmentFile=$ENV_FILE
 ExecStart=/usr/local/bin/wintermute
-Environment=ADDR=127.0.0.1:$PORT
-Environment=TRUST_PROXY=1
 Restart=on-failure
 RestartSec=2s
+MemoryMax=256M
 
 DynamicUser=yes
 NoNewPrivileges=yes
@@ -131,94 +147,25 @@ systemctl daemon-reload
 systemctl enable wintermute >/dev/null 2>&1
 systemctl restart wintermute
 
-# --- reverse proxy ----------------------------------------------------------
-
-if ! command -v caddy >/dev/null; then
-	say "installing caddy"
-	if command -v apt-get >/dev/null; then
-		apt-get update -q
-		DEBIAN_FRONTEND=noninteractive apt-get install -y -q caddy
-	elif command -v dnf >/dev/null; then
-		dnf install -y caddy || die "caddy not in your repos; on RHEL-likes enable EPEL or see https://caddyserver.com/docs/install"
-	else
-		die "no apt-get or dnf; install caddy manually (https://caddyserver.com/docs/install) and re-run"
-	fi
-fi
-
-robots=""
-[ "$NOINDEX" = 1 ] && robots='	header X-Robots-Tag "noindex, nofollow"'
-
-if [ -n "$DOMAIN" ]; then
-	www=""
-	[ "$WWW" = 1 ] && www="
-www.$DOMAIN {
-	redir https://$DOMAIN{uri} permanent
-}"
-	put /etc/caddy/Caddyfile 0644 <<EOF
-# Managed by deploy/setup-linux.sh. Local edits are backed up and replaced on re-run.
-$DOMAIN {
-	encode zstd gzip
-	header Strict-Transport-Security "max-age=31536000"
-$robots
-	reverse_proxy 127.0.0.1:$PORT
-}
-$www
-EOF
-else
-	put /etc/caddy/Caddyfile 0644 <<EOF
-# Managed by deploy/setup-linux.sh. Local edits are backed up and replaced on re-run.
-# Plain HTTP: no DOMAIN was given. Do not expose this to the internet.
-:80 {
-	encode zstd gzip
-$robots
-	reverse_proxy 127.0.0.1:$PORT
-}
-EOF
-fi
-
-caddy validate --adapter caddyfile --config /etc/caddy/Caddyfile
-systemctl enable caddy >/dev/null 2>&1
-if systemctl is-active --quiet caddy; then
-	systemctl reload caddy
-else
-	systemctl start caddy
-fi
-
-# --- firewall ---------------------------------------------------------------
-
-if [ "$FIREWALL" = 1 ]; then
-	sshport=$(sshd -T 2>/dev/null | awk '$1 == "port" { print $2; exit }')
-	sshport=${sshport:-22}
-	if command -v ufw >/dev/null; then
-		say "configuring ufw (ssh $sshport, 80, 443)"
-		ufw allow "$sshport/tcp" >/dev/null # SSH first, so enabling can't lock us out
-		ufw allow 80/tcp >/dev/null
-		ufw allow 443/tcp >/dev/null
-		ufw allow 443/udp >/dev/null # HTTP/3
-		ufw --force enable >/dev/null
-	elif command -v firewall-cmd >/dev/null && firewall-cmd --state >/dev/null 2>&1; then
-		say "configuring firewalld (ssh $sshport, http, https)"
-		firewall-cmd --permanent --add-port="$sshport/tcp" >/dev/null
-		firewall-cmd --permanent --add-service=http --add-service=https --add-service=http3 >/dev/null 2>&1 ||
-			firewall-cmd --permanent --add-service=http --add-service=https >/dev/null
-		firewall-cmd --reload >/dev/null
-	else
-		say "WARNING: no ufw or active firewalld found; configure a firewall yourself (allow only SSH, 80, 443)"
-	fi
-fi
-
 # --- check ------------------------------------------------------------------
 
 sleep 1
-if command -v curl >/dev/null && ! curl -fsS "http://127.0.0.1:$PORT/healthz" >/dev/null; then
-	die "service is not answering on 127.0.0.1:$PORT; see: journalctl -u wintermute -n 50"
+systemctl is-active --quiet wintermute || die "service did not start; see: journalctl -u wintermute -n 50"
+addr=$(sed -n 's/^ADDR=//p' "$ENV_FILE" | tail -1)
+port=${addr##*:}
+if command -v curl >/dev/null && ! curl -fsS "http://127.0.0.1:$port/healthz" >/dev/null; then
+	die "service is not answering on port $port; see: journalctl -u wintermute -n 50"
 fi
 
-say "done"
-if [ -n "$DOMAIN" ]; then
-	echo "    site:   https://$DOMAIN/  (first TLS certificate can take a minute)"
-else
-	echo "    site:   http://$(hostname -I 2>/dev/null | awk '{print $1}')/"
-fi
-echo "    logs:   journalctl -u wintermute -f     (contact submissions are logged here for now)"
-echo "    update: rebuild, then re-run this script"
+say "done: listening on $addr"
+cat <<EOF
+    settings: $ENV_FILE  (then: sudo systemctl restart wintermute)
+    logs:     journalctl -u wintermute -f   (contact submissions are logged here for now)
+
+    nginx location block for the site (both headers matter):
+        location / {
+            proxy_pass http://127.0.0.1:$port;
+            proxy_set_header Host \$host;                                   # contact form's same-site check
+            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;   # real client IP for the rate limit
+        }
+EOF

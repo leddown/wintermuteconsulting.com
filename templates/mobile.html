@@ -1,0 +1,120 @@
+{{/* Mobile layout shared by every design. Served to phones at the same URL
+     (see mobile.go). Each templates/m/<slug>.html overrides the blocks below to
+     give the design its own hero, AI section, colours and motion. */}}
+{{define "page"}}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="{{.Site.Name}}: {{.Site.Descriptor}}. {{.Site.Lede}}">
+<meta name="theme-color" content="{{block "m-theme-color" .}}#07090a{{end}}">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/static/images/opt/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/static/css/base.css">
+<link rel="stylesheet" href="/static/css/{{.Variant.Slug}}.css">
+<link rel="stylesheet" href="/static/css/mobile.css">
+<script type="module" src="/static/js/glitch.js"></script>
+<script type="module" src="/static/js/reveal.js"></script>
+<script type="module" src="/static/js/mnav.js"></script>
+{{block "m-scripts" .}}{{end}}
+<title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
+</head>
+<body class="m m--{{.Variant.Slug}}">
+<a class="skip" href="#main">Skip to content</a>
+{{template "flash"}}
+
+<header class="m-bar">
+  <a class="m-bar__logo" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{.Site.Name}}</a>
+  <a class="m-bar__cta" href="#contact">Contact</a>
+  <details class="m-menu" data-menu>
+    <summary class="m-menu__toggle" aria-label="Menu"><span class="m-menu__icon" aria-hidden="true"></span></summary>
+    <nav class="m-menu__sheet" aria-label="Primary">
+      <a href="#services"><span>01</span>Services</a>
+      <a href="#ai"><span>02</span>Intelligence</a>
+      <a href="#approach"><span>03</span>Approach</a>
+      <a href="#contact"><span>04</span>Contact</a>
+      <p class="m-menu__foot">{{.Site.Location}}<br><a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></p>
+    </nav>
+  </details>
+</header>
+
+<main id="main">
+  {{block "m-hero" .}}
+  <section class="m-hero">
+    <div class="m-hero__media">{{template "forest-picture"}}</div>
+    <div class="m-hero__content">
+      <p class="eyebrow">{{.Site.Descriptor}}</p>
+      <h1 class="m-hero__title">{{template "glitch-text" .Site.Tagline}}</h1>
+      <p class="m-hero__lede">{{.Site.Lede}}</p>
+      {{template "m-actions" .}}
+    </div>
+  </section>
+  {{end}}
+
+  <section class="m-proof" aria-label="In numbers">
+    <dl>
+      {{range .Site.Stats}}
+      <div data-reveal><dt>{{.Label}}</dt><dd><span data-count="{{.Value}}">{{.Value}}</span>{{.Unit}}</dd></div>
+      {{end}}
+    </dl>
+  </section>
+
+  <section class="m-section m-services" id="services">
+    <p class="eyebrow">Services</p>
+    <h2>{{block "m-services-title" .}}What we hunt{{end}}</h2>
+    <ol class="m-services__list">
+      {{range $i, $s := .Site.Services}}
+      <li data-reveal>
+        <p class="m-services__code">{{$s.Code}}</p>
+        <h3>{{$s.Title}}</h3>
+        <p>{{$s.Body}}</p>
+      </li>
+      {{end}}
+    </ol>
+  </section>
+
+  {{block "m-ai" .}}
+  <section class="m-section m-ai" id="ai" data-reveal>
+    <p class="eyebrow">Intelligence</p>
+    <h2>Human-led.<br>AI-sharpened.</h2>
+    <p>Our in-house models run through millions of candidate attack paths every night. They hand our operators a short list, and people decide what's worth walking.</p>
+  </section>
+  {{end}}
+
+  <section class="m-section m-approach" id="approach">
+    <p class="eyebrow">Approach</p>
+    <h2>{{block "m-approach-title" .}}How we work{{end}}</h2>
+    <ol class="m-approach__list">
+      {{range $i, $p := .Site.Principles}}
+      <li data-reveal><span class="m-approach__num">0{{inc $i}}</span><h3>{{$p.Title}}</h3><p>{{$p.Body}}</p></li>
+      {{end}}
+    </ol>
+  </section>
+
+  <section class="m-section m-contact" id="contact">
+    <p class="eyebrow">Contact</p>
+    <h2>{{block "m-contact-title" .}}Tell us what keeps you awake.{{end}}</h2>
+    <p class="m-contact__lede">Every message is read by an operator, not a sales team. We answer within one working day.</p>
+    {{template "contact-form" .}}
+    <p class="m-contact__alt">Prefer email? <a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></p>
+  </section>
+</main>
+
+<footer class="m-footer">
+  <p class="m-footer__brand">{{.Site.Name}}</p>
+  <p>{{.Site.Descriptor}}</p>
+  <p>{{.Site.Location}}</p>
+  <p class="m-footer__note">No cookies. No trackers. Nothing loaded from third parties.</p>
+  {{template "layout-switch" .}}
+  {{template "variant-switcher" .}}
+</footer>
+</body>
+</html>
+{{end}}
+
+{{define "m-actions"}}
+<div class="m-actions">
+  <a class="btn btn--primary" href="#contact">{{block "m-cta" .}}Start a conversation{{end}}</a>
+  <a class="btn btn--ghost" href="#services">What we do</a>
+</div>
+{{end}}

@@ -26,12 +26,28 @@
 </picture>
 {{end}}
 
+{{/* Signal's simulated AI reasoning feed, typed out by terminal.js. */}}
+{{define "terminal-lines"}}
+<template data-lines>
+  <li>&gt; boot wintermute-core v4.2 … ok</li>
+  <li>&gt; loading adversary models [apt28, apt29, fin7, scattered-spider, 214 more]</li>
+  <li>&gt; mapping perimeter … 14 203 hosts, 612 exposed services</li>
+  <li class="warn">! anomaly: kerberos ticket reuse, vlan 40, 03:12:07</li>
+  <li>&gt; correlating with 2.1 M attack paths …</li>
+  <li class="warn">! llm agent “helpdesk-bot” accepts instructions from retrieved documents</li>
+  <li class="crit">!! prompt-injection path to finance share: CONFIRMED</li>
+  <li>&gt; ranking by blast radius … 3 paths worth a human</li>
+  <li>&gt; escalating to operator on watch</li>
+  <li class="ok">✓ operator acknowledged. hunt begins.</li>
+</template>
+{{end}}
+
 {{define "flash"}}<div class="flash-layer" data-flash aria-hidden="true"></div>{{end}}
 
 {{define "variant-switcher"}}
 <nav class="switcher" aria-label="Design alternatives">
   <a href="/">All designs</a>
-  {{range .Variants}}<a href="/v/{{.Slug}}"{{if eq .Slug $.Variant.Slug}} aria-current="page"{{end}}>{{.Name}}</a>{{end}}
+  {{range .Variants}}<a href="/v/{{.Slug}}{{$.ViewQuery}}"{{if eq .Slug $.Variant.Slug}} aria-current="page"{{end}}>{{.Name}}</a>{{end}}
 </nav>
 {{end}}
 
@@ -42,6 +58,7 @@
 <form class="contact-form" method="post" action="/contact#contact" novalidate>
   {{with .Errors.form}}<p class="form-status form-status--err" role="alert">{{.}}</p>{{end}}
   <input type="hidden" name="variant" value="{{.Variant.Slug}}">
+  {{with .View}}<input type="hidden" name="view" value="{{.}}">{{end}}
   <div class="hp" aria-hidden="true">
     <label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
   </div>
@@ -71,12 +88,16 @@
 {{end}}
 {{end}}
 
+{{/* Offered to phones (and anyone who forced a layout) so a wrong guess is one tap from fixed. */}}
+{{define "layout-switch"}}{{if or .Phone .View}}<p class="layout-switch">{{if .Mobile}}<a href="/v/{{.Variant.Slug}}?view=desktop">Desktop version</a>{{else}}<a href="/v/{{.Variant.Slug}}?view=mobile">Mobile version</a>{{end}}</p>{{end}}{{end}}
+
 {{define "footer"}}
 <footer class="site-footer">
   <p class="site-footer__brand">{{.Site.Name}}</p>
   <p>{{.Site.Descriptor}} · {{.Site.Location}}</p>
   <p class="site-footer__note">No cookies. No trackers. Nothing loaded from third parties.</p>
   <p><a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></p>
+  {{template "layout-switch" .}}
 </footer>
 {{template "variant-switcher" .}}
 {{end}}

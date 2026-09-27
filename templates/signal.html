@@ -41,18 +41,7 @@
     <h2 id="console-title" class="eyebrow">// wintermute.ai: live reasoning feed (simulated)</h2>
     <div class="terminal" data-terminal>
       <ol class="terminal__out" aria-live="off"></ol>
-      <template data-lines>
-        <li>&gt; boot wintermute-core v4.2 … ok</li>
-        <li>&gt; loading adversary models [apt28, apt29, fin7, scattered-spider, 214 more]</li>
-        <li>&gt; mapping perimeter … 14 203 hosts, 612 exposed services</li>
-        <li class="warn">! anomaly: kerberos ticket reuse, vlan 40, 03:12:07</li>
-        <li>&gt; correlating with 2.1 M attack paths …</li>
-        <li class="warn">! llm agent “helpdesk-bot” accepts instructions from retrieved documents</li>
-        <li class="crit">!! prompt-injection path to finance share: CONFIRMED</li>
-        <li>&gt; ranking by blast radius … 3 paths worth a human</li>
-        <li>&gt; escalating to operator on watch</li>
-        <li class="ok">✓ operator acknowledged. hunt begins.</li>
-      </template>
+      {{template "terminal-lines"}}
     </div>
     <p class="signal-console__note">The model narrows. The operator decides. Nothing here is automated end to end, and that's deliberate.</p>
   </section>

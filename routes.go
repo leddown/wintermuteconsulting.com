@@ -39,7 +39,8 @@ func (a *app) handleVariant(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	a.render(w, http.StatusOK, v.Slug, pageData{Variant: v, Sent: r.URL.Query().Get("sent") == "1"})
+	q := r.URL.Query()
+	a.renderVariant(w, r, http.StatusOK, pageData{Variant: v, Sent: q.Get("sent") == "1", View: viewOverride(q.Get("view"))})
 }
 
 // securityHeaders sets a strict policy: every asset is same-origin, so the site
