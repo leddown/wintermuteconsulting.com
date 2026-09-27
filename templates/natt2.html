@@ -16,7 +16,7 @@
 
 <main id="main">
   <section class="natt-hero">
-    <div class="natt-hero__media">{{template "night-picture"}}</div>
+    <div class="natt-hero__media">{{template "lurker-hero"}}</div>
     <div class="natt-hero__content">
       <p class="ps-kicker">{{.Site.Descriptor}}</p>
       <h1>Crises come at night.<span class="natt-hero__line2">Be ready before they do.</span></h1>
@@ -43,10 +43,13 @@
   </section>
 
   <section class="natt-ai" id="ai">
-    <div class="ps-wrap natt-ai__grid">
+    <div class="ps-wrap natt-ai__split">
+    <div class="natt-ai__grid">
       <p class="ps-kicker">Emerging AI</p>
       <h2 data-reveal>Attackers adopted AI first. <em>Your controls should not be the last to know.</em></h2>
       <p data-reveal>AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify.</p>
+    </div>
+    <figure class="natt-lurker" data-reveal>{{template "lurker-scene"}}</figure>
     </div>
   </section>
 

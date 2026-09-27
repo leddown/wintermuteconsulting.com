@@ -129,3 +129,19 @@
 .ps .switcher { background: var(--footer-bg, var(--brand)); color: color-mix(in srgb, var(--footer-ink, var(--brand-ink)) 65%, transparent); margin: 0; }
 .ps .switcher a:hover, .ps .switcher a[aria-current] { color: var(--footer-ink, var(--brand-ink)); }
 
+
+/* ---- Lurker: eyes fading in and out behind the bush (lurker-scene) ---- */
+.lurker { display: block; width: 100%; height: auto; aspect-ratio: 1; background: #070729; }
+.lurker__eyes { mix-blend-mode: screen; opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .lurker__eyes { animation: lurk 11s ease-in-out 1.2s infinite; }
+  .lurker__eyes--late { animation-delay: 5.5s; } /* out of step with the other pair on the page */
+}
+@media (prefers-reduced-motion: reduce) {
+  .lurker__eyes { opacity: 0.9; }
+}
+@keyframes lurk {
+  0%, 30% { opacity: 0; }
+  40%, 68% { opacity: 1; }
+  82%, 100% { opacity: 0; }
+}

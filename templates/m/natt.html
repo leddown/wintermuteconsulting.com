@@ -1,9 +1,11 @@
-{{/* Natt on a phone: the moonlit night and the amber signal. */}}
+{{/* Natt on a phone: the night scene stacked above the copy (so the eyes by the
+     bush are never under the text), and the amber signal. */}}
 {{define "m-theme-color"}}#070729{{end}}
+{{define "m-scripts"}}<link rel="stylesheet" href="/static/css/ps.css">{{end}}
 
 {{define "m-hero"}}
-<section class="m-hero">
-  <div class="m-hero__media">{{template "night-picture"}}</div>
+<section class="m-hero m-hero--stack">
+  <div class="m-scene">{{template "lurker-hero-m"}}</div>
   <div class="m-hero__content">
     <p class="eyebrow">{{.Site.Descriptor}}</p>
     <h1 class="m-hero__title">Crises come at night. <span class="m-natt-line">Be ready before they do.</span></h1>
@@ -19,6 +21,7 @@
 
 {{define "m-ai"}}
 <section class="m-section m-ai" id="ai" data-reveal>
+  <div class="m-lurker">{{template "lurker-scene"}}</div>
   <p class="eyebrow">Emerging AI</p>
   <h2>Attackers adopted AI first. <em>Your controls should not be the last to know.</em></h2>
   <p>AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify.</p>

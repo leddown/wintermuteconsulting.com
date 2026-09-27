@@ -66,15 +66,25 @@ func FuzzContact(f *testing.F) {
 				t.Fatalf("redirect to unknown page %q", loc)
 			}
 		case http.StatusUnprocessableEntity:
-			// Compare with the same page rendered without the input, so markup that
-			// merely resembles it (maxlength="5000" vs `000"`) doesn't count. A bare &
-			// is ignored: its escape (&amp;) contains it, and it cannot break out of markup.
+			// For each field, compare with the same request where only that field is
+			// replaced, so markup that merely resembles the input (maxlength="5000"
+			// vs `000"`, or another field's escaped value="00000000" vs `"000`) doesn't
+			// count. A bare & is ignored: its escape (&amp;) contains it, and it
+			// cannot break out of markup.
 			body := rec.Body.String()
-			blank := url.Values{"variant": {variant}, "view": {view}, "email": {"x"}}
-			baseline := post(blank, phone, "").Body.String()
-			for _, in := range []string{name, email, company, message} {
-				if len(in) > 3 && strings.ContainsAny(in, "<>\"'") && strings.Count(body, in) > strings.Count(baseline, in) {
-					t.Fatalf("input echoed unescaped: %q", in)
+			for _, field := range []string{"name", "email", "company", "message"} {
+				in := form.Get(field)
+				if len(in) <= 3 || !strings.ContainsAny(in, "<>\"'") {
+					continue
+				}
+				other := url.Values{}
+				for k, v := range form {
+					other[k] = v
+				}
+				other.Set(field, "x")
+				baseline := post(other, phone, origin).Body.String()
+				if strings.Count(body, in) > strings.Count(baseline, in) {
+					t.Fatalf("%s echoed unescaped: %q", field, in)
 				}
 			}
 		case http.StatusForbidden, http.StatusBadRequest:

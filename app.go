@@ -36,7 +36,7 @@ var variants = []Variant{
 	{"signal2", "Signal 2", "A copy of Signal to develop separately."},
 	{"spor", "Spor", "Scroll-driven descent into the forest that ends face to face with the wolf."},
 	{"spor2", "Spor 2", "A copy of Spor to develop separately."},
-	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the single signal colour."},
+	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the signal, and an AI-eyed wolf half hidden behind a snowy bush."},
 	{"natt2", "Natt 2", "A copy of Natt to develop separately."},
 }
 

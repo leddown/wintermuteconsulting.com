@@ -215,3 +215,9 @@ html.m-menu-open { overflow: hidden; }
 .m--natt .m-hero__media img { filter: none; object-position: 62% 30%; }
 .m-natt-line { display: block; width: fit-content; margin-top: 4px; color: var(--accent); border-bottom: 3px solid var(--accent); }
 .m--natt .m-hero__eyes { top: 8%; height: 40%; }
+.m-lurker { margin-bottom: 28px; border: 1px solid var(--line); overflow: hidden; }
+/* Stacked hero: a picture panel above the copy instead of copy over a full-bleed photo. */
+.m-hero--stack { min-height: 0; justify-content: flex-start; }
+.m-scene { aspect-ratio: 4 / 5; overflow: hidden; background: #070729; }
+.m-scene svg { display: block; width: 100%; height: 100%; }
+.m-hero--stack .m-hero__content { padding-top: 28px; }

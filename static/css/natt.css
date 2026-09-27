@@ -24,17 +24,18 @@
 /* Hero: the moonlit forest, copy over the dark left side. */
 .ps main > .natt-hero {
   position: relative; isolation: isolate; overflow: hidden;
-  min-height: calc(100svh - 110px); padding: 0;
+  min-height: max(calc(100svh - 110px), 56vw); padding: 0; /* 56vw keeps the bush corner in view on wide screens */
   display: grid; align-items: end;
 }
 .natt-hero__media, .natt-hero__media picture, .natt-hero__media img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .natt-hero__media { z-index: -3; }
 .natt-hero__media img { object-fit: cover; object-position: 60% 8%; }
+.natt-hero__media svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .natt-hero__media::after {
   content: ""; position: absolute; inset: 0;
   background:
     linear-gradient(90deg, rgb(7 7 41 / 0.92) 0%, rgb(7 7 41 / 0.7) 38%, rgb(7 7 41 / 0) 70%),
-    linear-gradient(to top, var(--bg) 0%, rgb(7 7 41 / 0) 35%);
+    linear-gradient(to top, var(--bg) 0%, rgb(7 7 41 / 0) 14%);
 }
 /* Eyes live in the dark band between the trunks, above the snow. */
 .natt-hero__eyes { position: absolute; left: 35%; right: 0; top: 12%; height: 50%; width: 65%; z-index: -2; }
@@ -55,3 +56,8 @@
 
 .natt-insights .ps-insight { background: var(--bg); border-top-color: var(--accent); }
 .natt-approach { background: var(--surface); }
+
+/* Emerging AI: copy beside a corner of the forest where the AI-eyed wolf waits. */
+.natt-ai__split { display: grid; gap: 3rem 5rem; align-items: center; }
+@media (min-width: 960px) { .natt-ai__split { grid-template-columns: 1.3fr 1fr; } }
+.natt-lurker { margin: 0; border: 1px solid var(--line); overflow: hidden; }
