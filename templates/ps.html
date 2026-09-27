@@ -10,40 +10,6 @@
 </picture>
 {{end}}
 
-{{/* A corner of the night forest where the snow meets a bush, with AI-irised
-     wolf eyes peering out: the right eye half hidden behind the bush. Three
-     layers in the illustration's own coordinates (1200 units square): the
-     night, the eyes (screen-blended, so their black background drops out), and
-     a cut-out of just the bush and snow drawn on top as the occluder. */}}
-{{define "lurker-scene"}}
-<svg class="lurker" viewBox="560 560 480 480" role="img" aria-label="Wolf eyes watching from behind a snow-covered bush in a moonlit forest">
-  <image href="/static/images/opt/night-2400.webp" width="1200" height="1200"/>
-  <image class="lurker__eyes" href="/static/images/opt/ai-eyes.webp" x="720" y="753" width="110" height="47.7" preserveAspectRatio="none"/>
-  <image href="/static/images/opt/night-corner-front.webp" x="560" y="560" width="480" height="480"/>
-</svg>
-{{end}}
-
-{{/* The whole night for Natt's hero, cropped like the hero shows it (from just
-     above the moon), with the eyes peering past the upper lobe of the right-hand
-     bush: right eye half hidden behind it. Same layers as lurker-scene. */}}
-{{define "lurker-hero"}}
-<svg class="lurker-hero" viewBox="0 100 1200 1100" preserveAspectRatio="xMidYMin slice" role="img" aria-label="A moonlit winter forest; wolf eyes watch from behind a snow-covered bush">
-  <image href="/static/images/opt/night-2400.webp" width="1200" height="1200"/>
-  <image class="lurker__eyes lurker__eyes--late" href="/static/images/opt/ai-eyes.webp" x="791.5" y="643" width="110" height="47.7" preserveAspectRatio="none"/>
-  <image href="/static/images/opt/night-corner-front.webp" x="560" y="560" width="480" height="480"/>
-</svg>
-{{end}}
-
-{{/* The same hero scene framed 4:5 for phones, where the hero is stacked above
-     the copy: moon, trees, the bush and the snow, eyes past the upper lobe. */}}
-{{define "lurker-hero-m"}}
-<svg class="lurker-hero" viewBox="480 80 600 750" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A moonlit winter forest; wolf eyes watch from behind a snow-covered bush">
-  <image href="/static/images/opt/night-2400.webp" width="1200" height="1200"/>
-  <image class="lurker__eyes lurker__eyes--late" href="/static/images/opt/ai-eyes.webp" x="791.5" y="643" width="110" height="47.7" preserveAspectRatio="none"/>
-  <image href="/static/images/opt/night-corner-front.webp" x="560" y="560" width="480" height="480"/>
-</svg>
-{{end}}
-
 {{/* Brand mark: two peaks forming a W under a watchful amber point. */}}
 {{define "ps-mark"}}<svg class="ps-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" fill="currentColor"/><path class="ps-mark__w" d="M6 11 L11 23 L16 14 L21 23 L26 11" fill="none" stroke="#fff" stroke-width="2.6"/><circle class="ps-mark__dot" cx="24.5" cy="6.5" r="2.4" fill="#e9a441"/></svg>{{end}}
 

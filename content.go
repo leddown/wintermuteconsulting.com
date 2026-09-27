@@ -91,7 +91,7 @@ var site = Site{
 		{"Banking", "Credit institutions under ECB and national supervision, preparing for inspections and meeting DORA's requirements for ICT risk management."},
 		{"Fintech & payments", "Payment and e-money institutions and fintech startups, from the first licence application to scale, with security sized to the stage."},
 		{"Private equity", "General partners and their portfolio companies: cyber due diligence before signing, a remediation plan in the first hundred days, and a clean account of security at exit."},
-		{"Family offices", "Single- and multi-family offices with the assets of an institution and the staff of a household: protecting principals, their families and their privacy."},
+		{"SME institutional holders", "Small and mid-sized institutional holders, from holding companies and foundations to smaller pension and endowment funds: institutional assets and obligations, run by a lean team."},
 		{"Wealth & asset management", "Boutique wealth managers and funds meeting allocators' operational due diligence and their supervisors' expectations with a lean team."},
 		{"Trading & digital assets", "Investment firms, trading venues and crypto-asset service providers under MiCA, where availability, custody and third-party infrastructure are regulatory questions."},
 	},
