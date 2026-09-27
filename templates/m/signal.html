@@ -12,25 +12,25 @@
   </div>
   <div class="m-hero__content">
     <p class="eyebrow">// {{.Site.Descriptor}}</p>
-    <h1 class="m-hero__title">{{template "glitch-text" "Finding raised."}}</h1>
+    <h1 class="m-hero__title">Finding raised.</h1>
     <p class="m-hero__lede">{{.Site.Lede}}</p>
     {{template "m-actions" .}}
   </div>
 </section>
 {{end}}
 
-{{define "m-cta"}}&gt; open_channel{{end}}
+{{define "m-cta"}}&gt; arrange_briefing{{end}}
 {{define "m-services-title"}}./services{{end}}
 {{define "m-approach-title"}}./operating_principles{{end}}
 
-{{define "m-supervision"}}
-<section class="m-section m-ai" id="supervision">
-  <p class="eyebrow">// wintermute-consulting: remediation tracker (simulated)</p>
+{{define "m-ai"}}
+<section class="m-section m-ai" id="ai">
+  <p class="eyebrow">// wintermute-consulting: threat &amp; remediation feed (simulated)</p>
   <div class="terminal" data-terminal>
     <ol class="terminal__out" aria-live="off"></ol>
     {{template "terminal-lines"}}
   </div>
-  <p class="m-ai__note">From the supervisor's letter to closed findings: every step documented, every control evidenced, every decision the board's own.</p>
+  <p class="m-ai__note">From the first signal of a threat to closed findings: every step documented, every control evidenced, every decision the board's own.</p>
 </section>
 {{end}}
 

@@ -97,7 +97,6 @@ html.m-menu-open { overflow: hidden; }
     color-mix(in srgb, var(--bg) 94%, transparent) 72%,
     var(--bg) 100%);
 }
-.is-flashing .m-hero__media img { filter: grayscale(1) brightness(0.45) contrast(1.4); }
 /* Eyes live in the canopy, above the copy. */
 .m-hero__eyes { position: absolute; left: 0; right: 0; top: 0; height: 50%; width: 100%; z-index: -2; }
 .m-hero__snow { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
@@ -208,12 +207,11 @@ html.m-menu-open { overflow: hidden; }
 .m-ai__eyes { position: absolute; left: 0; right: 0; top: 0; height: 60%; width: 100%; z-index: -1; pointer-events: none; }
 .m--spor .m-ai h2 { font-weight: 400; }
 .m--signal .m-menu__sheet > a { font-size: 1.5rem; font-weight: 700; }
-.m--signal .m-bar__logo .logo-sub { letter-spacing: 0.91em; } /* monospace glyphs are wider */
+.m--signal .m-bar__logo .logo-sub { letter-spacing: 0.53em; } /* monospace, and "Consulting OÜ" is longer */
 
 /* ---- Professional-services family ---- */
 
 /* Natt: amber second line, eyes in the tree band. */
 .m--natt .m-hero__media img { filter: none; object-position: 62% 30%; }
-.is-flashing .m--natt .m-hero__media img { filter: brightness(0.45) saturate(0.6); }
 .m-natt-line { display: block; width: fit-content; margin-top: 4px; color: var(--accent); border-bottom: 3px solid var(--accent); }
 .m--natt .m-hero__eyes { top: 8%; height: 40%; }

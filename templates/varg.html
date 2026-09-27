@@ -9,14 +9,13 @@
 </head>
 <body class="varg">
 <a class="skip" href="#main">Skip to content</a>
-{{template "flash"}}
 
 <header class="varg-header">
   <a class="varg-logo" href="/v/varg">{{template "logo" .Site}}</a>
   <nav class="varg-nav" aria-label="Primary">
-    <a href="#services" data-glitch-hover>Services</a>
-    <a href="#supervision" data-glitch-hover>Supervision</a>
-    <a href="#contact" data-glitch-hover>Contact</a>
+    <a href="#services">Services</a>
+    <a href="#ai">Emerging AI</a>
+    <a href="#contact">Contact</a>
   </nav>
   <span class="varg-status" aria-hidden="true"><span class="dot"></span>WATCHING</span>
 </header>
@@ -24,18 +23,18 @@
 <main id="main">
   <section class="varg-hero">
     <div class="varg-hero__media">{{template "forest-picture"}}</div>
-    <div class="varg-hero__fog" aria-hidden="true"></div>
     <canvas class="varg-hero__eyes" data-wolf-eyes data-pairs="4" aria-hidden="true"></canvas>
+    <div class="varg-hero__fog" aria-hidden="true"></div>
     <div class="varg-hero__content">
       <p class="eyebrow">{{.Site.Descriptor}}</p>
-      <h1 class="varg-hero__title">{{template "glitch-text" .Site.Tagline}}</h1>
+      <h1 class="varg-hero__title">{{.Site.Tagline}}</h1>
       <p class="varg-hero__lede">{{.Site.Lede}}</p>
       <div class="varg-hero__cta">
-        <a class="btn btn--primary" href="#contact">Start a conversation</a>
-        <a class="btn btn--ghost" href="#services">What we do</a>
+        <a class="btn btn--primary" href="#contact">Arrange a private briefing</a>
+        <a class="btn btn--ghost" href="#services">Our services</a>
       </div>
     </div>
-    <p class="varg-hero__coords" aria-hidden="true">59.9139° N · 10.7522° E · −14 °C · VIS 40 m</p>
+    <p class="varg-hero__coords" aria-hidden="true">50.8467° N · 4.3525° E · −9 °C · VIS 40 m</p>
   </section>
 
   <section class="varg-services" id="services">
@@ -46,7 +45,7 @@
     <ul class="varg-grid">
       {{range .Site.Services}}
       <li class="varg-card" data-reveal>
-        <span class="varg-card__code" data-glitch-hover>{{.Code}}</span>
+        <span class="varg-card__code">{{.Code}}</span>
         <h3>{{.Title}}</h3>
         <p>{{.Body}}</p>
       </li>
@@ -54,11 +53,11 @@
     </ul>
   </section>
 
-  <section class="varg-ai" id="supervision">
+  <section class="varg-ai" id="ai">
     <div class="varg-ai__inner" data-reveal>
-      <p class="eyebrow">Supervision</p>
-      <h2>We know where<br>{{template "glitch-text" "the supervisor looks."}}</h2>
-      <p>We have prepared institutions for ECB on-site inspections and supervisory reviews, answered the follow-up letters, and carried the findings through to closure. We know what an inspection team asks for on day one, and what a remediation plan needs before a supervisor will accept it.</p>
+      <p class="eyebrow">Emerging AI</p>
+      <h2>Attackers adopted AI first.<br>Your controls should not be last.</h2>
+      <p>AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify.</p>
       <p class="varg-ai__quote">“The wolf doesn't check every tree. It knows where to look.”</p>
     </div>
     <dl class="varg-stats">
@@ -81,7 +80,7 @@
     <div class="varg-contact__intro" data-reveal>
       <p class="eyebrow">Contact</p>
       <h2>Tell us what keeps you awake.</h2>
-      <p>Every message is read by a senior advisor, not a sales team.</p>
+      <p>Every enquiry is read by a senior advisor and treated in strict confidence. We reply within one working day.</p>
     </div>
     {{template "contact-form" .}}
   </section>

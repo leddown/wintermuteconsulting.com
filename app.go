@@ -21,13 +21,6 @@ type Variant struct {
 // treatment) it reuses, for variants that are a tweak of another design.
 var variantTheme = map[string]string{"signal2": "signal", "varg2": "varg", "spor2": "spor", "natt2": "natt"}
 
-// noGlitch lists designs without the digital glitch: no glitch.js, no flash
-// layer, no glitching text, and so no wolf eyes (they only appear on flashes).
-var noGlitch = map[string]bool{"signal2": true, "natt": true, "natt2": true}
-
-// Glitch reports whether the design uses the glitch effects.
-func (v Variant) Glitch() bool { return !noGlitch[v.Slug] }
-
 // Theme is the design whose stylesheet and tokens this variant uses.
 func (v Variant) Theme() string {
 	if t, ok := variantTheme[v.Slug]; ok {
@@ -37,10 +30,10 @@ func (v Variant) Theme() string {
 }
 
 var variants = []Variant{
-	{"varg", "Varg", "Night forest, wolf eyes glimpsed between the trees when the lights dip, RGB-split glitch on the headline."},
+	{"varg", "Varg", "Night forest, amber on near-black, a status light that keeps watch."},
 	{"varg2", "Varg 2", "A copy of Varg to develop separately."},
 	{"signal", "Signal", "A supervision console: monospace, a live remediation tracker, scanlines over the forest."},
-	{"signal2", "Signal 2", "Signal without the glitch: the same console, tracker and scanlines, with no flashes, scrambling or glitching text."},
+	{"signal2", "Signal 2", "A copy of Signal to develop separately."},
 	{"spor", "Spor", "Scroll-driven descent into the forest that ends face to face with the wolf."},
 	{"spor2", "Spor 2", "A copy of Spor to develop separately."},
 	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the single signal colour."},

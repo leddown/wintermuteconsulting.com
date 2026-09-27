@@ -35,7 +35,8 @@ type Stat struct {
 }
 
 type Site struct {
-	Name       string // full name: titles, meta, footers
+	Name       string // full legal name: titles, meta, footers
+	LegalForm  string // company form, shown in the top logo only where a design asks for it
 	LogoMark   string // logo lockup: the word mark...
 	LogoSub    string // ...and the lighter qualifier beside or under it
 	Descriptor string
@@ -51,47 +52,52 @@ type Site struct {
 }
 
 var site = Site{
-	Name:       "Wintermute Consulting",
+	Name:       "Wintermute Consulting OÜ", // Estonian private limited company
+	LegalForm:  "OÜ",
 	LogoMark:   "Wintermute",
 	LogoSub:    "Consulting",
-	Descriptor: "Nordic security & risk counsel",
+	Descriptor: "AI, cyber & ICT risk advisory",
 	Tagline:    "The threat is already in the forest.",
-	Lede: "A small team of senior advisors providing discreet security counsel to banks, private equity, " +
-		"family offices and wealth managers. We lead your security programme, prepare you for the regulator, " +
-		"and stay through the long night when something goes wrong.",
-	Email:    "contact@example.com",
-	Location: "Oslo · Stockholm · Helsinki",
+	Lede: "A boutique team of senior advisors helping financial institutions across the European Union meet " +
+		"emerging AI and cyber threats. We build the complete stack, from board-approved policy to implemented, " +
+		"auditable controls, sized to your organisation and your risk appetite, and stay through the long night " +
+		"when something goes wrong.",
+	Email:    "info@wintermuteconsulting.com",
+	Location: "Serving clients across the European Union",
 	// Service codes: the two-letter prefix picks the icon in templates/ps.html ("svc-icon").
 	Services: []Service{
-		{"VC-01", "Virtual CISO", "Senior security leadership, part-time or interim, for a single institution or across a private equity portfolio. We own the security programme, report to your board and sit across the table from your regulator, for as long as you need us."},
-		{"RG-02", "Regulatory audits & inspections", "Preparation for supervisory inspections and ICT audits, whether the supervisor is the ECB, a Nordic authority or the FSRA in Abu Dhabi Global Market: evidence in order, people briefed, no surprises in the room."},
-		{"RM-03", "ICT risk management frameworks", "Information security and ICT risk management frameworks built on DORA and its technical standards, the EBA guidelines and ISO/IEC 27001, from the policy the board approves to the controls that prove it."},
-		{"RE-04", "Remediation & implementation", "When findings land, we turn them into a plan the supervisor accepts, then carry it from regulatory text to technical implementation with your IT teams and third parties until the evidence holds."},
-		{"CX-05", "Board crisis exercises", "Tabletop exercises and crisis simulations for boards, investment committees and family councils: realistic scenarios, a clock that keeps running, and a debrief that shows who must decide what."},
-		{"TR-06", "Training", "Security and operational resilience training matched to the role, from awareness for all staff to private briefings for board members, principals and their families."},
+		{"AI-01", "Emerging AI: threats, security & governance", "Offensive and defensive AI. How attackers now use it, from voice and video deepfakes to AI-written spear phishing and automated reconnaissance, and how to defend with it. We build the AI policy stack and controls, and govern the AI your institution deploys under the EU AI Act and DORA."},
+		{"RM-02", "Custom frameworks & controls", "Your own information security and ICT risk management framework, not a template: the complete stack from board-approved policy to standards, procedures and implemented controls, built on DORA and its regulatory technical standards, NIS2, ISO/IEC 27001, NIST CSF 2.0 and NIST SP 800-53, mapped to local regulation, and sized to your organisation and risk appetite."},
+		{"TI-03", "Threat intelligence & geopolitical risk", "Emerging cyber threats and the geopolitical drivers behind them: state-aligned intrusion, hacktivism, sanctions, conflict and supply-chain exposure, translated into scenarios, control changes and briefings your management body can act on."},
+		{"VC-04", "Virtual CISO", "Fractional or interim security leadership for a single institution or across a private equity portfolio. We own the security programme, report to your management body and represent it before your supervisor, for as long as you need us."},
+		{"RG-05", "Regulatory audits & remediation", "Audits and inspection readiness under DORA, the ECB's supervisory expectations and NIS2, integrated with the national rules of your member state: every requirement traced to a control and its evidence, and remediation programmes that close the findings."},
+		{"FT-06", "Fintech advisory", "For founders and early teams: a policy stack and controls sized to your stage, built in from the licence application onwards, and ready for the supervisor, your banking partners and investor due diligence."},
+		{"CX-07", "Crisis exercises", "Tabletop exercises and crisis simulations built on today's threats (a deepfaked CFO, a state-aligned outage, a critical provider gone dark) for management bodies, investment committees and crisis teams, with a debrief that shows who must decide what."},
+		{"TR-08", "Training", "Security and digital operational resilience training matched to the role: awareness for all staff, including recognising AI-enabled social engineering, specialist sessions for control functions, and briefings for members of the management body."},
 	},
 	Principles: []Principle{
-		{"Senior by design", "No junior bench, no hand-offs. The advisor who scopes your engagement is the one in the room with your board and your supervisor."},
-		{"From paper to practice", "A policy is only as good as the control behind it. We carry every requirement from the regulation to the system that proves it."},
+		{"Sized to you", "Not every institution is in the same place. Frameworks and controls are fitted to your size, complexity and risk appetite, as DORA's proportionality principle intends, never copied from a template."},
+		{"Auditable end to end", "Every requirement traced from regulation to policy, control and evidence, so your auditor and your supervisor can follow the thread."},
+		{"Boutique by design", "Senior advisors only, with no leverage pyramid and no hand-offs. The advisor who scopes your engagement is the one in the room with your management body."},
 		{"Discretion", "We never publish client names or discuss our work, we don't sell data, and this site sets no cookies."},
 	},
 	// Placeholder figures: replace with real ones before launch.
 	Stats: []Stat{
 		{15, "yrs", "average senior experience"},
 		{1, "", "named advisor per client"},
-		{3, "", "Nordic capitals"},
+		{27, "", "EU member states, one DORA rulebook"},
 	},
 	Industries: []Industry{
+		{"Banking", "Credit institutions under ECB and national supervision, preparing for inspections and meeting DORA's requirements for ICT risk management."},
+		{"Fintech & payments", "Payment and e-money institutions and fintech startups, from the first licence application to scale, with security sized to the stage."},
 		{"Private equity", "General partners and their portfolio companies: cyber due diligence before signing, a remediation plan in the first hundred days, and a clean account of security at exit."},
 		{"Family offices", "Single- and multi-family offices with the assets of an institution and the staff of a household: protecting principals, their families and their privacy."},
-		{"Wealth & asset management", "Boutique wealth managers and funds meeting allocators' operational due diligence and their regulators' expectations with a lean team."},
-		{"Banking", "Banks and payment institutions preparing for supervisory inspections and DORA's requirements for ICT risk management."},
-		{"Trading & markets", "Trading firms, brokers and venues where availability, latency and third-party infrastructure are regulatory questions."},
-		{"Digital assets", "Crypto-asset service providers under MiCA in Europe or the FSRA in ADGM, where custody and key management are the business itself."},
+		{"Wealth & asset management", "Boutique wealth managers and funds meeting allocators' operational due diligence and their supervisors' expectations with a lean team."},
+		{"Trading & digital assets", "Investment firms, trading venues and crypto-asset service providers under MiCA, where availability, custody and third-party infrastructure are regulatory questions."},
 	},
 	Insights: []Insight{
-		{"Private equity", "Cyber due diligence: the question before the signature", "What an investment committee should know about a target's security before closing, and what belongs in the first hundred days after.", 6},
-		{"Family offices", "The assets of an institution, the staff of a household", "Why attackers study family offices for months before they act, and the few controls that protect principals and their privacy.", 5},
-		{"Supervision", "After the inspection: turning findings into a plan the supervisor accepts", "What supervisors look for in a remediation plan, and why the first draft is usually rejected.", 7},
+		{"AI threats", "The CFO's voice is not the CFO: deepfakes in the treasury", "How AI-generated voice and video now drive payment fraud, and the call-back and approval controls that still stop it.", 5},
+		{"AI governance", "Your AI policy stack: from risk appetite to controls an auditor can test", "What the management body should decide about AI, how that becomes policy, and the controls that prove it is being followed.", 7},
+		{"Geopolitical risk", "Geopolitics is now an ICT risk driver", "Why supervisors expect sanctions, conflict and state-aligned activity to appear in your ICT risk assessment, and the questions your management body should ask.", 7},
 	},
 }

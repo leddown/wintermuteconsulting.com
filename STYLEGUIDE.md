@@ -1,16 +1,15 @@
 # Wintermute Consulting style guide (draft)
 
-Direction for a Nordic boutique security consultancy. Keywords from the brief:
-bleak, cold, forest, snow, threat, wolf, wolf eyes, dangers, AI, digital glitch, modern, high-quality imagery.
+Direction for a boutique information security & ICT risk advisory serving the European Union. Keywords from the brief:
+bleak, cold, forest, snow, threat, wolf, wolf eyes, dangers, AI, modern, high-quality imagery.
 
 ## Research takeaways
 
-- **Positioning: security leadership and ICT risk advisory, not offensive testing.** Virtual CISO (fractional or interim), regulatory audits and ECB inspections, remediation of findings, information security and ICT risk management frameworks (DORA and its technical standards, EBA guidelines, MiCA, ISO/IEC 27001) from regulatory text to technical implementation, training, and management-board crisis exercises. No pentest or red-team language.
-- **Audience: private capital and regulated finance**, written as if for a principal of a Gulf family office: private equity (GPs and portfolio companies: diligence, first hundred days, exit), single- and multi-family offices (principals, their families, their privacy), boutique wealth managers and funds (allocator operational due diligence), banks, trading firms, crypto-asset providers (MiCA; FSRA in ADGM). Register: discreet, formal British English. Words: counsel, principal, discretion, in strict confidence, mandate, stewardship, generational. Never: hype, fear, "hackers", exclamation marks. Nordic supervisors: Finanstilsynet (NO), Finansinspektionen (SE), Finanssivalvonta (FI), plus the ECB for significant institutions.
+- **Positioning: boutique AI, cyber & ICT risk advisory, AI first.** Most work is in emerging AI: offensive AI (deepfakes, AI-written phishing, automated reconnaissance) and defensive AI (securing and governing the AI an institution deploys, EU AI Act and DORA). The core offer is the complete stack, from board-approved policy to standards, procedures and implemented, auditable controls, so financial institutions can meet modern threats in a compliant and auditable way. Custom frameworks and custom controls, never templates, sized to the organisation and its risk appetite (DORA's proportionality principle: not every institution is in the same place). Frameworks drawn on: DORA and its RTS, NIS2, ISO/IEC 27001, NIST CSF 2.0, NIST SP 800-53, plus local regulation. Also: threat intelligence and geopolitical risk drivers, virtual CISO, regulatory audits and remediation (DORA, ECB expectations, NIS2, national rules), fintech advisory, crisis exercises, training. Big-firm vocabulary (EY, Deloitte), boutique delivery. No pentest or red-team language, and never "counsel".
+- **Audience: regulated finance and private capital across the EU**: banks (ECB and national supervision), fintech and payments (payment and e-money institutions, startups from licence application onwards), private equity (GPs and portfolio companies: diligence, first hundred days, exit), family offices (principals, their families, their privacy), wealth and asset managers (allocator operational due diligence), trading firms and crypto-asset providers (MiCA). Register: discreet, formal British English, the tone of a principal's private bank. Words: advisory, principal, discretion, in strict confidence, management body, supervisor, remediation. Never: "counsel" (we are not a legal or risk counsel), "Nordic" in site copy, hype, fear, "hackers", exclamation marks.
 - **Boutique advisors sell seniority and directness.** "Senior advisors, no hand-offs, one named advisor from first briefing to last closed finding." Short sentences, first person plural, no buzzword stacks. Regulatory terms are used precisely (management body, supervisory findings, ICT risk management framework).
 - **Dark themes are the norm in security** because they signal control and sophistication, usually dark with one vivid accent. To stand out, we pair the dark with *natural* imagery (forest, fog, snow) rather than the usual circuit-board or padlock stock.
-- **Nordic design principles** are function over decoration, sans-serif type, generous spacing, left-aligned text, clear hierarchy, and a restrained palette taken from the landscape. 2026 trends add oversized expressive type and deep teals and blue-greens with a single electric accent.
-- **Glitch effects must be accessible.** Keep them under three flashes per second (WCAG 2.3.1), disable them under `prefers-reduced-motion`, and keep the real text in the DOM for screen readers (the animated copies are `aria-hidden`).
+- **Nordic design principles** (visual heritage only; site copy targets the whole EU and never says "Nordic") are function over decoration, sans-serif type, generous spacing, left-aligned text, clear hierarchy, and a restrained palette taken from the landscape. 2026 trends add oversized expressive type and deep teals and blue-greens with a single electric accent.
 - **Self-hosted fonts.** Loading Google Fonts from Google leaks visitor IPs (LG München, 2022). All fonts are OFL-licensed and served from `/static/fonts`.
 
 ## Palette
@@ -21,7 +20,6 @@ bleak, cold, forest, snow, threat, wolf, wolf eyes, dangers, AI, digital glitch,
 | `--ink` | `#e4ebe8` | `#d6ecf2` | body text |
 | `--muted` | `#8d9b96` | `#6f8990` | secondary text |
 | `--accent` | `#e9a441` wolf amber | `#7fd4e8` ice | CTAs, highlights |
-| `--glitch-a/b` | pale ghost / `#6b0f16` | inherited | glitch split only, never bright |
 
 Amber is reserved for the eyes and primary actions. Nothing else should glow.
 
@@ -39,10 +37,10 @@ Fog, spruce, moss, snow, dusk. Desaturate and darken photos. The forest should f
 ## Motion rules
 
 1. One ambient motion per viewport: eyes *or* terminal.
-2. A glitch is an *event*: a short flash every 5 to 11 s, never a constant jitter. It goes *darker*, never brighter: the screen dims, a few 1-3 px black tears, no neon RGB bands and no inverted images.
+2. No glitch effects: no flashes, tears, RGB splits or scrambled text.
 3. No motion under `prefers-reduced-motion`. Eyes render as a still frame.
 4. Anything interactive responds to hover/focus with a small scramble, never a layout shift.
-5. Wolf eyes are only seen when the lights dip: hidden until a glitch flash, then they linger 1–3 s and fade, and may be elsewhere or gone by the next flash. They never follow the pointer. Real eyeshine footage (`data-footage`) is preferred; the drawn fallback is dim almond eyeshine with no pupils.
+5. Wolf eyes fade in on their own every 5 to 11 s, linger 1–3 s and fade out; they may be elsewhere or gone next time. They never follow the pointer. Real eyeshine footage (`data-footage`) is preferred; the drawn fallback is dim almond eyeshine with no pupils. Where the eyes sit deep in a picture, draw them smaller (`data-scale`).
 
 ## Voice
 

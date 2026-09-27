@@ -1,7 +1,6 @@
 {{/* Shared building blocks. Each page file defines "page" and pulls these in. */}}
 
-{{/* Head without any glitch: for designs that opt out (signal2). */}}
-{{define "head-base"}}
+{{define "head-common"}}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="{{.Site.Name}}: {{.Site.Descriptor}}. {{.Site.Lede}}">
@@ -9,16 +8,11 @@
 <link rel="stylesheet" href="/static/css/base.css">
 {{end}}
 
-{{define "head-common"}}
-{{template "head-base" .}}
-<script type="module" src="/static/js/glitch.js"></script>
-{{end}}
-
 {{/* Logo lockup, called with .Site. Kept as one link-able phrase for screen readers. */}}
 {{define "logo"}}<span class="logo"><span class="logo-mark">{{.LogoMark}}</span> <span class="logo-sub">{{.LogoSub}}</span></span>{{end}}
 
-{{/* Glitch text: the real text stays readable to assistive tech; the animated copy is decorative. */}}
-{{define "glitch-text"}}<span class="sr-only">{{.}}</span><span class="glitch" data-glitch data-text="{{.}}" aria-hidden="true">{{.}}</span>{{end}}
+{{/* The same lockup with the company form (OÜ), for designs that show the legal name at the top (Signal). */}}
+{{define "logo-legal"}}<span class="logo"><span class="logo-mark">{{.LogoMark}}</span> <span class="logo-sub">{{.LogoSub}} <span class="logo-legal">{{.LegalForm}}</span></span></span>{{end}}
 
 {{define "forest-picture"}}
 <picture>
@@ -34,22 +28,20 @@
 </picture>
 {{end}}
 
-{{/* Signal's simulated remediation tracker, typed out by terminal.js. */}}
+{{/* Signal's simulated threat and remediation feed, typed out by terminal.js. */}}
 {{define "terminal-lines"}}
 <template data-lines>
-  <li>&gt; open supervisory letter … 14 findings, 3 rated high</li>
-  <li>&gt; map findings to DORA art. 5–16, RTS on ICT risk, EBA GL/2019/04</li>
-  <li class="warn">! F-03: ICT third-party register incomplete (DORA art. 28)</li>
-  <li class="warn">! F-07: backup restore never tested end to end</li>
-  <li class="crit">!! F-11: management body has not approved the ICT risk framework</li>
-  <li>&gt; draft remediation plan … owners, deadlines, evidence per control</li>
-  <li>&gt; board crisis exercise scheduled: ransomware, day 1, 06:40</li>
-  <li>&gt; plan submitted to the joint supervisory team</li>
-  <li class="ok">✓ plan accepted. remediation begins.</li>
+  <li>&gt; ingest: ENISA, CERT-EU and national CSIRT advisories … ok</li>
+  <li class="warn">! geopolitical: new sanctions package, retaliation risk to EU payment rails elevated</li>
+  <li class="warn">! AI: voice-cloned "CFO" requests urgent transfer to a new beneficiary</li>
+  <li class="warn">! AI: LLM-written spear phishing aimed at treasury and payments staff</li>
+  <li>&gt; map exposure: critical ICT providers, concentration and jurisdiction risk</li>
+  <li class="crit">!! gap: payment call-back control bypassable by deepfaked voice</li>
+  <li>&gt; align controls: DORA art. 5–16, ISO/IEC 27001, NIST CSF 2.0, NIST SP 800-53</li>
+  <li>&gt; board briefing + crisis exercise: "state-aligned outage, day 1, 06:40"</li>
+  <li class="ok">✓ management body decision recorded. remediation tracked.</li>
 </template>
 {{end}}
-
-{{define "flash"}}<div class="flash-layer" data-flash aria-hidden="true"></div>{{end}}
 
 {{define "variant-switcher"}}
 <nav class="switcher" aria-label="Design alternatives">

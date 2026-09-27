@@ -111,7 +111,7 @@ func TestMobilePagesFollowPolicy(t *testing.T) {
 			}
 			body := rec.Body.String()
 			checkHTMLPolicy(t, "mobile "+p, body)
-			for _, want := range []string{`name="viewport"`, "viewport-fit=cover", `name="theme-color"`, `id="contact"`, `id="services"`, `id="supervision"`, `id="approach"`} {
+			for _, want := range []string{`name="viewport"`, "viewport-fit=cover", `name="theme-color"`, `id="contact"`, `id="services"`, `id="ai"`, `id="approach"`} {
 				if !strings.Contains(body, want) {
 					t.Errorf("mobile %s missing %s", p, want)
 				}
@@ -146,12 +146,12 @@ func TestContactKeepsLayout(t *testing.T) {
 	}
 }
 
-// Designs without the glitch (and the chooser page): nothing that flashes,
-// scrambles or glitches may reach the page in either layout, including the
-// contact form's 422 re-render.
-func TestNoGlitchDesigns(t *testing.T) {
+// The glitch is gone from every design and the chooser: nothing that flashes,
+// scrambles or glitches may reach any page in either layout, including the
+// contact form's 422 re-render. (Wolf eyes stay: they fade in on their own timer.)
+func TestNoGlitchAnywhere(t *testing.T) {
 	h := testApp(t).routes()
-	glitch := []string{"glitch.js", "data-glitch", "data-flash", "flash-layer", "wolfeyes.js", "data-wolf-eyes"}
+	glitch := []string{"glitch.js", "data-glitch", "data-flash", "flash-layer", "is-glitching"}
 	check := func(name, body string) {
 		t.Helper()
 		for _, g := range glitch {
@@ -161,34 +161,26 @@ func TestNoGlitchDesigns(t *testing.T) {
 		}
 	}
 	check("chooser", do(h, "GET", "/", nil, nil).Body.String())
-
-	var off []string
 	for _, v := range variants {
-		if !v.Glitch() {
-			off = append(off, v.Slug)
-		}
-	}
-	if got := strings.Join(off, ","); got != "signal2,natt,natt2" {
-		t.Fatalf("designs without glitch = %s, want signal2,natt,natt2", got)
-	}
-	for _, slug := range off {
 		bad := validForm()
-		bad.Set("variant", slug)
+		bad.Set("variant", v.Slug)
 		bad.Set("email", "nope")
 		for _, ua := range []string{uaDesktop, uaIPhone} {
-			check("GET "+slug+" "+ua[13:20], do(h, "GET", "/v/"+slug, nil, map[string]string{"User-Agent": ua}).Body.String())
+			check("GET "+v.Slug+" "+ua[13:20], do(h, "GET", "/v/"+v.Slug, nil, map[string]string{"User-Agent": ua}).Body.String())
 			rec := do(h, "POST", "/contact", strings.NewReader(bad.Encode()), map[string]string{
 				"Content-Type": "application/x-www-form-urlencoded", "User-Agent": ua,
 			})
 			if rec.Code != http.StatusUnprocessableEntity {
-				t.Fatalf("%s 422 re-render: code %d", slug, rec.Code)
+				t.Fatalf("%s 422 re-render: code %d", v.Slug, rec.Code)
 			}
-			check("422 "+slug+" "+ua[13:20], rec.Body.String())
+			check("422 "+v.Slug+" "+ua[13:20], rec.Body.String())
 		}
 	}
 
-	// And the designs that keep it still load it.
-	if body := do(h, "GET", "/v/varg", nil, nil).Body.String(); !strings.Contains(body, "glitch.js") {
-		t.Error("varg lost its glitch")
+	// Signal 2's eyes are the smaller ones, set back in its picture, on both layouts.
+	for _, ua := range []string{uaDesktop, uaIPhone} {
+		if body := do(h, "GET", "/v/signal2", nil, map[string]string{"User-Agent": ua}).Body.String(); !strings.Contains(body, `data-scale="0.`) {
+			t.Errorf("signal2 (%s): eyes not scaled down", ua[13:20])
+		}
 	}
 }

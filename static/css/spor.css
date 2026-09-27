@@ -21,7 +21,6 @@
 .spor-backdrop__forest { opacity: clamp(0, calc(var(--depth) * 3 - 0.35), 1); }
 .spor-backdrop__forest img { filter: saturate(0.5) brightness(calc(0.75 - var(--depth) * 0.4)); transform: scale(calc(1.2 - var(--depth) * 0.15)); }
 .spor-backdrop__night { background: radial-gradient(ellipse at 50% 40%, rgb(0 0 0 / 0.3), #000 75%); opacity: clamp(0.35, calc(var(--depth) * 1.5 - 0.3), 1); }
-.is-flashing .spor-backdrop img { filter: grayscale(1) brightness(0.5) contrast(1.4); }
 
 .spor-scene { min-height: 100svh; display: grid; align-content: center; padding: 6rem var(--gutter); max-width: var(--max); margin: 0 auto; }
 .spor-scene h1, .spor-scene h2 { font-size: clamp(2.6rem, 8vw, 6.5rem); font-weight: 400; letter-spacing: -0.035em; text-shadow: 0 2px 30px rgb(0 0 0 / 0.5); }

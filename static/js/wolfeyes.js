@@ -1,9 +1,10 @@
-// Wolf eyeshine that is only seen when the lights dip. Pairs stay hidden until
-// glitch.js fires a flash ('wintermute-consulting:flash'), snap into view in the dark,
-// linger a moment, then fade. By the next flash they may be somewhere else,
-// or gone. The eyes never track the pointer.
+// Wolf eyeshine in the dark. Every 5 to 11 seconds some pairs fade in, linger
+// a moment, then fade out; by the next appearance they may be somewhere else,
+// or gone. No glitch, no flash: just eyes in the forest. They never track the
+// pointer. Under reduced motion they are drawn once, still.
 //
-//   <canvas data-wolf-eyes data-pairs="3">   up to three pairs, revealed per flash
+//   <canvas data-wolf-eyes data-pairs="3">   up to three pairs, some shown each time
+//   data-scale="0.6"                         draw the eyes smaller (or larger)
 //   data-color="ice"                         pale blue instead of amber
 //   data-size="lg"                           one large centred pair
 //   data-footage="/static/images/opt/eyeshine.webm"
@@ -16,7 +17,7 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const rand = (min, max) => min + Math.random() * (max - min);
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 const rgba = ([r, g, b], a) => `rgba(${r},${g},${b},${a})`;
-const FADE_IN = 90, FADE_OUT = 1600, BLINK = 240; // ms
+const FADE_IN = 900, FADE_OUT = 1600, BLINK = 240; // ms
 
 // Eyeshine is a flat, dull reflection: a dim hot centre fading to the edge.
 const PALETTES = {
@@ -35,7 +36,7 @@ class Pair {
   place() {
     const { w, h, large } = this.field;
     if (large) {
-      this.x = w / 2; this.y = h * 0.3; this.s = clamp(w / 28, 14, 30);
+      this.x = w / 2; this.y = h * 0.3; this.s = clamp(w / 28, 14, 30) * this.field.scale;
       return;
     }
     // Deeper in the forest = higher up and smaller.
@@ -43,10 +44,10 @@ class Pair {
     const depth = Math.random();
     this.x = rand(w * 0.12, w * 0.88);
     this.y = w < 700 ? h * (0.1 + depth * 0.18) : h * (0.42 + depth * 0.3);
-    this.s = 4 + depth * 6 + (w > 1200 ? 2 : 0);
+    this.s = (4 + depth * 6 + (w > 1200 ? 2 : 0)) * this.field.scale;
   }
 
-  // Seen in this flash: appear (or stay) and linger a little after it.
+  // Chosen this time: fade in (or stay) and linger a little.
   reveal() {
     if (this.state === 'hidden' || this.state === 'out') this.place();
     this.state = 'in';
@@ -54,7 +55,7 @@ class Pair {
     this.linger = rand(1200, 2800);
   }
 
-  // Not seen in this flash: whatever was there slips away.
+  // Not chosen this time: whatever was there slips away.
   vanish() {
     if (this.state === 'hidden' || this.state === 'out') return;
     this.state = 'out';
@@ -97,6 +98,7 @@ class Field {
     this.ctx = canvas.getContext('2d');
     this.large = canvas.dataset.size === 'lg';
     this.palette = PALETTES[canvas.dataset.color] || PALETTES.amber;
+    this.scale = +canvas.dataset.scale || 1;
     this.visible = false;
     this.resize();
     this.pairs = Array.from({ length: this.large ? 1 : +canvas.dataset.pairs || 3 }, () => new Pair(this));
@@ -126,8 +128,8 @@ class Field {
     img.src = src;
   }
 
-  // Called on every flash while the canvas is on screen.
-  onFlash() {
+  // Called on each appearance while the canvas is on screen.
+  appear() {
     const shown = this.large ? this.pairs : this.pairs.filter(() => Math.random() < 0.55);
     if (!shown.length) shown.push(this.pairs[(Math.random() * this.pairs.length) | 0]);
     for (const p of this.pairs) shown.includes(p) ? p.reveal() : p.vanish();
@@ -222,7 +224,11 @@ const fields = [...document.querySelectorAll('canvas[data-wolf-eyes]')].map(c =>
 if (reduced) {
   fields.forEach(f => f.drawStatic());
 } else if (fields.length) {
-  document.addEventListener('wintermute-consulting:flash', () => fields.forEach(f => f.visible && f.onFlash()));
+  const appear = () => {
+    if (!document.hidden) fields.forEach(f => f.visible && f.appear());
+    setTimeout(appear, rand(5000, 11000));
+  };
+  setTimeout(appear, 1400);
   let last = performance.now();
   const loop = now => {
     const dt = Math.min(now - last, 100);

@@ -22,7 +22,7 @@ func testApp(t *testing.T) *app {
 
 func TestPagesRender(t *testing.T) {
 	h := testApp(t).routes()
-	paths := []string{"/", "/static/css/base.css", "/static/js/glitch.js", "/static/images/opt/forest-1600.webp"}
+	paths := []string{"/", "/static/css/base.css", "/static/js/wolfeyes.js", "/static/images/opt/forest-1600.webp"}
 	for _, v := range variants {
 		paths = append(paths, "/v/"+v.Slug)
 	}

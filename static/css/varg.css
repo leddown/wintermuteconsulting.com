@@ -21,7 +21,6 @@
 .varg-hero__media { z-index: -3; }
 .varg-hero__media img { object-fit: cover; filter: saturate(0.55) brightness(0.55) contrast(1.1); transform: scale(1.06); animation: breathe 30s ease-in-out infinite alternate; }
 @keyframes breathe { to { transform: scale(1.12) translateX(-1%); } }
-.is-flashing .varg-hero__media img { filter: grayscale(1) brightness(0.55) contrast(1.4); transform: scale(1.08) translateX(-3px); }
 .varg-hero__fog {
   position: absolute; inset: 0; z-index: -2;
   background:
@@ -46,6 +45,7 @@
 .varg h2 em { font-style: normal; color: var(--accent); }
 
 .varg-grid { list-style: none; padding: 0; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+@media (min-width: 1200px) { .varg-grid { grid-template-columns: repeat(4, 1fr); } }
 .varg-card { position: relative; padding: 2.2rem 1.8rem 2.6rem; background: var(--bg); transition: background 0.35s; }
 .varg-card::after { content: ""; position: absolute; left: 0; top: 0; height: 2px; width: 0; background: var(--accent); transition: width 0.5s cubic-bezier(0.2, 0.7, 0.2, 1); }
 .varg-card:hover { background: var(--surface); }
@@ -63,7 +63,7 @@
 .varg-stats dt { color: var(--muted); font-size: 0.9rem; }
 .varg-stats dd { font: 500 clamp(2.8rem, 6vw, 4rem)/1 var(--font-display); letter-spacing: -0.03em; }
 
-.varg-principles { display: grid; gap: 2.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); border-top: 1px solid var(--line); }
+.varg-principles { display: grid; gap: 2.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); border-top: 1px solid var(--line); }
 .varg-principles h3 { font-size: 1.3rem; margin-bottom: 0.6rem; }
 .varg-principles p { color: var(--muted); }
 

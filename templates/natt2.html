@@ -3,7 +3,7 @@
 {{define "page"}}<!doctype html>
 <html lang="en">
 <head>
-{{template "head-base" .}}
+{{template "head-common" .}}
 <title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
 <link rel="stylesheet" href="/static/css/ps.css">
 <link rel="stylesheet" href="/static/css/natt.css">
@@ -23,7 +23,7 @@
       <p class="natt-hero__lede">{{.Site.Lede}}</p>
       <div class="natt-hero__cta">
         <a class="btn btn--primary" href="#contact">Arrange a private briefing</a>
-        <a class="btn btn--ghost" href="#insights">Read our insights</a>
+        <a class="btn btn--ghost" href="#services">Our services</a>
       </div>
     </div>
   </section>
@@ -36,17 +36,17 @@
     <div class="ps-wrap">
       <header class="ps-head">
         <div><p class="ps-kicker">Services</p><h2>What we do, and how</h2></div>
-        <p>Security leadership, regulatory readiness and resilience, from the board's agenda to the technical control. Senior advisors end to end.</p>
+        <p>Emerging AI and cyber threats, the geopolitics behind them, regulatory readiness and ICT resilience: from the management body's agenda to the technical control, delivered by senior advisors end to end.</p>
       </header>
       {{template "ps-services" .}}
     </div>
   </section>
 
-  <section class="natt-ai" id="supervision">
+  <section class="natt-ai" id="ai">
     <div class="ps-wrap natt-ai__grid">
-      <p class="ps-kicker">Supervision</p>
-      <h2 data-reveal>The supervisor will ask how you would respond. <em>Rehearse the answer first.</em></h2>
-      <p data-reveal>We prepare institutions for ECB inspections and cyber resilience reviews, and run crisis exercises that put the management body in the room before the real night comes. Every finding that follows is carried through to closure.</p>
+      <p class="ps-kicker">Emerging AI</p>
+      <h2 data-reveal>Attackers adopted AI first. <em>Your controls should not be the last to know.</em></h2>
+      <p data-reveal>AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify.</p>
     </div>
   </section>
 
@@ -83,7 +83,7 @@
       <div class="ps-contact__intro">
         <p class="ps-kicker">Contact</p>
         <h2>Tell us where you're worried.</h2>
-        <p>A senior advisor reads every enquiry, in strict confidence, and answers within one working day.</p>
+        <p>Every enquiry is read by a senior advisor and treated in strict confidence. We reply within one working day.</p>
         <ul>
           <li>Encrypted in transit</li>
           <li>A non-disclosure agreement first, if you prefer</li>

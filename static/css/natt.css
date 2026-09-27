@@ -14,8 +14,6 @@
   --mark-dot: #070729;
   --footer-bg: #04041c;
   --footer-ink: #ecebff;
-  --glitch-a: rgb(236 235 255 / 0.45);
-  --glitch-b: #6b0f16;
 }
 
 .natt .ps-mark__dot { fill: var(--mark-dot); }
@@ -38,7 +36,6 @@
     linear-gradient(90deg, rgb(7 7 41 / 0.92) 0%, rgb(7 7 41 / 0.7) 38%, rgb(7 7 41 / 0) 70%),
     linear-gradient(to top, var(--bg) 0%, rgb(7 7 41 / 0) 35%);
 }
-.is-flashing .natt-hero__media img { filter: brightness(0.45) saturate(0.6); }
 /* Eyes live in the dark band between the trunks, above the snow. */
 .natt-hero__eyes { position: absolute; left: 35%; right: 0; top: 12%; height: 50%; width: 65%; z-index: -2; }
 .natt-hero__content { padding: 0 var(--gutter) clamp(4rem, 10vh, 7rem); max-width: 50rem; }

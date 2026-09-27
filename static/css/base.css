@@ -1,4 +1,4 @@
-/* Shared foundation: self-hosted fonts, reset, tokens, glitch/flash, forms.
+/* Shared foundation: self-hosted fonts, reset, tokens, buttons, forms.
    Each variant stylesheet overrides the tokens and adds its own layout. */
 
 @font-face { font-family: "Space Grotesk"; src: url("/static/fonts/space-grotesk.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
@@ -16,8 +16,6 @@
   --ice: #9fdcf0;
   --err: #ff7a6b;
   --ok: #8fe3b0;
-  --glitch-a: rgb(228 235 232 / 0.45); /* pale ghost */
-  --glitch-b: #6b0f16;                 /* dried blood */
   --font-display: "Space Grotesk", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
@@ -81,38 +79,6 @@ p { text-wrap: pretty; }
 .btn--primary:hover { transform: translateY(-1px); filter: brightness(1.08); }
 .btn--ghost { border-color: var(--line); color: var(--ink); }
 .btn--ghost:hover { border-color: var(--ink); }
-
-/* ---- Glitch text: RGB-split copies driven by JS toggling .is-glitching ---- */
-.glitch { position: relative; display: inline-block; }
-.glitch::before, .glitch::after {
-  content: attr(data-text);
-  position: absolute; inset: 0;
-  opacity: 0; pointer-events: none;
-}
-.glitch::before { color: var(--glitch-a); }
-.glitch::after { color: var(--glitch-b); }
-.glitch.is-glitching::before { opacity: 0.6; animation: glitch-a 0.3s steps(2) both; }
-.glitch.is-glitching::after { opacity: 0.9; animation: glitch-b 0.3s steps(2) both; }
-@keyframes glitch-a {
-  0% { transform: translate(-2px, 0); clip-path: inset(20% 0 72% 0); }
-  50% { transform: translate(2px, 0); clip-path: inset(62% 0 30% 0); }
-  100% { transform: translate(-1px, 0); clip-path: inset(40% 0 54% 0); }
-}
-@keyframes glitch-b {
-  0% { transform: translate(2px, 0); clip-path: inset(70% 0 22% 0); }
-  50% { transform: translate(-2px, 0); clip-path: inset(12% 0 80% 0); }
-  100% { transform: translate(1px, 0); clip-path: inset(48% 0 45% 0); }
-}
-[data-glitch-hover] { display: inline-block; }
-
-/* ---- Full-screen digital flash: the lights dip, a few hairline tears ---- */
-.flash-layer { position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: 0; background: rgb(0 0 0 / 0.28); }
-.is-flashing .flash-layer { opacity: 1; }
-.flash-band { position: absolute; left: -10%; right: -10%; }
-.flash-band--dark { background: #000; }
-.flash-band--pale { background: rgb(228 235 232 / 0.18); }
-/* Variants add .is-flashing rules to shake their imagery. Never transform
-   body/main here: it would break position: fixed descendants. */
 
 /* ---- Scroll reveal (only hides content when scripts can reveal it) ---- */
 @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
