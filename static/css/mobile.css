@@ -198,26 +198,6 @@ html.m-menu-open { overflow: hidden; }
 .m--signal .terminal { min-height: 21rem; margin-top: 20px; padding: 16px; font-size: 0.75rem; line-height: 1.75; }
 .m--signal .m-ai__note { font-size: 0.8rem; color: var(--muted) !important; }
 
-/* Mørke: editorial. Serif display, the photograph as a captioned figure. */
-.m-hero--type { min-height: 0; justify-content: flex-start; }
-.m--morke .m-hero__content { padding: 44px var(--pad) 0; }
-.m--morke .m-hero__title { font: 400 clamp(3.6rem, 19vw, 5rem)/0.9 var(--serif); letter-spacing: -0.03em; margin: 18px 0 28px; }
-.m--morke .m-hero__title .line { display: block; }
-.m--morke .m-hero__title em { color: var(--muted); }
-.m--morke .m-section h2 { font: 400 2.3rem/1.05 var(--serif); letter-spacing: -0.01em; }
-.m--morke .m-section h2 em { font-style: italic; color: var(--muted); }
-.m--morke .m-services__list h3 { font: 400 1.65rem/1.1 var(--serif); }
-.m--morke .m-approach__list h3 { font: italic 400 1.5rem/1.15 var(--serif); }
-.m--morke .m-proof dd { font: 400 2.3rem/1 var(--serif); }
-.m--morke .m-quote { border-left: 0; padding: 20px 0; border-block: 1px solid var(--line); }
-.m--morke .m-quote p { font: italic 400 1.6rem/1.2 var(--serif); }
-.m-dropcap::first-letter { float: left; font: 400 4.2rem/0.8 var(--serif); padding: 6px 8px 0 0; color: var(--ink); }
-.m-figure { margin: 40px 0 0; padding: 0 var(--pad) 36px; }
-.m-figure img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; filter: grayscale(0.85) contrast(1.15) brightness(0.8); }
-.is-flashing .m-figure img { filter: grayscale(1) brightness(0.5) contrast(1.3); }
-.m-figure figcaption { display: grid; grid-template-columns: 4.5rem 1fr; margin-top: 12px; font-size: 0.8rem; color: var(--muted); }
-.m-figure figcaption span { font: 0.68rem/1.8 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; }
-
 /* Spor: the misty path, tracks down the services, eyes waiting in the dark. */
 .m--spor .m-hero__media img { filter: saturate(0.6) brightness(0.72); }
 .m--spor .m-hero__title { font-weight: 400; letter-spacing: -0.035em; }
@@ -227,7 +207,6 @@ html.m-menu-open { overflow: hidden; }
 .m--spor .m-ai { position: relative; isolation: isolate; min-height: 88svh; display: flex; flex-direction: column; justify-content: flex-end; background: #000; }
 .m-ai__eyes { position: absolute; left: 0; right: 0; top: 0; height: 60%; width: 100%; z-index: -1; pointer-events: none; }
 .m--spor .m-ai h2 { font-weight: 400; }
-.m--morke .m-menu__sheet > a { font: 400 2.3rem/1.1 var(--serif); letter-spacing: -0.01em; }
 .m--signal .m-menu__sheet > a { font-size: 1.5rem; font-weight: 700; }
 .m--signal .m-bar__logo .logo-sub { letter-spacing: 0.91em; } /* monospace glyphs are wider */
 
@@ -238,18 +217,3 @@ html.m-menu-open { overflow: hidden; }
 .is-flashing .m--natt .m-hero__media img { filter: brightness(0.45) saturate(0.6); }
 .m-natt-line { display: block; width: fit-content; margin-top: 4px; color: var(--accent); border-bottom: 3px solid var(--accent); }
 .m--natt .m-hero__eyes { top: 8%; height: 40%; }
-
-/* Rim: white, serif, the illustration as a panorama under the headline. */
-.m--rim .m-hero__content { padding: 40px var(--pad) 0; }
-.m--rim .m-hero__title { font: 400 clamp(2.6rem, 12vw, 3.4rem)/1 var(--serif); letter-spacing: -0.01em; }
-.m--rim .m-hero__title em, .m--rim .m-section h2 em { font-style: normal; color: var(--lavender); }
-.m--rim .m-hero__lede { color: var(--muted); }
-.m--rim .m-section h2 { font: 400 2.2rem/1.05 var(--serif); }
-.m--rim .m-services__list h3 { font: 400 1.6rem/1.15 var(--serif); }
-.m--rim .m-proof dd { font: 400 2.2rem/1 var(--serif); }
-.m--rim .m-quote { border-left-color: var(--lavender); }
-.m--rim .m-quote p { font: 400 1.7rem/1.2 var(--serif); }
-.m--rim .field input, .m--rim .field textarea { background: var(--surface); }
-.m-panorama { margin-top: 36px; aspect-ratio: 16 / 10; overflow: hidden; background: #070729; }
-.m-panorama picture, .m-panorama img { width: 100%; height: 100%; }
-.m-panorama img { object-fit: cover; object-position: 50% 24%; }

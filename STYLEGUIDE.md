@@ -15,13 +15,13 @@ bleak, cold, forest, snow, threat, wolf, wolf eyes, dangers, AI, digital glitch,
 
 ## Palette
 
-| Token | Varg (default) | Signal | Mørke | Use |
-|---|---|---|---|---|
-| `--bg` | `#07090a` | `#040607` | `#0f1010` | page background |
-| `--ink` | `#e4ebe8` | `#d6ecf2` | `#ecebe5` | body text |
-| `--muted` | `#8d9b96` | `#6f8990` | `#8f8e88` | secondary text |
-| `--accent` | `#e9a441` wolf amber | `#7fd4e8` ice | `#ecebe5` | CTAs, highlights |
-| `--glitch-a/b` | pale ghost / `#6b0f16` | inherited | inherited | glitch split only, never bright |
+| Token | Varg (default) | Signal | Use |
+|---|---|---|---|
+| `--bg` | `#07090a` | `#040607` | page background |
+| `--ink` | `#e4ebe8` | `#d6ecf2` | body text |
+| `--muted` | `#8d9b96` | `#6f8990` | secondary text |
+| `--accent` | `#e9a441` wolf amber | `#7fd4e8` ice | CTAs, highlights |
+| `--glitch-a/b` | pale ghost / `#6b0f16` | inherited | glitch split only, never bright |
 
 Amber is reserved for the eyes and primary actions. Nothing else should glow.
 
@@ -30,7 +30,6 @@ Amber is reserved for the eyes and primary actions. Nothing else should glow.
 - **Space Grotesk** (display): geometric with slightly mechanical terminals, reads as both "technical" and "modern Nordic".
 - **Inter** (body): neutral and highly legible.
 - **JetBrains Mono** (labels, codes, eyebrows): uppercase with wide tracking, for the "machine" voice.
-- **Instrument Serif** (Mørke, Rim): editorial contrast.
 
 ## Imagery
 

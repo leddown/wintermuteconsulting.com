@@ -168,8 +168,8 @@ func TestNoGlitchDesigns(t *testing.T) {
 			off = append(off, v.Slug)
 		}
 	}
-	if got := strings.Join(off, ","); got != "signal2,natt,natt2,rim" {
-		t.Fatalf("designs without glitch = %s, want signal2,natt,natt2,rim", got)
+	if got := strings.Join(off, ","); got != "signal2,natt,natt2" {
+		t.Fatalf("designs without glitch = %s, want signal2,natt,natt2", got)
 	}
 	for _, slug := range off {
 		bad := validForm()
