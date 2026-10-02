@@ -1,7 +1,7 @@
 {{/* About page on a phone: the design's mobile shell (bar, menu, footer and the
      colours from templates/m/<slug>.html) around the shared About content. */}}
 {{define "m-title"}}About {{.Site.Name}}{{end}}
-{{define "m-styles"}}<link rel="stylesheet" href="/static/css/about.css">{{end}}
+{{define "m-styles"}}<link rel="stylesheet" href="{{static "css/about.css"}}">{{end}}
 {{/* The page is still: none of the design's eye or terminal scripts are needed. */}}
 {{define "m-scripts"}}{{end}}
 {{define "m-main"}}{{template "about-body" .}}{{end}}

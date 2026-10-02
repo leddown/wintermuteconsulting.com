@@ -11,12 +11,12 @@
 <meta name="theme-color" content="{{block "m-theme-color" .}}#07090a{{end}}">
 <meta name="format-detection" content="telephone=no">
 <link rel="icon" href="/static/images/opt/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/static/css/base.css">
-<link rel="stylesheet" href="/static/css/{{.Variant.Theme}}.css">
-<link rel="stylesheet" href="/static/css/mobile.css">
+<link rel="stylesheet" href="{{static "css/base.css"}}">
+<link rel="stylesheet" href="{{static (print "css/" .Variant.Theme ".css")}}">
+<link rel="stylesheet" href="{{static "css/mobile.css"}}">
 {{block "m-styles" .}}{{end}}
-<script type="module" src="/static/js/reveal.js"></script>
-<script type="module" src="/static/js/mnav.js"></script>
+<script type="module" src="{{static "js/reveal.js"}}"></script>
+<script type="module" src="{{static "js/mnav.js"}}"></script>
 {{block "m-scripts" .}}{{end}}
 <title>{{block "m-title" .}}{{.Site.Name}}: {{.Site.Descriptor}}{{end}}</title>
 </head>

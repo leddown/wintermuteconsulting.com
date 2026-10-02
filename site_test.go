@@ -135,3 +135,48 @@ func TestRateLimiterWindow(t *testing.T) {
 		t.Fatal("window did not expire")
 	}
 }
+
+func TestChooserListsEveryDesign(t *testing.T) {
+	rec := httptest.NewRecorder()
+	testApp(t).routes().ServeHTTP(rec, httptest.NewRequest(http.MethodGet, "/", nil))
+	body := rec.Body.String()
+	for i, v := range variants {
+		if !strings.Contains(body, `href="/v/`+v.Slug+`"`) || !strings.Contains(body, ">"+v.Name+"<") {
+			t.Errorf("chooser does not list %s", v.Slug)
+		}
+		// Two digits, also past the ninth design ("10", not "010").
+		num := string(rune('0'+(i+1)/10)) + string(rune('0'+(i+1)%10))
+		if !strings.Contains(body, `chooser__num">`+num+"<") {
+			t.Errorf("chooser number for %s should be %s", v.Slug, num)
+		}
+	}
+}
+
+// The designs built on the professional-services furniture get its stylesheet,
+// navigation and footer on their About page; the others keep their own header.
+func TestProfessionalServicesFamily(t *testing.T) {
+	h := testApp(t).routes()
+	for _, v := range variants {
+		rec := httptest.NewRecorder()
+		req := httptest.NewRequest(http.MethodGet, "/v/"+v.Slug+"/about", nil)
+		req.Header.Set("User-Agent", uaDesktop)
+		h.ServeHTTP(rec, req)
+		body := rec.Body.String()
+		hasPS := strings.Contains(body, `/static/css/ps.css?v=`) && strings.Contains(body, `class="ps-footer"`)
+		if hasPS != v.PS() {
+			t.Errorf("%s: About page furniture = %v, want %v", v.Slug, hasPS, v.PS())
+		}
+		rail, nav := strings.Contains(body, `class="grense-rail"`), strings.Contains(body, `class="ps-nav"`)
+		if v.Theme() == "grense" && (!rail || nav) {
+			t.Errorf("%s: About page should carry the rail, not the top bar", v.Slug)
+		}
+		if v.PS() && v.Theme() != "grense" && (rail || !nav) {
+			t.Errorf("%s: About page should carry the top bar", v.Slug)
+		}
+	}
+	for slug, want := range map[string]bool{"natt": true, "natt2": true, "sno": true, "grense": true, "vakt": true, "varg": false, "signal2": false, "spor": false} {
+		if v, _ := findVariant(slug); v.PS() != want {
+			t.Errorf("%s.PS() = %v, want %v", slug, v.PS(), want)
+		}
+	}
+}

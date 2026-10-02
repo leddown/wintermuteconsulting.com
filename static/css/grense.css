@@ -1,0 +1,104 @@
+/* Grense (border, tree line): the forest runs down the left edge of the page
+   and carries the navigation; your side of the line is the light page beside
+   it. On narrow screens the rail becomes a block across the top. */
+
+:root {
+  color-scheme: light;
+  --bg: #eef1f0;           /* fog over snow */
+  --surface: #e1e6e4;
+  --ink: #0b1210;
+  --muted: #4b5955;
+  --line: rgb(11 18 16 / 0.16);
+  --brand: #0b1210;
+  --brand-ink: #eef1f0;
+  --accent: #e9a441;
+  --accent-ink: #120c03;
+  --accent-text: #875000;
+  --mark-dot: #e9a441;
+  --footer-bg: #0b1210;
+  --footer-ink: #e4ebe8;
+  --ok: #0b6b3c;
+  --err: #b3261e;
+  --rail: clamp(17.5rem, 26vw, 25rem);
+}
+
+:is(.grense, .m--grense) main :focus-visible { outline-color: var(--ink); }
+:is(.grense, .m--grense) main .btn--ghost { border-color: rgb(11 18 16 / 0.38); }
+:is(.grense, .m--grense) .field input:focus, :is(.grense, .m--grense) .field textarea:focus { border-color: var(--ink); background: #fff; }
+.grense .field input, .grense .field textarea { background: #fff; }
+
+/* ---- The rail: forest, navigation, eyes on the ground ---- */
+.grense-rail {
+  --ink: #e6ecea; --muted: #a4b1ad; --line: rgb(230 236 234 / 0.2);
+  position: relative; isolation: isolate; overflow: hidden;
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1rem 1.5rem;
+  min-height: clamp(15rem, 42svh, 22rem); padding: 1rem var(--gutter) 1.25rem;
+  align-content: start;
+  background: #0b1210; color: var(--ink);
+}
+.grense-rail__media, .grense-rail__media picture, .grense-rail__media img, .grense-rail__eyes { position: absolute; inset: 0; width: 100%; height: 100%; }
+.grense-rail__media { z-index: -2; }
+.grense-rail__media img { object-fit: cover; object-position: 42% 58%; filter: saturate(0.4) brightness(0.62) contrast(1.1); }
+/* Dark at the top, where the links are; the ground stays visible below. */
+.grense-rail__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgb(11 18 16 / 0.86) 0%, rgb(11 18 16 / 0.55) 34%, rgb(11 18 16 / 0.1) 60%, rgb(11 18 16 / 0.45) 100%); }
+.grense-rail__eyes { z-index: -1; }
+.grense-rail__brand { display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; font: 600 0.82rem/1 var(--font-display); letter-spacing: 0.26em; text-transform: uppercase; }
+.grense-rail .ps-mark { color: #e6ecea; }
+.grense-rail .ps-mark__w { stroke: #0b1210; }
+.grense-rail__cta { grid-column: 2; grid-row: 1; justify-self: end; padding: 0.7em 1.2em; font-size: 0.88rem; }
+.grense-rail__nav { grid-column: 1 / -1; display: flex; gap: 1.5rem; overflow-x: auto; white-space: nowrap; scrollbar-width: none; font-size: 0.95rem; }
+.grense-rail__nav a { padding: 0.5rem 0; text-decoration: none; color: var(--muted); transition: color 0.2s; }
+.grense-rail__nav a:hover, .grense-rail__nav a[aria-current] { color: var(--ink); }
+.grense-rail :focus-visible { outline-color: var(--accent); }
+@media (max-width: 479px) { .grense-rail__brand .logo-sub { display: none; } }
+
+@media (min-width: 1080px) {
+  .grense { padding-left: var(--rail); }
+  .grense-rail {
+    position: fixed; inset: 0 auto 0 0; width: var(--rail); min-height: 0;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 0;
+    padding: 2rem clamp(1.5rem, 2.4vw, 2.5rem) 2rem;
+  }
+  .grense-rail__media img { object-position: 38% 50%; }
+  .grense-rail__nav { flex-direction: column; gap: 0; margin-top: clamp(2rem, 7vh, 4.5rem); overflow: visible; font-size: 1.15rem; font-family: var(--font-display); }
+  .grense-rail__nav a { position: relative; padding: 0.45rem 0; }
+  .grense-rail__nav a[aria-current]::before { content: ""; position: absolute; left: -1rem; top: 50%; width: 0.5rem; height: 2px; background: var(--accent); }
+  .grense-rail__cta { margin-top: auto; }
+}
+
+/* ---- Your side of the line ---- */
+.ps main > .grense-hero { padding-block: clamp(3rem, 9vh, 6.5rem) clamp(2rem, 5vh, 3.5rem); }
+.grense-hero h1 { max-width: 12em; margin: 1.25rem 0; font-size: clamp(2.5rem, 5.4vw, 5rem); line-height: 1.02; letter-spacing: -0.035em; }
+.grense-hero__lede { max-width: 40rem; font-size: clamp(1.05rem, 1.4vw, 1.22rem); color: var(--muted); }
+.grense-hero__cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+
+/* Both sides: the forest's on a dark ground, yours on the page. */
+.ps main > .grense-ai { padding-top: 0; }
+.grense-sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); border: 1px solid var(--ink); }
+.grense-side { padding: clamp(1.5rem, 3vw, 2.5rem); }
+.grense-side--forest { background: var(--footer-bg); color: #e6ecea; }
+.grense-side h3 { font-size: 1.45rem; margin-bottom: 1.25rem; }
+.grense-side ul { list-style: none; padding: 0; display: grid; gap: 0.9rem; }
+.grense-side li { padding-top: 0.9rem; border-top: 1px solid var(--line); }
+.grense-side--forest li { border-top-color: rgb(230 236 234 / 0.2); }
+.grense-ai__note { max-width: 46rem; margin-top: 2rem; color: var(--muted); font-size: 1.05rem; }
+.m--grense .grense-sides { margin-top: 8px; }
+
+.ps-head--plain h2 { margin-top: 0; }
+.grense .svc-rows { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); column-gap: 3.5rem; border-top: 2px solid var(--ink); }
+.grense .svc-row { display: grid; gap: 0.6rem; align-content: start; padding: 1.6rem 0 1.8rem; border-bottom: 1px solid var(--line); }
+.ps main > .grense-figures { padding-block: 3.5rem; background: var(--surface); }
+/* The page column is narrower than a full page: three insights across, principles two by two. */
+.grense .ps-insights { grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 2rem; }
+.grense .ps-insight { padding: 1.5rem 0 0; background: none; border: 0; border-top: 2px solid var(--ink); }
+.grense .ps-steps { grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+.grense .ps-steps li { border-top: 2px solid var(--ink); }
+.grense .ps-steps__num { display: none; } /* the principles are not a sequence */
+.grense .ps-steps h3 { margin-top: 0; }
+.ps main > .grense-approach { background: var(--surface); }
+/* The footer shares the narrower column: let its columns wrap and its long links break. */
+.grense .ps-footer__cols { grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); }
+.grense .ps-footer a { overflow-wrap: anywhere; }
+/* The page column is narrow beside the rail: intro above the form, not beside it. */
+.grense .ps-contact { grid-template-columns: minmax(0, 1fr); max-width: 46rem; margin-left: max(0px, calc((100% - var(--wide)) / 2)); }
+.grense .ps-contact__intro h2 { margin-top: 0; }

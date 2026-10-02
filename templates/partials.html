@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="{{template "meta-description" .}}">
 <link rel="icon" href="/static/images/opt/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/static/css/base.css">
+<link rel="stylesheet" href="{{static "css/base.css"}}">
 {{end}}
 
 {{define "meta-description"}}{{if eq .Page "about"}}{{.Site.About.Summary}}{{else}}{{.Site.Name}}: {{.Site.Descriptor}}. {{.Site.Lede}}{{end}}{{end}}
@@ -127,6 +127,29 @@
   <p class="form-note">Sent encrypted. Used only to reply to you, and never shared.</p>
 </form>
 {{end}}
+{{end}}
+
+{{/* The principal's photograph with name and role: the About page and the Vakt
+     homepage. Shows a placeholder until scripts/portrait.sh has made the files
+     (.Portrait). Styled in base.css. */}}
+{{define "portrait"}}
+<figure class="portrait">
+  <div class="portrait__frame">
+    {{if .Portrait}}
+    <picture>
+      <source type="image/webp" srcset="{{static "images/opt/portrait-480.webp"}} 480w, {{static "images/opt/portrait-960.webp"}} 960w" sizes="(min-width: 900px) 440px, 100vw">
+      <img itemprop="image" src="{{static "images/opt/portrait-960.jpg"}}" srcset="{{static "images/opt/portrait-480.jpg"}} 480w, {{static "images/opt/portrait-960.jpg"}} 960w" sizes="(min-width: 900px) 440px, 100vw" alt="Portrait of {{.Site.About.Principal.Name}}" width="960" height="1200" decoding="async" fetchpriority="high">
+    </picture>
+    {{else}}
+    <svg class="portrait__empty" viewBox="0 0 400 500" role="img" aria-label="Portrait to follow" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="200" cy="196" r="68"/><path d="M62 500c0-104 62-168 138-168s138 64 138 168"/></svg>
+    <p class="portrait__note" aria-hidden="true">Portrait to follow</p>
+    {{end}}
+  </div>
+  <figcaption>
+    <span class="portrait__name" itemprop="name">{{.Site.About.Principal.Name}}</span>
+    <span class="portrait__role" itemprop="jobTitle">{{.Site.About.Principal.Role}}</span>
+  </figcaption>
+</figure>
 {{end}}
 
 {{/* Offered to phones (and anyone who forced a layout) so a wrong guess is one tap from fixed. */}}

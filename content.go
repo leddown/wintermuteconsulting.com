@@ -66,6 +66,7 @@ type Site struct {
 	LogoSub    string // ...and the lighter qualifier beside or under it
 	Descriptor string
 	Tagline    string
+	Brief      string // the offer in one sentence, for heroes that must fit a laptop screen
 	Lede       string
 	Email      string
 	Location   string
@@ -84,6 +85,8 @@ var site = Site{
 	LogoSub:    "Consulting",
 	Descriptor: "AI, cyber & ICT risk advisory",
 	Tagline:    "The threat is already in the forest.",
+	Brief: "Boutique AI, cyber and ICT risk advisory for financial institutions across the European Union: " +
+		"from board-approved policy to implemented, auditable controls.",
 	Lede: "A boutique team of senior advisors helping financial institutions across the European Union meet " +
 		"emerging AI and cyber threats. We build the complete stack, from board-approved policy to implemented, " +
 		"auditable controls, sized to your organisation and your risk appetite, and stay through the long night " +

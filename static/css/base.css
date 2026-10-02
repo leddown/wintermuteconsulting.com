@@ -91,6 +91,17 @@ p { text-wrap: pretty; }
   [data-reveal].is-visible { opacity: 1; transform: none; }
 }
 
+/* ---- Portrait (partial "portrait"): the About page and the Vakt homepage ---- */
+.portrait__frame { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--surface); border: 1px solid var(--line); }
+.portrait__frame picture, .portrait__frame img { width: 100%; height: 100%; }
+/* Faces sit in the upper part of a portrait: keep them if the box ever crops. */
+.portrait__frame img { object-fit: cover; object-position: 50% 20%; }
+.portrait__empty { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--muted); opacity: 0.4; }
+.portrait__note { position: absolute; inset: auto 0 1.1rem; text-align: center; font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.portrait figcaption { display: grid; gap: 0.2rem; margin-top: 1rem; }
+.portrait__name { font: 500 1.3rem/1.2 var(--font-display); letter-spacing: -0.01em; }
+.portrait__role { color: var(--muted); font-size: 0.95rem; }
+
 /* ---- Contact form ---- */
 .contact-form { display: grid; gap: 1.1rem; grid-template-columns: 1fr; max-width: 720px; }
 @media (min-width: 640px) {

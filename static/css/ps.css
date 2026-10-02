@@ -1,4 +1,4 @@
-/* Professional-services family (Natt, Natt 2): the page furniture of a
+/* Professional-services family (Natt, Snø, Grense, Vakt): the page furniture of a
    large advisory firm. Utility bar, nav, service tiles, figures, industries,
    insights, steps, contact and a column footer. Each design's stylesheet sets
    the tokens (--bg, --ink, --brand, --accent, fonts) and its own hero. */
@@ -48,6 +48,12 @@
 .ps-nav__cta { margin-left: auto; padding: 0.7em 1.2em; font-size: 0.88rem; }
 @media (min-width: 980px) { .ps-nav__links { display: flex; } }
 @media (max-width: 479px) { .ps-nav { gap: 0.5rem 1rem; flex-wrap: wrap; } .ps-nav__brand .logo-sub { display: none; } }
+/* Snø and Vakt keep the section links below 980px: a row under the bar that scrolls sideways. */
+@media (max-width: 979px) {
+  :is(.sno, .vakt) .ps-nav { flex-wrap: wrap; row-gap: 0.35rem; }
+  :is(.sno, .vakt) .ps-nav__links { display: flex; order: 3; flex: 0 0 100%; gap: 1.5rem; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+  :is(.sno, .vakt) .ps-nav__links a { padding: 0.5rem 0; }
+}
 
 /* ---- Section heads ---- */
 .ps-kicker {
@@ -73,6 +79,12 @@
 .ps-more { margin-top: auto; padding-top: 0.75rem; font-weight: 600; font-size: 0.92rem; color: var(--ink); text-decoration: none; }
 .ps-more span[aria-hidden] { display: inline-block; transition: transform 0.2s; color: var(--accent); }
 .ps-more:hover span[aria-hidden] { transform: translateX(4px); }
+
+/* ---- Service rows (Grense, Vakt): plain rows, laid out by each design ---- */
+.svc-rows { list-style: none; padding: 0; }
+.svc-row__code { font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.14em; color: var(--muted); }
+.svc-row h3 { font-size: 1.3rem; line-height: 1.2; }
+.svc-row__body { color: var(--muted); font-size: 0.97rem; }
 
 /* ---- Key figures ---- */
 .ps-figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 2rem 3rem; }

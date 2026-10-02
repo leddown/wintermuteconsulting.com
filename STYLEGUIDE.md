@@ -21,6 +21,8 @@ bleak, cold, forest, snow, threat, wolf, wolf eyes, dangers, AI, modern, high-qu
 | `--muted` | `#8d9b96` | `#6f8990` | secondary text |
 | `--accent` | `#e9a441` wolf amber | `#7fd4e8` ice | CTAs, highlights |
 
+The three research-led designs use the same roles: Snø `#f3f6f7` / `#0c1417` / `#4a5a61` (light), Grense `#eef1f0` / `#0b1210` / `#4b5955` (light page, dark forest rail), Vakt `#071417` / `#e3efee` / `#93abac` (deep teal). All three keep wolf amber `#e9a441` for the eyes and the primary action; on the light pages small amber text uses `#875000`, because the bright amber fails contrast on snow.
+
 Amber is reserved for the eyes and primary actions. Nothing else should glow.
 
 ## Typography
@@ -41,6 +43,16 @@ Fog, spruce, moss, snow, dusk. Desaturate and darken photos. The forest should f
 3. No motion under `prefers-reduced-motion`. Eyes render as a still frame.
 4. Anything interactive responds to hover/focus with a small scramble, never a layout shift.
 5. Wolf eyes fade in on their own every 5 to 11 s, linger 1–3 s and fade out; they may be elsewhere or gone next time. They never follow the pointer. Real eyeshine footage (`data-footage`) is preferred; the drawn fallback is dim almond eyeshine with no pupils. Where the eyes sit deep in a picture, draw them smaller (`data-scale`) and keep them where an animal could stand: on the ground (`data-band`), not among the trunks or up in the canopy.
+
+## Research-led designs (Snø, Grense, Vakt)
+
+Each takes one finding and builds the first screen around it, in the brief's own terms (cold, snow, forest, wolf eyes, AI).
+
+- **Snø: reading is easier on a light ground.** In reading and proofreading studies, dark text on a light background consistently does better than the reverse, whatever the room lighting (the "positive polarity advantage"), and the audience here reads long, dense text. Nearly every security site is dark, so a light one also stands apart. Snow is the trace: "fresh snow shows every track" is the firm's auditability promise. The forest is reduced to one band at its edge.
+- **Grense: say what you do in the first screen.** Referred prospects most often rule a firm out because they cannot tell what it does, and a stranger gives a homepage a few seconds. The first screen states the offer in one sentence and shows the firm's subject, AI used against the client and AI put to work for them, side by side. The forest never leaves: it is the rail that carries the navigation.
+- **Vakt: show the person.** Buyers of advisory work choose a named expert; credibility guidelines ask for the real people behind a site; and the firm's own promise is one named advisor. The first screen is that promise and the principal's portrait.
+
+Rules they share, from the review of the first four designs: the hero fits a 1366×650 laptop screen; copy never sits on a bright part of a picture; section links are reachable at every width; no numbering on things that are not a sequence; no kicker that only repeats its heading.
 
 ## About page and portrait
 
@@ -65,6 +77,9 @@ Calm, cold, precise. The forest is the regulatory and risk landscape; we are the
 - [Blaze Infosec: penetration testing companies buyer's guide](https://www.blazeinfosec.com/post/penetration-testing-companies/)
 - [REDOPS](https://redghostops.com/), [primeObjective](https://primeobjective.net/), [Secra](https://secra.es/en), [Atlan Digital](https://www.atlan.digital/)
 - [Fontsource](https://fontsource.org/) (self-hosted OFL fonts)
+- [The advantage of positive text-background polarity is due to high display luminance](https://pubmed.ncbi.nlm.nih.gov/19562598/), [Text-background polarity affects performance irrespective of ambient illumination and colour contrast](https://www.researchgate.net/publication/6321309_Text_-_Background_polarity_affects_performance_irrespective_of_ambient_illumination_and_colour_contrast) and [Effects of ambient illumination, contrast polarity, and letter size on text legibility (Applied Ergonomics, 2017)](https://www.sciencedirect.com/science/article/abs/pii/S0003687016302459) (light ground for reading: Snø)
+- [Hinge: the Visible Expert](https://hingemarketing.com/blog/story/the-visible-expert-how-ordinary-professionals-become-thought-leaders) (buyers choose named experts: Vakt)
+- [Bain value-proposition survey, via Media Logic](https://www.medialogic.com/blog/b2b-marketing/b2b-value-proposition/) and [Pitch Kitchen: State of B2B Homepage Messaging 2026](https://www.pitchkitchen.com/2026-state-of-b2b-homepage-messaging) (clarity in the first screen: Grense)
 - [Stanford Web Credibility Guidelines](https://credibility.stanford.edu/guidelines/index.html) (show the real organisation and the people behind the site)
 - [Hinge Research Institute: referral marketing study](https://hingemarketing.com/uploads/hinge-research-referral-marketing.pdf) (referred prospects rule firms out on an unclear site)
 - [6sense: B2B Buyer Experience Report 2025](https://6sense.com/science-of-b2b/buyer-experience-report-2025/) and [Edelman–LinkedIn B2B Thought Leadership Impact Report 2025](https://www.edelman.com/expertise/Business-Marketing/2025-b2b-thought-leadership-report)

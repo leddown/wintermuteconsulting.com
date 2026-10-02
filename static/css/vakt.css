@@ -1,0 +1,68 @@
+/* Vakt (the watch): the named advisor. Deep teal, the principal's portrait in
+   the first screen, amber for the mark and the primary action only. */
+
+:root {
+  --bg: #071417;
+  --surface: #0c2226;
+  --ink: #e3efee;
+  --muted: #93abac;
+  --line: rgb(227 239 238 / 0.14);
+  --brand: #e9a441;
+  --brand-ink: #071417;
+  --accent: #e9a441;
+  --accent-ink: #120c03;
+  --mark-dot: #071417;
+  --footer-bg: #040d0f;
+  --footer-ink: #e3efee;
+}
+.vakt .ps-mark__dot { fill: var(--mark-dot); }
+.vakt .ps-footer .ps-mark { color: var(--brand); }
+.vakt .ps-footer .ps-mark__w { stroke: var(--brand-ink); }
+:is(.vakt, .m--vakt) .btn--ghost { border-color: rgb(227 239 238 / 0.35); }
+
+/* Hero: the promise and the person, sized to fit one laptop screen. */
+.ps main > .vakt-hero {
+  display: grid; gap: 2.5rem clamp(2.5rem, 6vw, 6rem); align-items: center;
+  max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto;
+  padding-block: clamp(2.5rem, 7vh, 5rem);
+}
+.vakt-hero h1 { max-width: 15em; margin: 1.25rem 0; font-size: clamp(2.2rem, 4.6vw, 4.1rem); line-height: 1.04; letter-spacing: -0.03em; }
+.vakt-hero__lede { max-width: 38rem; font-size: clamp(1.05rem, 1.4vw, 1.2rem); color: #c2d3d3; }
+.vakt-hero__cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+.vakt-hero .portrait { width: 100%; max-width: 22rem; }
+@media (min-width: 900px) {
+  .ps main > .vakt-hero { grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.75fr); min-height: calc(100svh - 104px); }
+  /* Never taller than the window: the caption stays on screen. */
+  .vakt-hero .portrait { justify-self: end; max-width: max(14rem, min(26rem, calc((100svh - 17rem) * 0.8))); }
+}
+:is(.vakt, .m--vakt) .portrait__frame { border-color: rgb(227 239 238 / 0.22); }
+:is(.vakt, .m--vakt) .portrait__frame img { filter: saturate(0.85); }
+
+.ps-head--plain h2 { margin-top: 0; }
+.ps main > .vakt-approach { background: var(--surface); }
+.vakt .ps-steps__num { display: none; } /* the principles are not a sequence */
+.vakt .ps-steps h3 { margin-top: 0; }
+.vakt .ps-steps li { border-top: 2px solid var(--accent); }
+
+/* Services: a ledger. Code, title, description across one line each. */
+.vakt .svc-rows { border-top: 1px solid var(--line); }
+.vakt .svc-row { display: grid; gap: 0.5rem 2.5rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+@media (min-width: 860px) {
+  .vakt .svc-row { grid-template-columns: 4.5rem minmax(0, 0.8fr) minmax(0, 1.3fr); align-items: baseline; }
+}
+
+/* Emerging AI: the forest at night across the page, the eyes on its ground. */
+.ps main > .vakt-ai { position: relative; isolation: isolate; overflow: hidden; display: grid; align-items: start; min-height: 34rem; }
+.vakt-ai__media, .vakt-ai__media picture, .vakt-ai__media img, .vakt-ai__eyes { position: absolute; inset: 0; width: 100%; height: 100%; }
+.vakt-ai__media { z-index: -2; }
+.vakt-ai__media img { object-fit: cover; object-position: 50% 60%; filter: grayscale(1) brightness(0.5) contrast(1.15) sepia(0.5) hue-rotate(135deg); }
+/* The copy sits on the dark upper part; the ground below stays clear for the eyes. */
+.vakt-ai__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, var(--bg) 0%, rgb(7 20 23 / 0.82) 38%, rgb(7 20 23 / 0.15) 68%, rgb(7 20 23 / 0.6) 100%); }
+.vakt-ai__eyes { z-index: -1; }
+.vakt-ai__copy { width: 100%; display: grid; gap: 1.5rem; }
+.vakt-ai h2 { max-width: 20em; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.08; letter-spacing: -0.02em; }
+.vakt-ai p { max-width: 42rem; font-size: 1.08rem; color: #c2d3d3; }
+
+.ps main > .vakt-figures { padding-block: 3.5rem; border-bottom: 1px solid var(--line); }
+.vakt-insights .ps-insight { background: var(--surface); border-top-color: var(--accent); }
+.vakt .ps-contact__intro h2 { margin-top: 0; }

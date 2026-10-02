@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"html/template"
 	"io/fs"
@@ -38,7 +40,17 @@ var variants = []Variant{
 	{"spor2", "Spor 2", "A copy of Spor to develop separately."},
 	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the single signal colour."},
 	{"natt2", "Natt 2", "A copy of Natt to develop separately."},
+	{"sno", "Snø", "Daylight after snowfall: a light page made for reading, with the forest's edge as a single dark band."},
+	{"grense", "Grense", "The tree line runs down the page: the forest and the navigation on the left, your side of it on the right."},
+	{"vakt", "Vakt", "The named advisor: a portrait-led page in deep teal, for a firm that sells one senior person and no pyramid."},
 }
+
+// psThemes are the designs built on the professional-services furniture
+// (templates/ps.html, static/css/ps.css): its section heads, lists and footer.
+var psThemes = map[string]bool{"natt": true, "sno": true, "grense": true, "vakt": true}
+
+// PS reports whether this variant's design uses the professional-services furniture.
+func (v Variant) PS() bool { return psThemes[v.Theme()] }
 
 func findVariant(slug string) (Variant, bool) {
 	for _, v := range variants {
@@ -64,6 +76,8 @@ type app struct {
 	// "index"; each variant slug and "m/<slug>" for its mobile layout; "about"
 	// (one desktop template for every design) and "m/<slug>/about".
 	pages map[string]*template.Template
+
+	versions sync.Map // static file ("js/wolfeyes.js") -> hash of its content; see staticVersion
 }
 
 func newApp(assets fs.FS, dev, trustProxy bool, log *slog.Logger) (*app, error) {
@@ -72,6 +86,38 @@ func newApp(assets fs.FS, dev, trustProxy bool, log *slog.Logger) (*app, error) 
 		return nil, err
 	}
 	return a, nil
+}
+
+// staticURL is the template func "static": the URL of a file under static/
+// with a short hash of its content as ?v=. A changed file gets a new URL, so no
+// browser keeps showing an old stylesheet or script after a deploy, and an
+// unchanged one can be cached for good (see cacheStatic). Every stylesheet and
+// script must be linked through it. In -dev the files change under us and are
+// served uncached, so the URL is left bare.
+func (a *app) staticURL(file string) string {
+	if v := a.staticVersion(file); v != "" {
+		return "/static/" + file + "?v=" + v
+	}
+	return "/static/" + file
+}
+
+// staticVersion hashes a static file once and remembers the result. Files that
+// don't exist are not remembered, so made-up paths can't grow the map.
+func (a *app) staticVersion(file string) string {
+	if a.dev {
+		return ""
+	}
+	if v, ok := a.versions.Load(file); ok {
+		return v.(string)
+	}
+	b, err := fs.ReadFile(a.assets, "static/"+file)
+	if err != nil {
+		return ""
+	}
+	sum := sha256.Sum256(b)
+	v := hex.EncodeToString(sum[:6])
+	a.versions.Store(file, v)
+	return v
 }
 
 // parseTemplates builds one template set per page: the shared partials plus
@@ -91,7 +137,7 @@ func (a *app) parseTemplates() error {
 		sets["m/"+v.Slug+"/about"] = []string{"templates/about-body.html", "templates/mobile.html", "templates/m/" + v.Slug + ".html", "templates/m/about.html"}
 	}
 	for name, files := range sets {
-		t, err := template.New(name).Funcs(templateFuncs).ParseFS(a.assets, append([]string{"templates/partials.html", "templates/ps.html"}, files...)...)
+		t, err := template.New(name).Funcs(templateFuncs).Funcs(template.FuncMap{"static": a.staticURL}).ParseFS(a.assets, append([]string{"templates/partials.html", "templates/ps.html"}, files...)...)
 		if err != nil {
 			return fmt.Errorf("parse %s: %w", name, err)
 		}
@@ -168,6 +214,7 @@ func hasPortrait(assets fs.FS) bool {
 func (a *app) renderVariant(w http.ResponseWriter, r *http.Request, status int, data pageData) {
 	data.Phone = isPhone(r)
 	data.Mobile = wantMobile(r, data.View)
+	data.Portrait = hasPortrait(a.assets)
 	varyOnDevice(w)
 	name := data.Variant.Slug
 	switch {
@@ -204,6 +251,8 @@ func (a *app) render(w http.ResponseWriter, status int, name string, data pageDa
 		return
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	// Pages are always fetched afresh, so they always name the current assets.
+	w.Header().Set("Cache-Control", "no-cache")
 	w.WriteHeader(status)
 	_, _ = buf.WriteTo(w) // client gone mid-response; nothing useful to do
 }

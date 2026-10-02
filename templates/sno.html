@@ -1,0 +1,111 @@
+{{/* Snø (snow): daylight after snowfall. A light page, because dark text on a
+     light ground is the easier read; the forest's edge is one dark band, with
+     the eyes on its ground; services are an index that opens one at a time.
+     Professional-services furniture (ps.html) with its own tokens. */}}
+{{define "page"}}<!doctype html>
+<html lang="en">
+<head>
+{{template "head-common" .}}
+<title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
+<meta name="theme-color" content="#f3f6f7">
+<link rel="stylesheet" href="{{static "css/ps.css"}}">
+<link rel="stylesheet" href="{{static "css/sno.css"}}">
+<script type="module" src="{{static "js/wolfeyes.js"}}"></script>
+<script type="module" src="{{static "js/reveal.js"}}"></script>
+</head>
+<body class="ps sno">
+<a class="skip" href="#main">Skip to content</a>
+{{template "ps-util" .}}
+{{template "ps-nav" .}}
+
+<main id="main">
+  <section class="sno-hero">
+    <div class="sno-hero__copy">
+      <p class="ps-kicker">{{.Site.Descriptor}}</p>
+      <h1>Fresh snow shows every track.</h1>
+      <p class="sno-hero__lede">{{.Site.Brief}}</p>
+      <div class="sno-hero__cta">
+        <a class="btn btn--primary" href="#contact">Arrange a private briefing</a>
+        <a class="btn btn--ghost" href="#services">Our services</a>
+      </div>
+    </div>
+    {{template "sno-treeline"}}
+  </section>
+
+  <section class="sno-figures" aria-label="In numbers">
+    <div class="ps-wrap">{{template "ps-figures" .}}</div>
+  </section>
+
+  <section id="services">
+    <div class="ps-wrap">
+      <header class="ps-head ps-head--plain">
+        <div><h2>Services</h2></div>
+        <p>Emerging AI and cyber threats, the geopolitics behind them, regulatory readiness and ICT resilience: from the management body's agenda to the technical control, delivered by senior advisors end to end.</p>
+      </header>
+      {{/* One open at a time (details with a shared name), without script. */}}
+      <ul class="sno-index">
+        {{range $i, $s := .Site.Services}}
+        <li>
+          <details name="sno-service"{{if eq $i 0}} open{{end}}>
+            <summary><span class="sno-index__code">{{$s.Code}}</span><h3>{{$s.Title}}</h3><span class="sno-index__mark" aria-hidden="true"></span></summary>
+            <div class="sno-index__body">
+              <p>{{$s.Body}}</p>
+              <a class="ps-more" href="#contact">Discuss {{$s.Title}}<span class="sr-only"> with a senior advisor</span> <span aria-hidden="true">→</span></a>
+            </div>
+          </details>
+        </li>
+        {{end}}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sno-ai" id="ai">
+    <div class="ps-wrap sno-ai__grid">
+      <h2>Attackers adopted AI first. Your controls should not be the last to know.</h2>
+      <p>AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify.</p>
+    </div>
+  </section>
+
+  <section id="insights">
+    <div class="ps-wrap">
+      <header class="ps-head ps-head--plain">
+        <div><h2>Insights</h2></div>
+        <p>Short, practical notes from current engagements. No fear, no product pitches.</p>
+      </header>
+      {{template "ps-insights" .}}
+    </div>
+  </section>
+
+  <section id="industries">
+    <div class="ps-wrap">
+      <header class="ps-head ps-head--plain"><div><h2>Industries</h2></div></header>
+      {{template "ps-industries" .}}
+    </div>
+  </section>
+
+  <section class="sno-approach" id="approach">
+    <div class="ps-wrap">
+      <header class="ps-head ps-head--plain"><div><h2>How we work</h2></div></header>
+      {{template "ps-approach" .}}
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="ps-wrap ps-contact">
+      <div class="ps-contact__intro">
+        <h2>Start with a conversation.</h2>
+        <p>Every enquiry is read by a senior advisor and treated in strict confidence. We reply within one working day.</p>
+        <ul>
+          <li>Encrypted in transit</li>
+          <li>A non-disclosure agreement first, if you prefer</li>
+          <li>We don't share or sell what you send</li>
+        </ul>
+      </div>
+      {{template "contact-form" .}}
+    </div>
+  </section>
+</main>
+{{template "ps-footer" .}}
+</body>
+</html>
+{{end}}

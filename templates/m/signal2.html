@@ -1,14 +1,14 @@
-{{/* Signal 2 on a phone: the console, smaller eyes on the forest floor, a lighter picture. */}}
+{{/* Signal 2 on a phone: the console, slightly smaller eyes on the forest floor, a lighter picture. */}}
 {{/* Signal on a phone: the console. Mono type, ice phosphor, the live tracker. */}}
 {{define "m-theme-color"}}#040607{{end}}
-{{define "m-scripts"}}<script type="module" src="/static/js/wolfeyes.js"></script>
-<script type="module" src="/static/js/terminal.js"></script>{{end}}
+{{define "m-scripts"}}<script type="module" src="{{static "js/wolfeyes.js"}}"></script>
+<script type="module" src="{{static "js/terminal.js"}}"></script>{{end}}
 
 {{define "m-hero"}}
 <section class="m-hero m-hero--console">
   <div class="m-viewport">
     <div class="m-hero__media">{{template "forest-picture"}}</div>
-    <canvas class="m-hero__eyes signal-viewport__eyes--deep" data-wolf-eyes data-pairs="2" data-scale="0.75" data-band="0.6 0.9" aria-hidden="true"></canvas>
+    <canvas class="m-hero__eyes" data-wolf-eyes data-pairs="2" data-scale="0.85" data-band="0.6 0.9" aria-hidden="true"></canvas>
     <p class="m-viewport__hud" aria-hidden="true"><span>CAM 04</span><span data-clock>--:--:-- UTC</span></p>
   </div>
   <div class="m-hero__content">

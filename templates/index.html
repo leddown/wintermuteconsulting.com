@@ -3,7 +3,7 @@
 <head>
 {{template "head-common" .}}
 <title>{{.Site.Name}}: design alternatives</title>
-<link rel="stylesheet" href="/static/css/index.css">
+<link rel="stylesheet" href="{{static "css/index.css"}}">
 </head>
 <body class="chooser">
 <main class="chooser__main">
@@ -14,7 +14,7 @@
     {{range $i, $v := .Variants}}
     <li>
       <a class="chooser__card" href="/v/{{$v.Slug}}">
-        <span class="chooser__num">0{{inc $i}}</span>
+        <span class="chooser__num">{{printf "%02d" (inc $i)}}</span>
         <span class="chooser__name">{{$v.Name}}</span>
         <span class="chooser__summary">{{$v.Summary}}</span>
         <span class="chooser__arrow" aria-hidden="true">→</span>

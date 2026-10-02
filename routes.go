@@ -50,7 +50,7 @@ func (a *app) handleAbout(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	a.renderVariant(w, r, http.StatusOK, pageData{Variant: v, Page: "about", Portrait: hasPortrait(a.assets), View: viewOverride(r.URL.Query().Get("view"))})
+	a.renderVariant(w, r, http.StatusOK, pageData{Variant: v, Page: "about", View: viewOverride(r.URL.Query().Get("view"))})
 }
 
 // securityHeaders sets a strict policy: every asset is same-origin, so the site
@@ -73,11 +73,19 @@ func securityHeaders(next http.Handler) http.Handler {
 	})
 }
 
+// cacheStatic sets how long a browser may keep a static file. A URL carrying
+// the file's current version (see staticURL) names that exact content, so it
+// can be kept for good; anything else (fonts and images linked from CSS, old
+// links) is kept for a day.
 func (a *app) cacheStatic(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if a.dev {
+		v := r.URL.Query().Get("v")
+		switch {
+		case a.dev:
 			w.Header().Set("Cache-Control", "no-cache")
-		} else {
+		case v != "" && v == a.staticVersion(strings.TrimPrefix(r.URL.Path, "/static/")):
+			w.Header().Set("Cache-Control", "public, max-age=31536000, immutable")
+		default:
 			w.Header().Set("Cache-Control", "public, max-age=86400")
 		}
 		next.ServeHTTP(w, r)

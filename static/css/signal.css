@@ -80,7 +80,6 @@
 .signal-contact__lede { margin: 1rem 0 2rem; color: var(--muted); }
 .signal .btn { font-family: var(--font-mono); }
 
-/* Signal 2: smaller eyes on the forest floor, a little dimmer, and the picture
-   15% lighter (on the phone layout too: mobile.css reads the same variable). */
-.signal-viewport__eyes--deep { opacity: 0.75; }
+/* Signal 2: the picture 15% lighter (on the phone layout too: mobile.css reads
+   the same variable). */
 .signal2, .m--signal2 { --feed-light: 1.15; }

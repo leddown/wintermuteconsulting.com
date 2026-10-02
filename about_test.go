@@ -15,7 +15,7 @@ func TestAboutPage(t *testing.T) {
 	h := testApp(t).routes()
 	portrait := "Portrait to follow"
 	if hasPortrait(embedded) {
-		portrait = `src="/static/images/opt/portrait-960.jpg"`
+		portrait = `src="/static/images/opt/portrait-960.jpg?v=`
 	}
 	for _, v := range variants {
 		path := "/v/" + v.Slug + "/about"
@@ -32,8 +32,8 @@ func TestAboutPage(t *testing.T) {
 				`content="` + site.About.Summary + `"`,
 				site.About.Title,
 				site.About.Principal.Role,
-				`href="/static/css/` + v.Theme() + `.css"`,
-				`href="/static/css/about.css"`,
+				`href="/static/css/` + v.Theme() + `.css?v=`,
+				`href="/static/css/about.css?v=`,
 				`href="/v/` + v.Slug + `#contact"`, // the form lives on the homepage
 				`href="` + path + `" aria-current="page"`,
 				portrait,
@@ -105,7 +105,7 @@ func TestAboutShowsPortraitOnceAllRenditionsExist(t *testing.T) {
 	for _, ua := range []string{uaDesktop, uaIPhone} {
 		body := do(h, "GET", "/v/natt/about", nil, map[string]string{"User-Agent": ua}).Body.String()
 		checkHTMLPolicy(t, "about with portrait", body)
-		for _, want := range []string{`src="/static/images/opt/portrait-960.jpg"`, `portrait-480.webp 480w`, `alt="Portrait of ` + site.About.Principal.Name + `"`, `width="960" height="1200"`} {
+		for _, want := range []string{`src="/static/images/opt/portrait-960.jpg?v=`, `/static/images/opt/portrait-480.webp?v=`, ` 480w, `, `alt="Portrait of ` + site.About.Principal.Name + `"`, `width="960" height="1200"`} {
 			if !strings.Contains(body, want) {
 				t.Errorf("about with portrait (%s): missing %q", ua[13:20], want)
 			}

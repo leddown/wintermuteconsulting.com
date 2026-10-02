@@ -1,0 +1,93 @@
+{{/* Grense (border, tree line): the forest runs down the left edge of the page
+     and carries the navigation; your side of the line is the light page beside
+     it. The first screen says what the firm does and shows AI on both sides.
+     Professional-services furniture (ps.html) with its own tokens. */}}
+{{define "page"}}<!doctype html>
+<html lang="en">
+<head>
+{{template "head-common" .}}
+<title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
+<meta name="theme-color" content="#0b1210">
+<link rel="stylesheet" href="{{static "css/ps.css"}}">
+<link rel="stylesheet" href="{{static "css/grense.css"}}">
+<script type="module" src="{{static "js/wolfeyes.js"}}"></script>
+<script type="module" src="{{static "js/reveal.js"}}"></script>
+</head>
+<body class="ps grense">
+<a class="skip" href="#main">Skip to content</a>
+{{template "grense-rail" .}}
+
+<main id="main">
+  <section class="grense-hero">
+    <div class="ps-wrap">
+      <p class="ps-kicker">{{.Site.Descriptor}}</p>
+      <h1>AI is on both sides of the tree line.</h1>
+      <p class="grense-hero__lede">{{.Site.Brief}}</p>
+      <div class="grense-hero__cta">
+        <a class="btn btn--primary" href="#contact">Arrange a private briefing</a>
+        <a class="btn btn--ghost" href="#services">Our services</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="grense-ai" id="ai">
+    <div class="ps-wrap">
+      {{template "grense-sides"}}
+      <p class="grense-ai__note">AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify.</p>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="ps-wrap">
+      <header class="ps-head ps-head--plain"><div><h2>Services</h2></div></header>
+      {{template "svc-rows" .}}
+    </div>
+  </section>
+
+  <section class="grense-figures" aria-label="In numbers">
+    <div class="ps-wrap">{{template "ps-figures" .}}</div>
+  </section>
+
+  <section id="industries">
+    <div class="ps-wrap">
+      <header class="ps-head ps-head--plain"><div><h2>Industries</h2></div></header>
+      {{template "ps-industries" .}}
+    </div>
+  </section>
+
+  <section id="insights">
+    <div class="ps-wrap">
+      <header class="ps-head ps-head--plain">
+        <div><h2>Insights</h2></div>
+        <p>Short, practical notes from current engagements. No fear, no product pitches.</p>
+      </header>
+      {{template "ps-insights" .}}
+    </div>
+  </section>
+
+  <section class="grense-approach" id="approach">
+    <div class="ps-wrap">
+      <header class="ps-head ps-head--plain"><div><h2>How we work</h2></div></header>
+      {{template "ps-approach" .}}
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="ps-wrap ps-contact">
+      <div class="ps-contact__intro">
+        <h2>Tell us which side you are worried about.</h2>
+        <p>Every enquiry is read by a senior advisor and treated in strict confidence. We reply within one working day.</p>
+        <ul>
+          <li>Encrypted in transit</li>
+          <li>A non-disclosure agreement first, if you prefer</li>
+          <li>We don't share or sell what you send</li>
+        </ul>
+      </div>
+      {{template "contact-form" .}}
+    </div>
+  </section>
+</main>
+{{template "ps-footer" .}}
+</body>
+</html>
+{{end}}

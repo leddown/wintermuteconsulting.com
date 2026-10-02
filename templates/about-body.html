@@ -1,28 +1,9 @@
 {{/* The About page's content, shared by the desktop page (templates/about.html)
      and the mobile shell (templates/m/about.html). Copy lives in content.go
-     (Site.About); layout in static/css/about.css. The itemprop attributes are
+     (Site.About); layout in static/css/about.css; the portrait is the shared
+     "portrait" partial. The itemprop attributes are
      schema.org microdata: structured data for search engines that needs no
      inline script, so the CSP stays strict. */}}
-
-{{define "about-portrait"}}
-<figure class="about-portrait">
-  <div class="about-portrait__frame">
-    {{if .Portrait}}
-    <picture>
-      <source type="image/webp" srcset="/static/images/opt/portrait-480.webp 480w, /static/images/opt/portrait-960.webp 960w" sizes="(min-width: 900px) 440px, 100vw">
-      <img itemprop="image" src="/static/images/opt/portrait-960.jpg" srcset="/static/images/opt/portrait-480.jpg 480w, /static/images/opt/portrait-960.jpg 960w" sizes="(min-width: 900px) 440px, 100vw" alt="Portrait of {{.Site.About.Principal.Name}}" width="960" height="1200" decoding="async" fetchpriority="high">
-    </picture>
-    {{else}}
-    <svg class="about-portrait__empty" viewBox="0 0 400 500" role="img" aria-label="Portrait to follow" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="200" cy="196" r="68"/><path d="M62 500c0-104 62-168 138-168s138 64 138 168"/></svg>
-    <p class="about-portrait__note" aria-hidden="true">Portrait to follow</p>
-    {{end}}
-  </div>
-  <figcaption>
-    <span class="about-portrait__name" itemprop="name">{{.Site.About.Principal.Name}}</span>
-    <span class="about-portrait__role" itemprop="jobTitle">{{.Site.About.Principal.Role}}</span>
-  </figcaption>
-</figure>
-{{end}}
 
 {{define "about-body"}}
 <div class="about-shell">
@@ -35,7 +16,7 @@
     <p class="about-intro__lede">{{.Site.About.Lede}}</p>
   </header>
 
-  {{template "about-portrait" .}}
+  {{template "portrait" .}}
 
   <section class="about-section" aria-labelledby="about-background">
     <h2 id="about-background">Background</h2>

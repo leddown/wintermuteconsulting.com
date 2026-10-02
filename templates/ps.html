@@ -1,4 +1,4 @@
-{{/* Professional-services family (Natt, Natt 2): shared illustration,
+{{/* Professional-services family (Natt, Snø, Grense, Vakt): shared illustration,
      icons and page furniture. Styled by static/css/ps.css plus each design's
      own tokens. Parsed with every page; it only defines templates. */}}
 
@@ -131,4 +131,66 @@
   </div>
 </footer>
 {{template "variant-switcher" .}}
+{{end}}
+
+{{/* Snø's tree line: the forest's edge as one band, eyes on its ground. Desktop hero and phone hero. */}}
+{{define "sno-treeline"}}
+<div class="sno-treeline" aria-hidden="true">
+  <div class="sno-treeline__media">{{template "forest-picture"}}</div>
+  <canvas data-wolf-eyes data-pairs="3" data-band="0.62 0.9"></canvas>
+</div>
+{{end}}
+
+{{/* Services as plain rows (Grense, Vakt): each design lays them out itself. */}}
+{{define "svc-rows"}}
+<ul class="svc-rows">
+  {{range .Site.Services}}
+  <li class="svc-row" data-reveal>
+    <p class="svc-row__code">{{.Code}}</p>
+    <h3>{{.Title}}</h3>
+    <p class="svc-row__body">{{.Body}}</p>
+  </li>
+  {{end}}
+</ul>
+{{end}}
+
+{{/* Grense's rail: the forest runs down the left edge of every page and
+     carries the navigation (a block across the top on narrow screens). */}}
+{{define "grense-rail"}}
+<header class="grense-rail">
+  <div class="grense-rail__media" aria-hidden="true">{{template "forest-picture"}}</div>
+  <canvas class="grense-rail__eyes" data-wolf-eyes data-pairs="2" data-band="0.62 0.84" aria-hidden="true"></canvas>
+  <a class="grense-rail__brand" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "ps-mark"}}{{template "logo" .Site}}</a>
+  <nav class="grense-rail__nav" aria-label="Primary">
+    <a href="{{.Home}}#services">Services</a>
+    <a href="{{.Home}}#ai">Emerging AI</a>
+    <a href="{{.Home}}#industries">Industries</a>
+    <a href="{{.Home}}#insights">Insights</a>
+    <a href="{{.Home}}#approach">How we work</a>
+    <a href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}"{{if eq .Page "about"}} aria-current="page"{{end}}>About</a>
+  </nav>
+  <a class="btn btn--primary grense-rail__cta" href="{{.Home}}#contact">Contact us</a>
+</header>
+{{end}}
+
+{{/* Grense: AI on both sides of the tree line. Desktop section and phone section. */}}
+{{define "grense-sides"}}
+<div class="grense-sides">
+  <div class="grense-side grense-side--forest">
+    <h3>Used against you</h3>
+    <ul>
+      <li>Voice and video deepfakes of the people who approve payments</li>
+      <li>AI-written spear phishing aimed at treasury and payments staff</li>
+      <li>Automated reconnaissance of your perimeter</li>
+    </ul>
+  </div>
+  <div class="grense-side">
+    <h3>Put to work for you</h3>
+    <ul>
+      <li>An AI policy stack, from risk appetite to controls an auditor can test</li>
+      <li>Governance for the AI you deploy, under the EU AI Act and DORA</li>
+      <li>Defences that use AI themselves</li>
+    </ul>
+  </div>
+</div>
 {{end}}
