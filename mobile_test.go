@@ -167,6 +167,7 @@ func TestNoGlitchAnywhere(t *testing.T) {
 		bad.Set("email", "nope")
 		for _, ua := range []string{uaDesktop, uaIPhone} {
 			check("GET "+v.Slug+" "+ua[13:20], do(h, "GET", "/v/"+v.Slug, nil, map[string]string{"User-Agent": ua}).Body.String())
+			check("GET "+v.Slug+"/about "+ua[13:20], do(h, "GET", "/v/"+v.Slug+"/about", nil, map[string]string{"User-Agent": ua}).Body.String())
 			rec := do(h, "POST", "/contact", strings.NewReader(bad.Encode()), map[string]string{
 				"Content-Type": "application/x-www-form-urlencoded", "User-Agent": ua,
 			})

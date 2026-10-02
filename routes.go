@@ -23,6 +23,7 @@ func (a *app) routes() http.Handler {
 
 	mux.HandleFunc("GET /{$}", a.handleIndex)
 	mux.HandleFunc("GET /v/{slug}", a.handleVariant)
+	mux.HandleFunc("GET /v/{slug}/about", a.handleAbout)
 	mux.HandleFunc("POST /contact", a.handleContact)
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) { _, _ = w.Write([]byte("ok")) })
 
@@ -41,6 +42,15 @@ func (a *app) handleVariant(w http.ResponseWriter, r *http.Request) {
 	}
 	q := r.URL.Query()
 	a.renderVariant(w, r, http.StatusOK, pageData{Variant: v, Sent: q.Get("sent") == "1", View: viewOverride(q.Get("view"))})
+}
+
+func (a *app) handleAbout(w http.ResponseWriter, r *http.Request) {
+	v, ok := findVariant(r.PathValue("slug"))
+	if !ok {
+		http.NotFound(w, r)
+		return
+	}
+	a.renderVariant(w, r, http.StatusOK, pageData{Variant: v, Page: "about", Portrait: hasPortrait(a.assets), View: viewOverride(r.URL.Query().Get("view"))})
 }
 
 // securityHeaders sets a strict policy: every asset is same-origin, so the site

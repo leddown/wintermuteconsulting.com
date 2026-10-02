@@ -42,6 +42,13 @@ Fog, spruce, moss, snow, dusk. Desaturate and darken photos. The forest should f
 4. Anything interactive responds to hover/focus with a small scramble, never a layout shift.
 5. Wolf eyes fade in on their own every 5 to 11 s, linger 1–3 s and fade out; they may be elsewhere or gone next time. They never follow the pointer. Real eyeshine footage (`data-footage`) is preferred; the drawn fallback is dim almond eyeshine with no pupils. Where the eyes sit deep in a picture, draw them smaller (`data-scale`).
 
+## About page and portrait
+
+- **Why it exists.** Buyers of advisory work check who they would be dealing with before they make contact: a named person with a photograph, a specific biography and the company's registered details. A firm that sells "one named advisor" has to show one.
+- **The photograph.** Head and shoulders, face filling the frame, eyes to the camera, plain background, daylight or soft light. Cropped 4:5. The designs treat it lightly (Varg and Spor mute the colour a little, Signal shows it in monochrome, Natt leaves it natural): do not darken a face the way the forest pictures are darkened.
+- **The biography.** Roles, institutions and years, in the first person plural or the third person, in the same register as the rest of the site. No adjectives doing the work of facts, no client names.
+- **Company details** (legal name, form, registry code, registered office, VAT number, email) are on the page because EU law expects them on a company's site, not as decoration.
+
 ## Voice
 
 Calm, cold, precise. The forest is the regulatory and risk landscape; we are the guides who know where the supervisor looks and where the ground gives way. The wolf knows where to look. The name Wintermute Consulting nods to Wintermute, the AI in Gibson's *Neuromancer*.
@@ -58,3 +65,7 @@ Calm, cold, precise. The forest is the regulatory and risk landscape; we are the
 - [Blaze Infosec: penetration testing companies buyer's guide](https://www.blazeinfosec.com/post/penetration-testing-companies/)
 - [REDOPS](https://redghostops.com/), [primeObjective](https://primeobjective.net/), [Secra](https://secra.es/en), [Atlan Digital](https://www.atlan.digital/)
 - [Fontsource](https://fontsource.org/) (self-hosted OFL fonts)
+- [Stanford Web Credibility Guidelines](https://credibility.stanford.edu/guidelines/index.html) (show the real organisation and the people behind the site)
+- [Hinge Research Institute: referral marketing study](https://hingemarketing.com/uploads/hinge-research-referral-marketing.pdf) (referred prospects rule firms out on an unclear site)
+- [6sense: B2B Buyer Experience Report 2025](https://6sense.com/science-of-b2b/buyer-experience-report-2025/) and [Edelman–LinkedIn B2B Thought Leadership Impact Report 2025](https://www.edelman.com/expertise/Business-Marketing/2025-b2b-thought-leadership-report)
+- [e-Commerce Directive 2000/31/EC, art. 5](https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A32000L0031) and the Estonian [Information Society Services Act](https://www.riigiteataja.ee/en/eli/504112013008/consolide) (company details a site must state)

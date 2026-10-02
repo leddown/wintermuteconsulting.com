@@ -46,6 +46,11 @@ p { text-wrap: pretty; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+/* Pages cross-fade into each other (homepage to About and back) in browsers
+   with cross-document view transitions; elsewhere navigation is unchanged. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
 
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .skip { position: absolute; left: 16px; top: -100px; z-index: 100; padding: 8px 14px; background: var(--accent); color: var(--accent-ink); }

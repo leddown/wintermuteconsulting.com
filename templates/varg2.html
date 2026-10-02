@@ -12,15 +12,7 @@
 <body class="varg varg2">
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="varg-header">
-  <a class="varg-logo" href="/v/varg2{{.ViewQuery}}">{{template "logo" .Site}}</a>
-  <nav class="varg-nav" aria-label="Primary">
-    <a href="#services">Services</a>
-    <a href="#ai">Emerging AI</a>
-    <a href="#contact">Contact</a>
-  </nav>
-  <span class="varg-status" aria-hidden="true"><span class="dot"></span>WATCHING</span>
-</header>
+{{template "varg-header" .}}
 
 <main id="main">
   <section class="varg-hero">

@@ -76,6 +76,7 @@ html.m-menu-open { overflow: hidden; }
   text-decoration: none;
 }
 .m-menu__sheet > a span { font: 500 0.72rem/1 var(--font-mono); letter-spacing: 0.12em; color: var(--accent); }
+.m-menu__sheet > a[aria-current] { color: var(--accent); }
 .m-menu__foot { margin-top: auto; padding-top: 32px; font-size: 0.9rem; color: var(--muted); }
 .m-menu__foot a { color: var(--ink); }
 

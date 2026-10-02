@@ -8,12 +8,13 @@
 }
 .varg-logo { font: 600 0.95rem/1 var(--font-display); letter-spacing: 0.35em; text-transform: uppercase; text-decoration: none; }
 .varg-nav { display: none; gap: 1.75rem; margin-left: auto; font-size: 0.9rem; }
-.varg-nav a { text-decoration: none; color: var(--muted); transition: color 0.2s; }
-.varg-nav a:hover { color: var(--ink); }
+.varg-nav a { text-decoration: none; white-space: nowrap; color: var(--muted); transition: color 0.2s; }
+.varg-nav a:hover, .varg-nav a[aria-current] { color: var(--ink); }
 .varg-status { margin-left: auto; display: flex; align-items: center; gap: 0.5rem; font: 500 0.7rem/1 var(--font-mono); letter-spacing: 0.2em; color: var(--accent); }
 .varg-status .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: pulse 2.4s ease-in-out infinite; }
 @keyframes pulse { 50% { opacity: 0.25; } }
-@media (min-width: 760px) { .varg-nav { display: flex; } .varg-status { margin-left: 0; } }
+@media (min-width: 760px) { .varg-nav { display: flex; } .varg-status { display: none; } }
+@media (min-width: 880px) { .varg-status { display: flex; margin-left: 0; } }
 
 /* Hero */
 .varg-hero { position: relative; min-height: 100svh; display: grid; align-items: end; overflow: hidden; isolation: isolate; }

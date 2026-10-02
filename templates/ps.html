@@ -38,12 +38,13 @@
 <header class="ps-nav">
   <a class="ps-nav__brand" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "ps-mark"}}{{template "logo" .Site}}</a>
   <nav class="ps-nav__links" aria-label="Primary">
-    <a href="#services">Services</a>
-    <a href="#industries">Industries</a>
-    <a href="#insights">Insights</a>
-    <a href="#approach">How we work</a>
+    <a href="{{.Home}}#services">Services</a>
+    <a href="{{.Home}}#industries">Industries</a>
+    <a href="{{.Home}}#insights">Insights</a>
+    <a href="{{.Home}}#approach">How we work</a>
+    <a href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}"{{if eq .Page "about"}} aria-current="page"{{end}}>About</a>
   </nav>
-  <a class="btn btn--primary ps-nav__cta" href="#contact">Contact us</a>
+  <a class="btn btn--primary ps-nav__cta" href="{{.Home}}#contact">Contact us</a>
 </header>
 {{end}}
 
@@ -108,17 +109,18 @@
     </div>
     <div>
       <h2>Services</h2>
-      <ul>{{range .Site.Services}}<li><a href="#services">{{.Title}}</a></li>{{end}}</ul>
+      <ul>{{range .Site.Services}}<li><a href="{{$.Home}}#services">{{.Title}}</a></li>{{end}}</ul>
     </div>
     <div>
       <h2>Industries</h2>
-      <ul>{{range .Site.Industries}}<li><a href="#industries">{{.Name}}</a></li>{{end}}</ul>
+      <ul>{{range .Site.Industries}}<li><a href="{{$.Home}}#industries">{{.Name}}</a></li>{{end}}</ul>
     </div>
     <div>
-      <h2>Contact</h2>
+      <h2>Firm</h2>
       <ul>
+        <li><a href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}">About the firm</a></li>
         <li><a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></li>
-        <li><a href="#contact">Send a secure message</a></li>
+        <li><a href="{{.Home}}#contact">Send a secure message</a></li>
       </ul>
     </div>
   </div>

@@ -8,7 +8,12 @@
   padding: 1.1rem var(--gutter);
 }
 .spor-logo { font: 600 0.9rem/1 var(--font-display); letter-spacing: 0.4em; text-transform: uppercase; text-decoration: none; }
-.spor-header__cta { font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; padding: 0.6rem 0.9rem; border: 1px solid var(--line); }
+.spor-header__nav { display: flex; align-items: center; gap: 1.25rem; font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.15em; text-transform: uppercase; }
+.spor-header__nav a { text-decoration: none; }
+.spor-header__link { display: none; padding: 0.6rem 0; }
+.spor-header__link:hover, .spor-header__link[aria-current] { text-decoration: underline; text-underline-offset: 5px; }
+@media (min-width: 640px) { .spor-header__link { display: block; } }
+.spor-header__cta { padding: 0.6rem 0.9rem; border: 1px solid var(--line); }
 .spor-depth { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--line); }
 .spor-depth span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); }
 

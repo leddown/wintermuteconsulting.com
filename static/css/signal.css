@@ -32,9 +32,9 @@
 .signal-logo { font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; text-decoration: none; color: var(--accent); }
 .blink { animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
-.signal-header nav { display: flex; gap: 1.25rem; margin-left: auto; font-size: 0.8rem; }
+.signal-header nav { display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; margin-left: auto; font-size: 0.8rem; }
 .signal-header nav a { text-decoration: none; color: var(--muted); }
-.signal-header nav a:hover { color: var(--accent); }
+.signal-header nav a:hover, .signal-header nav a[aria-current] { color: var(--accent); }
 .signal-clock { font-size: 0.75rem; color: var(--muted); display: none; }
 @media (min-width: 800px) { .signal-clock { display: block; } }
 

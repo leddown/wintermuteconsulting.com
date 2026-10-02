@@ -3,9 +3,51 @@
 {{define "head-common"}}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="{{.Site.Name}}: {{.Site.Descriptor}}. {{.Site.Lede}}">
+<meta name="description" content="{{template "meta-description" .}}">
 <link rel="icon" href="/static/images/opt/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/css/base.css">
+{{end}}
+
+{{define "meta-description"}}{{if eq .Page "about"}}{{.Site.About.Summary}}{{else}}{{.Site.Name}}: {{.Site.Descriptor}}. {{.Site.Lede}}{{end}}{{end}}
+
+{{/* Each design's site header, shared by its homepage(s) and its About page.
+     .Home is empty on the homepage, so the section links there stay in-page
+     anchors. A "2" copy that needs its own header can inline one again. */}}
+{{define "varg-header"}}
+<header class="varg-header">
+  <a class="varg-logo" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "logo" .Site}}</a>
+  <nav class="varg-nav" aria-label="Primary">
+    <a href="{{.Home}}#services">Services</a>
+    <a href="{{.Home}}#ai">Emerging AI</a>
+    <a href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}"{{if eq .Page "about"}} aria-current="page"{{end}}>About</a>
+    <a href="{{.Home}}#contact">Contact</a>
+  </nav>
+  <span class="varg-status" aria-hidden="true"><span class="dot"></span>WATCHING</span>
+</header>
+{{end}}
+
+{{define "signal-header"}}
+<header class="signal-header">
+  <a class="signal-logo" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "logo-legal" .Site}}<span class="blink" aria-hidden="true">_</span></a>
+  <nav aria-label="Primary">
+    <a href="{{.Home}}#services">./services</a>
+    <a href="{{.Home}}#ai">./emerging_ai</a>
+    <a href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}"{{if eq .Page "about"}} aria-current="page"{{end}}>./about</a>
+    <a href="{{.Home}}#contact">./contact</a>
+  </nav>
+  <span class="signal-clock" data-clock aria-hidden="true">--:--:-- UTC</span>
+</header>
+{{end}}
+
+{{define "spor-header"}}
+<header class="spor-header">
+  <a class="spor-logo" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "logo" .Site}}</a>
+  <nav class="spor-header__nav" aria-label="Primary">
+    <a class="spor-header__link" href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}"{{if eq .Page "about"}} aria-current="page"{{end}}>About</a>
+    <a class="spor-header__cta" href="{{.Home}}#contact">Contact</a>
+  </nav>
+  <div class="spor-depth" aria-hidden="true"><span data-depth-bar></span></div>
+</header>
 {{end}}
 
 {{/* Logo lockup, called with .Site. Kept as one link-able phrase for screen readers. */}}
@@ -46,7 +88,7 @@
 {{define "variant-switcher"}}
 <nav class="switcher" aria-label="Design alternatives">
   <a href="/">All designs</a>
-  {{range .Variants}}<a href="/v/{{.Slug}}{{$.ViewQuery}}"{{if eq .Slug $.Variant.Slug}} aria-current="page"{{end}}>{{.Name}}</a>{{end}}
+  {{range .Variants}}<a href="/v/{{.Slug}}{{$.Sub}}{{$.ViewQuery}}"{{if eq .Slug $.Variant.Slug}} aria-current="page"{{end}}>{{.Name}}</a>{{end}}
 </nav>
 {{end}}
 
@@ -88,14 +130,14 @@
 {{end}}
 
 {{/* Offered to phones (and anyone who forced a layout) so a wrong guess is one tap from fixed. */}}
-{{define "layout-switch"}}{{if or .Phone .View}}<p class="layout-switch">{{if .Mobile}}<a href="/v/{{.Variant.Slug}}?view=desktop">Desktop version</a>{{else}}<a href="/v/{{.Variant.Slug}}?view=mobile">Mobile version</a>{{end}}</p>{{end}}{{end}}
+{{define "layout-switch"}}{{if or .Phone .View}}<p class="layout-switch">{{if .Mobile}}<a href="{{.Path}}?view=desktop">Desktop version</a>{{else}}<a href="{{.Path}}?view=mobile">Mobile version</a>{{end}}</p>{{end}}{{end}}
 
 {{define "footer"}}
 <footer class="site-footer">
   <p class="site-footer__brand">{{.Site.Name}}</p>
   <p>{{.Site.Descriptor}} · {{.Site.Location}}</p>
   <p class="site-footer__note">No cookies. No trackers. Nothing loaded from third parties.</p>
-  <p><a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></p>
+  <p><a href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}">About the firm</a> · <a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></p>
   {{template "layout-switch" .}}
 </footer>
 {{template "variant-switcher" .}}

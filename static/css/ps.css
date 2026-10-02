@@ -43,10 +43,11 @@
 .ps-nav__links { display: none; gap: 2rem; font-size: 0.92rem; }
 .ps-nav__links a { position: relative; text-decoration: none; color: var(--muted); padding: 0.4rem 0; transition: color 0.2s; }
 .ps-nav__links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.25s; }
-.ps-nav__links a:hover { color: var(--ink); }
-.ps-nav__links a:hover::after { transform: scaleX(1); }
+.ps-nav__links a:hover, .ps-nav__links a[aria-current] { color: var(--ink); }
+.ps-nav__links a:hover::after, .ps-nav__links a[aria-current]::after { transform: scaleX(1); }
 .ps-nav__cta { margin-left: auto; padding: 0.7em 1.2em; font-size: 0.88rem; }
 @media (min-width: 980px) { .ps-nav__links { display: flex; } }
+@media (max-width: 479px) { .ps-nav { gap: 0.5rem 1rem; flex-wrap: wrap; } .ps-nav__brand .logo-sub { display: none; } }
 
 /* ---- Section heads ---- */
 .ps-kicker {

@@ -22,9 +22,9 @@ func testApp(t *testing.T) *app {
 
 func TestPagesRender(t *testing.T) {
 	h := testApp(t).routes()
-	paths := []string{"/", "/static/css/base.css", "/static/js/wolfeyes.js", "/static/images/opt/forest-1600.webp"}
+	paths := []string{"/", "/static/css/base.css", "/static/css/about.css", "/static/js/wolfeyes.js", "/static/images/opt/forest-1600.webp"}
 	for _, v := range variants {
-		paths = append(paths, "/v/"+v.Slug)
+		paths = append(paths, "/v/"+v.Slug, "/v/"+v.Slug+"/about")
 	}
 	for _, p := range paths {
 		rec := httptest.NewRecorder()
@@ -40,7 +40,7 @@ func TestPagesRender(t *testing.T) {
 
 func TestNotFound(t *testing.T) {
 	h := testApp(t).routes()
-	for _, p := range []string{"/v/nope", "/nope", "/static/", "/static/css/"} {
+	for _, p := range []string{"/v/nope", "/v/nope/about", "/v/varg/nope", "/v/varg/about/x", "/about", "/nope", "/static/", "/static/css/"} {
 		rec := httptest.NewRecorder()
 		h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, p, nil))
 		if rec.Code != http.StatusNotFound {

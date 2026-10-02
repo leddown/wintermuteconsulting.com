@@ -60,8 +60,10 @@ type app struct {
 	log        *slog.Logger
 	limiter    *rateLimiter
 
-	mu    sync.Mutex
-	pages map[string]*template.Template // "index", each variant slug, and "m/<slug>" for its mobile layout
+	mu sync.Mutex
+	// "index"; each variant slug and "m/<slug>" for its mobile layout; "about"
+	// (one desktop template for every design) and "m/<slug>/about".
+	pages map[string]*template.Template
 }
 
 func newApp(assets fs.FS, dev, trustProxy bool, log *slog.Logger) (*app, error) {
@@ -75,13 +77,18 @@ func newApp(assets fs.FS, dev, trustProxy bool, log *slog.Logger) (*app, error) 
 // parseTemplates builds one template set per page: the shared partials plus
 // that page's own file, so each page can define its own "page" block. Mobile
 // pages share templates/mobile.html, whose {{block}}s each templates/m/<slug>.html
-// overrides.
+// overrides. The About page has one desktop template for every design; on a
+// phone it is the design's mobile shell with templates/m/about.html on top.
 func (a *app) parseTemplates() error {
 	pages := map[string]*template.Template{}
-	sets := map[string][]string{"index": {"templates/index.html"}}
+	sets := map[string][]string{
+		"index": {"templates/index.html"},
+		"about": {"templates/about-body.html", "templates/about.html"},
+	}
 	for _, v := range variants {
 		sets[v.Slug] = []string{"templates/" + v.Slug + ".html"}
 		sets["m/"+v.Slug] = []string{"templates/mobile.html", "templates/m/" + v.Slug + ".html"}
+		sets["m/"+v.Slug+"/about"] = []string{"templates/about-body.html", "templates/mobile.html", "templates/m/" + v.Slug + ".html", "templates/m/about.html"}
 	}
 	for name, files := range sets {
 		t, err := template.New(name).Funcs(templateFuncs).ParseFS(a.assets, append([]string{"templates/partials.html", "templates/ps.html"}, files...)...)
@@ -100,9 +107,11 @@ type pageData struct {
 	Site     Site
 	Variants []Variant
 	Variant  Variant
+	Page     string // "" for the design's homepage, "about" for its About page
 	Form     contactForm
 	Errors   map[string]string
 	Sent     bool
+	Portrait bool // the principal's photo is in place (see hasPortrait)
 
 	Mobile bool   // serving the mobile layout
 	Phone  bool   // the device looks like a phone (offer a layout switch)
@@ -117,14 +126,57 @@ func (d pageData) ViewQuery() string {
 	return "?view=" + d.View
 }
 
-// renderVariant serves a design in the layout that suits the request.
+// Sub is the path below a design's homepage ("" or "/about"), so the design
+// switcher can stay on the same page.
+func (d pageData) Sub() string {
+	if d.Page == "" {
+		return ""
+	}
+	return "/" + d.Page
+}
+
+// Path is this page's own URL path, without the layout override.
+func (d pageData) Path() string {
+	return "/v/" + d.Variant.Slug + d.Sub()
+}
+
+// Home goes in front of the homepage's anchors (#services, #contact): empty on
+// the homepage itself, so they stay in-page links, and the homepage's URL on
+// any other page.
+func (d pageData) Home() string {
+	if d.Page == "" {
+		return ""
+	}
+	return "/v/" + d.Variant.Slug + d.ViewQuery()
+}
+
+// portraitFiles are the renditions of the principal's photo that
+// scripts/portrait.sh writes to static/images/opt. Until all of them exist the
+// About page shows a placeholder in the photo's place.
+var portraitFiles = []string{"portrait-480.webp", "portrait-960.webp", "portrait-480.jpg", "portrait-960.jpg"}
+
+func hasPortrait(assets fs.FS) bool {
+	for _, f := range portraitFiles {
+		if _, err := fs.Stat(assets, "static/images/opt/"+f); err != nil {
+			return false
+		}
+	}
+	return true
+}
+
+// renderVariant serves a design's page in the layout that suits the request.
 func (a *app) renderVariant(w http.ResponseWriter, r *http.Request, status int, data pageData) {
 	data.Phone = isPhone(r)
 	data.Mobile = wantMobile(r, data.View)
 	varyOnDevice(w)
 	name := data.Variant.Slug
-	if data.Mobile {
+	switch {
+	case data.Mobile && data.Page != "":
+		name = "m/" + name + "/" + data.Page
+	case data.Mobile:
 		name = "m/" + name
+	case data.Page != "":
+		name = data.Page
 	}
 	a.render(w, status, name, data)
 }

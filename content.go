@@ -34,6 +34,31 @@ type Stat struct {
 	Label string
 }
 
+// Fact is one labelled line in a definition list: the principal's background,
+// the company's registration details.
+type Fact struct {
+	Label string
+	Value string
+}
+
+// Principal is the person presented on the About page, beside their portrait.
+type Principal struct {
+	Name  string
+	Role  string
+	Bio   []string // paragraphs
+	Facts []Fact
+}
+
+// About is the copy for the About page (/v/{slug}/about).
+type About struct {
+	Title     string // the page's headline
+	Lede      string
+	Summary   string // meta description: keep it under 160 characters
+	Principal Principal
+	NameNote  string // why the firm is called Wintermute
+	Company   []Fact // registration details; the legal name and email come from Site
+}
+
 type Site struct {
 	Name       string // full legal name: titles, meta, footers
 	LegalForm  string // company form, shown in the top logo only where a design asks for it
@@ -49,6 +74,7 @@ type Site struct {
 	Stats      []Stat
 	Industries []Industry
 	Insights   []Insight
+	About      About
 }
 
 var site = Site{
@@ -99,5 +125,42 @@ var site = Site{
 		{"AI threats", "The CFO's voice is not the CFO: deepfakes in the treasury", "How AI-generated voice and video now drive payment fraud, and the call-back and approval controls that still stop it.", 5},
 		{"AI governance", "Your AI policy stack: from risk appetite to controls an auditor can test", "What the management body should decide about AI, how that becomes policy, and the controls that prove it is being followed.", 7},
 		{"Geopolitical risk", "Geopolitics is now an ICT risk driver", "Why supervisors expect sanctions, conflict and state-aligned activity to appear in your ICT risk assessment, and the questions your management body should ask.", 7},
+	},
+	About: About{
+		Title: "The advisor you brief is the one who does the work.",
+		Lede: "Wintermute Consulting is a boutique AI, cyber and ICT risk advisory for financial institutions across " +
+			"the European Union. It is small by design: senior advisors only, no hand-offs, and one named advisor " +
+			"from the first briefing to the last closed finding.",
+		Summary: "Who is behind Wintermute Consulting OÜ, a boutique AI, cyber and ICT risk advisory for regulated finance across the European Union.",
+		// Placeholders: everything in [square brackets] is yours to replace before
+		// launch. These are statements about a real person and a registered
+		// company, so nothing here is invented. The portrait is added with
+		// scripts/portrait.sh.
+		Principal: Principal{
+			Name: "[Your name]",
+			Role: "Founder and principal advisor",
+			Bio: []string{
+				"[Your background in two or three sentences: the institutions you have worked in, the roles you held and for how long. Boards and supervisors read this for seniority, so name roles and responsibilities rather than adjectives.]",
+				"[What you do for clients today: the engagements you lead and the regulation you work with most, such as DORA, NIS2 or the EU AI Act.]",
+				"[One human detail to close on: where you are based, or what you do away from work.]",
+			},
+			Facts: []Fact{
+				{"Experience", "[n] years in [field]"},
+				{"Qualifications", "[degrees and certifications]"},
+				{"Languages", "[languages you work in]"},
+				{"Based in", "[city, country]"},
+			},
+		},
+		NameNote: "The name nods to Wintermute, the artificial intelligence in William Gibson's Neuromancer. It marks " +
+			"where the firm starts: AI is already part of the threat, and already at work inside the institutions we " +
+			"advise. Both call for controls that a supervisor and an auditor can verify.",
+		// What EU law expects a company's website to state (e-Commerce Directive
+		// art. 5, in Estonia the Information Society Services Act).
+		Company: []Fact{
+			{"Legal form", "Private limited company (osaühing), registered in Estonia"},
+			{"Registry code", "[Estonian commercial register code]"},
+			{"Registered office", "[street, postcode, city, Estonia]"},
+			{"VAT number", "[EE number, if VAT-registered]"},
+		},
 	},
 }

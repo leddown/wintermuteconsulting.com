@@ -1,0 +1,146 @@
+/* About page (templates/about-body.html), in every design. One layout, drawn
+   with the design's own tokens (--bg, --ink, --accent, fonts); the blocks at
+   the end give each design its character. Sized with container queries rather
+   than viewport ones, because the same markup sits in the full-width desktop
+   page and in the phone-shaped mobile shell (.m). */
+
+.about-shell { container: about / inline-size; }
+
+.about {
+  --soft: color-mix(in srgb, var(--ink) 84%, transparent);
+  max-width: var(--max); margin: 0 auto;
+  padding: clamp(3rem, 7cqi, 6rem) var(--gutter) clamp(4rem, 9cqi, 7rem);
+}
+.ps .about { max-width: calc(var(--wide) + 2 * var(--gutter)); }
+.m .about { padding: 40px var(--pad) 64px; }
+
+/* Varg and Spor fix their header over the hero picture. There is no picture
+   here, so give it a ground: otherwise the text scrolls through the nav. */
+.about-page .varg-header, .about-page .spor-header {
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.about-page.varg .about, .about-page.spor .about { padding-top: calc(3.5rem + clamp(3rem, 7cqi, 6rem)); }
+
+/* ---- Intro ---- */
+.about-intro h1 {
+  margin: 1.25rem 0 1.5rem; max-width: 17em;
+  font-size: 2.4rem; font-size: clamp(2.3rem, 5.4cqi, 4rem); line-height: 1.04; letter-spacing: -0.03em;
+}
+.about-intro__lede { max-width: 38rem; font-size: 1.1rem; font-size: clamp(1.05rem, 1.7cqi, 1.2rem); color: var(--soft); }
+
+/* ---- Portrait ---- */
+.about-portrait { margin-top: 2.5rem; max-width: 26rem; }
+.about-portrait__frame { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--surface); border: 1px solid var(--line); }
+.about-portrait__frame picture, .about-portrait__frame img { width: 100%; height: 100%; }
+/* Faces sit in the upper part of a portrait: keep them if the box ever crops. */
+.about-portrait__frame img { object-fit: cover; object-position: 50% 20%; }
+.about-portrait__empty { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--muted); opacity: 0.4; }
+.about-portrait__note { position: absolute; inset: auto 0 1.1rem; text-align: center; font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.about-portrait figcaption { display: grid; gap: 0.2rem; margin-top: 1rem; }
+.about-portrait__name { font: 500 1.3rem/1.2 var(--font-display); letter-spacing: -0.01em; }
+.about-portrait__role { color: var(--muted); font-size: 0.95rem; }
+
+/* ---- Sections: a label beside its content ---- */
+.about-section {
+  display: grid; gap: 1.25rem 2rem;
+  margin-top: clamp(2.5rem, 5cqi, 4rem); padding-top: clamp(1.75rem, 3cqi, 2.5rem);
+  border-top: 1px solid var(--line);
+}
+.about-section > h2 { font-size: 1.2rem; line-height: 1.3; letter-spacing: -0.01em; }
+.about-prose { max-width: 37rem; font-size: 1.05rem; color: var(--soft); }
+.about-prose p + p { margin-top: 1em; }
+
+.about-facts { display: grid; gap: 1.25rem 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+.about-prose + .about-facts { margin-top: 2rem; }
+.about-facts > div { padding-top: 0.8rem; border-top: 1px solid var(--line); }
+.about-facts dt { font: 500 0.75rem/1.4 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.about-facts dd { margin-top: 0.35rem; overflow-wrap: anywhere; }
+.about-facts a { text-underline-offset: 3px; }
+
+/* ---- Next step ---- */
+.about-cta {
+  display: grid; gap: 0.75rem 3rem;
+  margin-top: clamp(3rem, 7cqi, 5.5rem); padding: clamp(1.75rem, 4.5cqi, 3.25rem);
+  background: var(--surface); border: 1px solid var(--line);
+}
+.about-cta h2 { font-size: 1.8rem; font-size: clamp(1.7rem, 3.4cqi, 2.6rem); line-height: 1.1; }
+.about-cta p { max-width: 34rem; color: var(--muted); }
+.about-cta__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+.m .about-cta__actions { display: grid; }
+
+@container about (min-width: 560px) {
+  .about-section { grid-template-columns: 10rem minmax(0, 1fr); }
+  :is(.spor, .m--spor) .about-section { grid-template-columns: 11.5rem minmax(0, 1fr); } /* room for the paw mark */
+}
+
+/* Wide: copy on the left, the portrait beside it, held in view while the copy scrolls. */
+@container about (min-width: 880px) {
+  .about-cols { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.8fr); column-gap: clamp(3rem, 7cqi, 6.5rem); }
+  .about-cols > * { grid-column: 1; }
+  .about-cols > .about-portrait {
+    grid-column: 2; grid-row: 1 / span 4;
+    align-self: start; justify-self: end;
+    position: sticky; top: 6.5rem;
+    /* Never taller than the window: the caption stays in view on a small laptop. */
+    width: 100%; max-width: max(15rem, calc((100svh - 13rem) * 0.8));
+    margin-top: 0;
+  }
+  .about-cta { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+  .about-cta > * { grid-column: 1; }
+  .about-cta > .about-cta__actions { grid-column: 2; grid-row: 1 / span 2; margin-top: 0; }
+}
+
+/* ======== Per-design treatments (desktop body class, or .m--<theme> on a phone) ======== */
+
+/* Varg: the portrait sinks into the night at its lower edge, like the hero's fog. */
+:is(.varg, .m--varg) .about-portrait__frame img { filter: saturate(0.8) contrast(1.05); }
+:is(.varg, .m--varg) .about-portrait__frame::after {
+  content: ""; position: absolute; inset: 60% 0 0; pointer-events: none;
+  background: linear-gradient(to top, color-mix(in srgb, var(--bg) 72%, transparent), transparent);
+}
+
+/* Signal: a console record. Mono labels with the // prefix, the portrait as a camera frame. */
+:is(.signal, .m--signal) .about-kicker::before,
+:is(.signal, .m--signal) .about-section > h2::before { content: "// "; }
+:is(.signal, .m--signal) .about-intro h1 { font-size: 2rem; font-size: clamp(1.9rem, 4.3cqi, 3.1rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.01em; }
+:is(.signal, .m--signal) .about-section > h2 { font: 400 0.75rem/1.7 var(--font-mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+:is(.signal, .m--signal) .about-prose { font-size: 1em; }
+:is(.signal, .m--signal) .about-portrait__frame { background: #000; }
+:is(.signal, .m--signal) .about-portrait__frame img { filter: grayscale(1) contrast(1.15) brightness(0.92); }
+:is(.signal, .m--signal) .about-portrait__frame::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.55));
+}
+:is(.signal, .m--signal) .about-portrait__frame::after {
+  content: "ID 01"; position: absolute; left: 10px; top: 9px; z-index: 2;
+  font: 0.75rem/1 var(--font-mono); letter-spacing: 0.12em; color: var(--accent);
+}
+:is(.signal, .m--signal) .about-portrait__name { font-weight: 700; font-size: 1.05rem; color: var(--accent); }
+:is(.signal, .m--signal) .about-cta h2 { font-weight: 700; font-size: 1.5rem; font-size: clamp(1.4rem, 2.6cqi, 1.9rem); }
+
+/* Spor: light type, and the sections follow each other like tracks on a dashed trail. */
+:is(.spor, .m--spor) .about-intro h1,
+:is(.spor, .m--spor) .about-cta h2 { font-weight: 400; letter-spacing: -0.035em; }
+:is(.spor, .m--spor) .about-section { border-top-style: dashed; }
+:is(.spor, .m--spor) .about-section > h2 { font-weight: 400; }
+:is(.spor, .m--spor) .about-section > h2::before {
+  content: ""; display: inline-block; width: 16px; height: 16px; margin-right: 0.6rem; vertical-align: -2px;
+  background: url("/static/images/opt/paw.svg") center / contain no-repeat; opacity: 0.85;
+}
+:is(.spor, .m--spor) .about-portrait__frame img { filter: saturate(0.7); }
+.about-page.spor .about-cta { background: #000; }
+
+/* Natt: the advisory firm. The kicker rule and an amber frame set off behind the portrait. */
+:is(.natt, .m--natt) .about-kicker {
+  display: inline-flex; align-items: center; gap: 0.75rem;
+  font: 600 0.75rem/1 var(--font-body); letter-spacing: 0.14em;
+}
+:is(.natt, .m--natt) .about-kicker::before { content: ""; width: 28px; height: 2px; background: var(--accent); }
+:is(.natt, .m--natt) .about-portrait__frame {
+  margin: 0 12px 12px 0; border: 0;
+  box-shadow: 12px 12px 0 -2px var(--bg), 12px 12px 0 0 var(--accent);
+}
+:is(.natt, .m--natt) .about-portrait figcaption { margin-top: 1.5rem; }
+:is(.natt, .m--natt) .about-cta { border: 0; border-top: 3px solid var(--accent); }

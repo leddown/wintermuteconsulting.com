@@ -1,42 +1,46 @@
 {{/* Mobile layout shared by every design. Served to phones at the same URL
      (see mobile.go). Each templates/m/<slug>.html overrides the blocks below to
-     give the design its own hero, AI section, colours and motion. */}}
+     give the design its own hero, AI section, colours and motion. Another page
+     (templates/m/about.html) replaces "m-main" and keeps the bar and footer. */}}
 {{define "page"}}<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="{{.Site.Name}}: {{.Site.Descriptor}}. {{.Site.Lede}}">
+<meta name="description" content="{{template "meta-description" .}}">
 <meta name="theme-color" content="{{block "m-theme-color" .}}#07090a{{end}}">
 <meta name="format-detection" content="telephone=no">
 <link rel="icon" href="/static/images/opt/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/css/base.css">
 <link rel="stylesheet" href="/static/css/{{.Variant.Theme}}.css">
 <link rel="stylesheet" href="/static/css/mobile.css">
+{{block "m-styles" .}}{{end}}
 <script type="module" src="/static/js/reveal.js"></script>
 <script type="module" src="/static/js/mnav.js"></script>
 {{block "m-scripts" .}}{{end}}
-<title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
+<title>{{block "m-title" .}}{{.Site.Name}}: {{.Site.Descriptor}}{{end}}</title>
 </head>
 <body class="m m--{{.Variant.Slug}}{{if ne .Variant.Theme .Variant.Slug}} m--{{.Variant.Theme}}{{end}}">
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="m-bar">
   <a class="m-bar__logo" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{if eq .Variant.Theme "signal"}}{{template "logo-legal" .Site}}{{else}}{{template "logo" .Site}}{{end}}</a>
-  <a class="m-bar__cta" href="#contact">Contact</a>
+  <a class="m-bar__cta" href="{{.Home}}#contact">Contact</a>
   <details class="m-menu" data-menu>
     <summary class="m-menu__toggle" aria-label="Menu"><span class="m-menu__icon" aria-hidden="true"></span></summary>
     <nav class="m-menu__sheet" aria-label="Primary">
-      <a href="#services"><span>01</span>Services</a>
-      <a href="#ai"><span>02</span>Emerging AI</a>
-      <a href="#approach"><span>03</span>How we work</a>
-      <a href="#contact"><span>04</span>Contact</a>
+      <a href="{{.Home}}#services"><span>01</span>Services</a>
+      <a href="{{.Home}}#ai"><span>02</span>Emerging AI</a>
+      <a href="{{.Home}}#approach"><span>03</span>How we work</a>
+      <a href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}"{{if eq .Page "about"}} aria-current="page"{{end}}><span>04</span>About</a>
+      <a href="{{.Home}}#contact"><span>05</span>Contact</a>
       <p class="m-menu__foot">{{.Site.Location}}<br><a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></p>
     </nav>
   </details>
 </header>
 
 <main id="main">
+  {{block "m-main" .}}
   {{block "m-hero" .}}
   <section class="m-hero">
     <div class="m-hero__media">{{template "forest-picture"}}</div>
@@ -96,6 +100,7 @@
     {{template "contact-form" .}}
     <p class="m-contact__alt">Prefer email? <a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></p>
   </section>
+  {{end}}
 </main>
 
 <footer class="m-footer">

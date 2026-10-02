@@ -14,15 +14,7 @@
 <a class="skip" href="#main">Skip to content</a>
 <div class="signal-scanlines" aria-hidden="true"></div>
 
-<header class="signal-header">
-  <a class="signal-logo" href="/v/signal2{{.ViewQuery}}">{{template "logo-legal" .Site}}<span class="blink" aria-hidden="true">_</span></a>
-  <nav aria-label="Primary">
-    <a href="#services">./services</a>
-    <a href="#ai">./emerging_ai</a>
-    <a href="#contact">./contact</a>
-  </nav>
-  <span class="signal-clock" data-clock aria-hidden="true">--:--:-- UTC</span>
-</header>
+{{template "signal-header" .}}
 
 <main id="main">
   <section class="signal-hero">

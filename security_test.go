@@ -46,6 +46,7 @@ func TestSecurityHeadersOnEveryResponse(t *testing.T) {
 	}{
 		{"index", "GET", "/", "", nil, 200},
 		{"variant", "GET", "/v/varg", "", nil, 200},
+		{"about", "GET", "/v/varg/about", "", nil, 200},
 		{"static", "GET", "/static/css/base.css", "", nil, 200},
 		{"health", "GET", "/healthz", "", nil, 200},
 		{"not found", "GET", "/nope", "", nil, 404},
@@ -161,7 +162,7 @@ func TestRenderedHTMLHasNoInlineOrThirdPartyCode(t *testing.T) {
 	h := testApp(t).routes()
 	pages := []string{"/"}
 	for _, v := range variants {
-		pages = append(pages, "/v/"+v.Slug, "/v/"+v.Slug+"?sent=1")
+		pages = append(pages, "/v/"+v.Slug, "/v/"+v.Slug+"?sent=1", "/v/"+v.Slug+"/about")
 	}
 	for _, p := range pages {
 		rec := do(h, "GET", p, nil, nil)
@@ -295,7 +296,7 @@ func TestContactBodyLimit(t *testing.T) {
 func TestMethodsAreRestricted(t *testing.T) {
 	h := testApp(t).routes()
 	for _, c := range []struct{ method, path string }{
-		{"GET", "/contact"}, {"PUT", "/contact"}, {"DELETE", "/"}, {"PATCH", "/v/varg"},
+		{"GET", "/contact"}, {"PUT", "/contact"}, {"DELETE", "/"}, {"PATCH", "/v/varg"}, {"POST", "/v/varg/about"},
 		{"TRACE", "/"}, {"POST", "/"}, {"POST", "/static/css/base.css"}, {"PROPFIND", "/"},
 	} {
 		rec := do(h, c.method, c.path, nil, nil)
