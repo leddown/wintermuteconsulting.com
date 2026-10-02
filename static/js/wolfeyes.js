@@ -5,10 +5,10 @@
 //
 //   <canvas data-wolf-eyes data-pairs="3">   up to three pairs, some shown each time
 //   data-scale="0.6"                         draw the eyes smaller (or larger)
-//   data-band="0.46 0.58"                    keep the eyes inside this band of the
+//   data-band="0.6 0.9"                      keep the eyes inside this band of the
 //                                            canvas height (top bottom, 0 to 1), e.g.
-//                                            a picture's tree line: far eyes at the
-//                                            top of it, nearer ones lower
+//                                            a picture's forest floor: far eyes at
+//                                            the top of it, nearer ones lower
 //   data-color="ice"                         pale blue instead of amber
 //   data-size="lg"                           one large centred pair
 //   data-footage="/static/images/opt/eyeshine.webm"
@@ -46,11 +46,24 @@ class Pair {
     // Deeper in the forest = higher up and smaller.
     // On narrow screens the copy fills the lower half, so keep eyes above it,
     // unless the canvas names the band of its picture they belong in.
-    const depth = Math.random();
     const [top, bottom] = this.field.band || (w < 700 ? [0.1, 0.28] : [0.42, 0.72]);
-    this.x = rand(w * 0.12, w * 0.88);
-    this.y = h * (top + depth * (bottom - top));
-    this.s = (4 + depth * 6 + (w > 1200 ? 2 : 0)) * this.field.scale;
+    // Two pairs side by side read as one animal with four eyes, which a narrow
+    // band makes likely: look a few times for a spot clear of the others.
+    for (let tries = 0; tries < 8; tries++) {
+      const depth = Math.random();
+      this.x = rand(w * 0.12, w * 0.88);
+      this.s = (4 + depth * 6 + (w > 1200 ? 2 : 0)) * this.field.scale;
+      // In a named band the whole eye stays inside it, not just its centre.
+      const inset = this.field.band ? this.s * 0.6 : 0;
+      this.y = clamp(h * (top + depth * (bottom - top)), h * top + inset, h * bottom - inset);
+      if (!this.crowded()) break;
+    }
+  }
+
+  // Close enough to another pair that the two would read as one cluster.
+  crowded() {
+    return (this.field.pairs || []).some(o => o !== this &&
+      Math.abs(o.x - this.x) < (o.s + this.s) * 4 && Math.abs(o.y - this.y) < (o.s + this.s) * 1.5);
   }
 
   // Chosen this time: fade in (or stay) and linger a little.

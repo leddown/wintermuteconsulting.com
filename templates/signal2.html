@@ -1,5 +1,6 @@
 {{/* Signal 2: a copy of Signal to develop separately. Its eyes are smaller and
-     appear only in the picture's tree line, low to the ground (data-band), and
+     appear only on the forest floor, in the bottom half of the picture and
+     below the trunks (data-band), and
      the picture is 15% lighter. Reuses static/css/signal.css. */}}
 {{define "page"}}<!doctype html>
 <html lang="en">
@@ -21,7 +22,7 @@
   <section class="signal-hero">
     <div class="signal-viewport">
       <div class="signal-viewport__media">{{template "forest-picture"}}</div>
-      <canvas class="signal-viewport__eyes--deep" data-wolf-eyes data-pairs="2" data-scale="0.6" data-band="0.46 0.58" aria-hidden="true"></canvas>
+      <canvas class="signal-viewport__eyes--deep" data-wolf-eyes data-pairs="2" data-scale="0.6" data-band="0.6 0.9" aria-hidden="true"></canvas>
     </div>
     <div class="signal-hero__text">
       <p class="eyebrow">// {{.Site.Descriptor}}</p>

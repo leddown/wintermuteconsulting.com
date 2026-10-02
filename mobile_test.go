@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/url"
 	"regexp"
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -178,17 +179,26 @@ func TestNoGlitchAnywhere(t *testing.T) {
 		}
 	}
 
-	// Signal 2's eyes are the smaller ones, kept to its picture's tree line, on both layouts.
+	// Both Signal designs keep their eyes on the picture's forest floor, on both
+	// layouts: in the bottom half and below the trunk bases, which end at about
+	// 58% of its height. Signal 2's are the smaller ones.
+	band := regexp.MustCompile(`data-band="([0-9.]+) ([0-9.]+)"`)
 	for _, ua := range []string{uaDesktop, uaIPhone} {
-		body := do(h, "GET", "/v/signal2", nil, map[string]string{"User-Agent": ua}).Body.String()
-		if !strings.Contains(body, `data-scale="0.`) {
-			t.Errorf("signal2 (%s): eyes not scaled down", ua[13:20])
-		}
-		if !strings.Contains(body, `data-band="0.46 0.58"`) {
-			t.Errorf("signal2 (%s): eyes not kept to the tree line", ua[13:20])
-		}
-		if body := do(h, "GET", "/v/signal", nil, map[string]string{"User-Agent": ua}).Body.String(); strings.Contains(body, "data-band") {
-			t.Errorf("signal (%s): the tree-line placement belongs to Signal 2 only", ua[13:20])
+		for _, slug := range []string{"signal", "signal2"} {
+			body := do(h, "GET", "/v/"+slug, nil, map[string]string{"User-Agent": ua}).Body.String()
+			m := band.FindStringSubmatch(body)
+			if m == nil {
+				t.Errorf("%s (%s): eyes have no band", slug, ua[13:20])
+				continue
+			}
+			top, _ := strconv.ParseFloat(m[1], 64)
+			bottom, _ := strconv.ParseFloat(m[2], 64)
+			if top < 0.58 || bottom > 1 || top >= bottom {
+				t.Errorf("%s (%s): band %s–%s is not on the forest floor", slug, ua[13:20], m[1], m[2])
+			}
+			if slug == "signal2" && !strings.Contains(body, `data-scale="0.`) {
+				t.Errorf("signal2 (%s): eyes not scaled down", ua[13:20])
+			}
 		}
 	}
 }
