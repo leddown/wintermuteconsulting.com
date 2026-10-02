@@ -178,10 +178,17 @@ func TestNoGlitchAnywhere(t *testing.T) {
 		}
 	}
 
-	// Signal 2's eyes are the smaller ones, set back in its picture, on both layouts.
+	// Signal 2's eyes are the smaller ones, kept to its picture's tree line, on both layouts.
 	for _, ua := range []string{uaDesktop, uaIPhone} {
-		if body := do(h, "GET", "/v/signal2", nil, map[string]string{"User-Agent": ua}).Body.String(); !strings.Contains(body, `data-scale="0.`) {
+		body := do(h, "GET", "/v/signal2", nil, map[string]string{"User-Agent": ua}).Body.String()
+		if !strings.Contains(body, `data-scale="0.`) {
 			t.Errorf("signal2 (%s): eyes not scaled down", ua[13:20])
+		}
+		if !strings.Contains(body, `data-band="0.46 0.58"`) {
+			t.Errorf("signal2 (%s): eyes not kept to the tree line", ua[13:20])
+		}
+		if body := do(h, "GET", "/v/signal", nil, map[string]string{"User-Agent": ua}).Body.String(); strings.Contains(body, "data-band") {
+			t.Errorf("signal (%s): the tree-line placement belongs to Signal 2 only", ua[13:20])
 		}
 	}
 }

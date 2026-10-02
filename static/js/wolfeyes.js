@@ -5,6 +5,10 @@
 //
 //   <canvas data-wolf-eyes data-pairs="3">   up to three pairs, some shown each time
 //   data-scale="0.6"                         draw the eyes smaller (or larger)
+//   data-band="0.46 0.58"                    keep the eyes inside this band of the
+//                                            canvas height (top bottom, 0 to 1), e.g.
+//                                            a picture's tree line: far eyes at the
+//                                            top of it, nearer ones lower
 //   data-color="ice"                         pale blue instead of amber
 //   data-size="lg"                           one large centred pair
 //   data-footage="/static/images/opt/eyeshine.webm"
@@ -40,10 +44,12 @@ class Pair {
       return;
     }
     // Deeper in the forest = higher up and smaller.
-    // On narrow screens the copy fills the lower half, so keep eyes above it.
+    // On narrow screens the copy fills the lower half, so keep eyes above it,
+    // unless the canvas names the band of its picture they belong in.
     const depth = Math.random();
+    const [top, bottom] = this.field.band || (w < 700 ? [0.1, 0.28] : [0.42, 0.72]);
     this.x = rand(w * 0.12, w * 0.88);
-    this.y = w < 700 ? h * (0.1 + depth * 0.18) : h * (0.42 + depth * 0.3);
+    this.y = h * (top + depth * (bottom - top));
     this.s = (4 + depth * 6 + (w > 1200 ? 2 : 0)) * this.field.scale;
   }
 
@@ -99,6 +105,8 @@ class Field {
     this.large = canvas.dataset.size === 'lg';
     this.palette = PALETTES[canvas.dataset.color] || PALETTES.amber;
     this.scale = +canvas.dataset.scale || 1;
+    const band = (canvas.dataset.band || '').trim().split(/\s+/).map(Number);
+    this.band = band.length === 2 && band.every(n => n >= 0 && n <= 1) && band[0] < band[1] ? band : null;
     this.visible = false;
     this.resize();
     this.pairs = Array.from({ length: this.large ? 1 : +canvas.dataset.pairs || 3 }, () => new Pair(this));

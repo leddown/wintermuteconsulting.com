@@ -40,7 +40,7 @@ Fog, spruce, moss, snow, dusk. Desaturate and darken photos. The forest should f
 2. No glitch effects: no flashes, tears, RGB splits or scrambled text.
 3. No motion under `prefers-reduced-motion`. Eyes render as a still frame.
 4. Anything interactive responds to hover/focus with a small scramble, never a layout shift.
-5. Wolf eyes fade in on their own every 5 to 11 s, linger 1–3 s and fade out; they may be elsewhere or gone next time. They never follow the pointer. Real eyeshine footage (`data-footage`) is preferred; the drawn fallback is dim almond eyeshine with no pupils. Where the eyes sit deep in a picture, draw them smaller (`data-scale`).
+5. Wolf eyes fade in on their own every 5 to 11 s, linger 1–3 s and fade out; they may be elsewhere or gone next time. They never follow the pointer. Real eyeshine footage (`data-footage`) is preferred; the drawn fallback is dim almond eyeshine with no pupils. Where the eyes sit deep in a picture, draw them smaller (`data-scale`) and keep them where an animal could stand, such as the tree line near the ground (`data-band`), not up in the canopy.
 
 ## About page and portrait
 

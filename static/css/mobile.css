@@ -185,7 +185,7 @@ html.m-menu-open { overflow: hidden; }
 .m--signal { font-size: 0.9375rem; }
 .m-hero--console { min-height: 0; justify-content: flex-start; padding-top: 20px; }
 .m-viewport { position: relative; margin: 0 var(--pad); aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--line); background: #000; isolation: isolate; }
-.m-viewport .m-hero__media img { filter: grayscale(1) brightness(0.45) contrast(1.35) sepia(0.4) hue-rotate(150deg); }
+.m-viewport .m-hero__media img { filter: grayscale(1) brightness(0.45) contrast(1.35) sepia(0.4) hue-rotate(150deg) brightness(var(--feed-light, 1)); }
 .m-viewport .m-hero__media::after { background: radial-gradient(ellipse at center, transparent 40%, rgb(0 0 0 / 0.75)); }
 .m-viewport .m-hero__eyes { height: 100%; }
 .m-viewport__hud { position: absolute; left: 10px; right: 10px; bottom: 8px; display: flex; justify-content: space-between; font: 0.66rem/1 var(--font-mono); letter-spacing: 0.12em; color: var(--accent); }
