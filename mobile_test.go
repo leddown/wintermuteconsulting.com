@@ -200,9 +200,13 @@ func TestNoGlitchAnywhere(t *testing.T) {
 				t.Errorf("signal2 (%s): eyes not scaled down", ua[13:20])
 			}
 		}
-		// Grense's eyes appear between 25% and 40% up from the bottom of its picture.
-		if body := do(h, "GET", "/v/grense", nil, map[string]string{"User-Agent": ua}).Body.String(); !strings.Contains(body, `data-band="0.6 0.75"`) {
-			t.Errorf("grense (%s): eyes are not in the band 25%%–40%% from the bottom", ua[13:20])
+		// Signal 3's eyes appear between 25% and 40% up from the bottom of its picture.
+		if body := do(h, "GET", "/v/signal3", nil, map[string]string{"User-Agent": ua}).Body.String(); !strings.Contains(body, `data-band="0.6 0.75"`) {
+			t.Errorf("signal3 (%s): eyes are not in the band 25%%–40%% from the bottom", ua[13:20])
+		}
+		// Grense's eyes appear between 18% and 26% up from the bottom of its picture.
+		if body := do(h, "GET", "/v/grense", nil, map[string]string{"User-Agent": ua}).Body.String(); !strings.Contains(body, `data-band="0.74 0.82"`) {
+			t.Errorf("grense (%s): eyes are not in the band 18%%–26%% from the bottom", ua[13:20])
 		}
 	}
 }
