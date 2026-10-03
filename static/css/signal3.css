@@ -84,4 +84,4 @@
 
 /* Signal 3 shows the picture 15% lighter, same as Signal 2 (on the phone
    layout too: mobile.css reads the same variable). */
-.signal3, .m--signal3 { --feed-light: 1.15; }
+.signal3, .m--signal3 { --feed-light: 1.35; }
