@@ -40,7 +40,7 @@ func TestPagesRender(t *testing.T) {
 
 func TestNotFound(t *testing.T) {
 	h := testApp(t).routes()
-	for _, p := range []string{"/v/nope", "/v/nope/about", "/v/natt/nope", "/v/natt/about/x", "/v/varg", "/v/varg2", "/v/signal", "/v/sno", "/v/vakt", "/v/vakt/about", "/v/signal/about", "/about", "/nope", "/static/", "/static/css/"} {
+	for _, p := range []string{"/v/nope", "/v/nope/about", "/v/natt/nope", "/v/natt/about/x", "/v/varg", "/v/varg2", "/v/signal", "/v/sno", "/v/vakt", "/v/vakt/about", "/v/natt2", "/v/natt2/about", "/v/spor2", "/v/spor2/about", "/v/signal/about", "/about", "/nope", "/static/", "/static/css/"} {
 		rec := httptest.NewRecorder()
 		h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, p, nil))
 		if rec.Code != http.StatusNotFound {
@@ -174,7 +174,7 @@ func TestProfessionalServicesFamily(t *testing.T) {
 			t.Errorf("%s: About page should carry the top bar", v.Slug)
 		}
 	}
-	for slug, want := range map[string]bool{"natt": true, "natt2": true, "grense": true, "signal2": false, "spor": false, "spor2": false} {
+	for slug, want := range map[string]bool{"natt": true, "grense": true, "signal2": false, "spor": false} {
 		if v, _ := findVariant(slug); v.PS() != want {
 			t.Errorf("%s.PS() = %v, want %v", slug, v.PS(), want)
 		}
