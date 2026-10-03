@@ -14,14 +14,14 @@
 .ps .about { max-width: calc(var(--wide) + 2 * var(--gutter)); }
 .m .about { padding: 40px var(--pad) 64px; }
 
-/* Varg and Spor fix their header over the hero picture. There is no picture
+/* Spor fixes its header over the hero picture. There is no picture
    here, so give it a ground: otherwise the text scrolls through the nav. */
-.about-page .varg-header, .about-page .spor-header {
+.about-page .spor-header {
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
 }
-.about-page.varg .about, .about-page.spor .about { padding-top: calc(3.5rem + clamp(3rem, 7cqi, 6rem)); }
+.about-page.spor .about { padding-top: calc(3.5rem + clamp(3rem, 7cqi, 6rem)); }
 
 /* ---- Intro ---- */
 .about-intro h1 {
@@ -85,13 +85,6 @@
 
 /* ======== Per-design treatments (desktop body class, or .m--<theme> on a phone) ======== */
 
-/* Varg: the portrait sinks into the night at its lower edge, like the hero's fog. */
-:is(.varg, .m--varg) .portrait__frame img { filter: saturate(0.8) contrast(1.05); }
-:is(.varg, .m--varg) .portrait__frame::after {
-  content: ""; position: absolute; inset: 60% 0 0; pointer-events: none;
-  background: linear-gradient(to top, color-mix(in srgb, var(--bg) 72%, transparent), transparent);
-}
-
 /* Signal: a console record. Mono labels with the // prefix, the portrait as a camera frame. */
 :is(.signal, .m--signal) .about-kicker::before,
 :is(.signal, .m--signal) .about-section > h2::before { content: "// "; }
@@ -124,11 +117,11 @@
 .about-page.spor .about-cta { background: #000; }
 
 /* Natt: the advisory firm. The kicker rule and an amber frame set off behind the portrait. */
-:is(.natt, .m--natt, .sno, .m--sno, .grense, .m--grense, .vakt, .m--vakt) .about-kicker {
+:is(.natt, .m--natt, .grense, .m--grense, .vakt, .m--vakt) .about-kicker {
   display: inline-flex; align-items: center; gap: 0.75rem;
   font: 600 0.75rem/1 var(--font-body); letter-spacing: 0.14em;
 }
-:is(.natt, .m--natt, .sno, .m--sno, .grense, .m--grense, .vakt, .m--vakt) .about-kicker::before { content: ""; width: 28px; height: 2px; background: var(--accent); }
+:is(.natt, .m--natt, .grense, .m--grense, .vakt, .m--vakt) .about-kicker::before { content: ""; width: 28px; height: 2px; background: var(--accent); }
 :is(.natt, .m--natt) .portrait__frame {
   margin: 0 12px 12px 0; border: 0;
   box-shadow: 12px 12px 0 -2px var(--bg), 12px 12px 0 0 var(--accent);
@@ -136,13 +129,13 @@
 :is(.natt, .m--natt) .portrait figcaption { margin-top: 1.5rem; }
 :is(.natt, .m--natt) .about-cta { border: 0; border-top: 3px solid var(--accent); }
 
-/* Snø and Grense: light pages. Sections are ruled in ink, the closing panel is the one dark block. */
-:is(.sno, .m--sno, .grense, .m--grense) .about-section { border-top-color: var(--ink); }
-:is(.sno, .m--sno, .grense, .m--grense) .about-cta { background: var(--footer-bg); border: 0; color: #e6ecea; }
-:is(.sno, .m--sno, .grense, .m--grense) .about-cta p { color: #b5c3c8; }
-:is(.sno, .m--sno, .grense, .m--grense) .about-cta .btn--ghost { border-color: rgb(230 236 234 / 0.4); color: #e6ecea; }
-:is(.sno, .m--sno, .grense, .m--grense) .about-cta :focus-visible { outline-color: var(--accent); }
-:is(.sno, .m--sno, .grense, .m--grense) .portrait__frame img { filter: grayscale(1) contrast(1.05); }
+/* Grense: a light page. Sections are ruled in ink, the closing panel is the one dark block. */
+:is(.grense, .m--grense) .about-section { border-top-color: var(--ink); }
+:is(.grense, .m--grense) .about-cta { background: var(--footer-bg); border: 0; color: #e6ecea; }
+:is(.grense, .m--grense) .about-cta p { color: #b5c3c8; }
+:is(.grense, .m--grense) .about-cta .btn--ghost { border-color: rgb(230 236 234 / 0.4); color: #e6ecea; }
+:is(.grense, .m--grense) .about-cta :focus-visible { outline-color: var(--accent); }
+:is(.grense, .m--grense) .portrait__frame img { filter: grayscale(1) contrast(1.05); }
 
 /* Vakt: the amber rule from its homepage principles. */
 :is(.vakt, .m--vakt) .about-cta { border: 0; border-top: 2px solid var(--accent); }

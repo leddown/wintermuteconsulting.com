@@ -10,22 +10,9 @@
 
 {{define "meta-description"}}{{if eq .Page "about"}}{{.Site.About.Summary}}{{else}}{{.Site.Name}}: {{.Site.Descriptor}}. {{.Site.Lede}}{{end}}{{end}}
 
-{{/* Each design's site header, shared by its homepage(s) and its About page.
+{{/* A design's site header, shared by its homepage(s) and its About page.
      .Home is empty on the homepage, so the section links there stay in-page
      anchors. A "2" copy that needs its own header can inline one again. */}}
-{{define "varg-header"}}
-<header class="varg-header">
-  <a class="varg-logo" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "logo" .Site}}</a>
-  <nav class="varg-nav" aria-label="Primary">
-    <a href="{{.Home}}#services">Services</a>
-    <a href="{{.Home}}#ai">Emerging AI</a>
-    <a href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}"{{if eq .Page "about"}} aria-current="page"{{end}}>About</a>
-    <a href="{{.Home}}#contact">Contact</a>
-  </nav>
-  <span class="varg-status" aria-hidden="true"><span class="dot"></span>WATCHING</span>
-</header>
-{{end}}
-
 {{define "signal-header"}}
 <header class="signal-header">
   <a class="signal-logo" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "logo-legal" .Site}}<span class="blink" aria-hidden="true">_</span></a>

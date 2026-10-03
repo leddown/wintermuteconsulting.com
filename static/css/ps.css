@@ -1,4 +1,4 @@
-/* Professional-services family (Natt, Snø, Grense, Vakt): the page furniture of a
+/* Professional-services family (Natt, Grense, Vakt): the page furniture of a
    large advisory firm. Utility bar, nav, service tiles, figures, industries,
    insights, steps, contact and a column footer. Each design's stylesheet sets
    the tokens (--bg, --ink, --brand, --accent, fonts) and its own hero. */
@@ -48,11 +48,11 @@
 .ps-nav__cta { margin-left: auto; padding: 0.7em 1.2em; font-size: 0.88rem; }
 @media (min-width: 980px) { .ps-nav__links { display: flex; } }
 @media (max-width: 479px) { .ps-nav { gap: 0.5rem 1rem; flex-wrap: wrap; } .ps-nav__brand .logo-sub { display: none; } }
-/* Snø and Vakt keep the section links below 980px: a row under the bar that scrolls sideways. */
+/* Vakt keeps the section links below 980px: a row under the bar that scrolls sideways. */
 @media (max-width: 979px) {
-  :is(.sno, .vakt) .ps-nav { flex-wrap: wrap; row-gap: 0.35rem; }
-  :is(.sno, .vakt) .ps-nav__links { display: flex; order: 3; flex: 0 0 100%; gap: 1.5rem; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
-  :is(.sno, .vakt) .ps-nav__links a { padding: 0.5rem 0; }
+  .vakt .ps-nav { flex-wrap: wrap; row-gap: 0.35rem; }
+  .vakt .ps-nav__links { display: flex; order: 3; flex: 0 0 100%; gap: 1.5rem; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+  .vakt .ps-nav__links a { padding: 0.5rem 0; }
 }
 
 /* ---- Section heads ---- */

@@ -1,4 +1,4 @@
-{{/* Professional-services family (Natt, Snø, Grense, Vakt): shared illustration,
+{{/* Professional-services family (Natt, Grense, Vakt): shared illustration,
      icons and page furniture. Styled by static/css/ps.css plus each design's
      own tokens. Parsed with every page; it only defines templates. */}}
 
@@ -131,14 +131,6 @@
   </div>
 </footer>
 {{template "variant-switcher" .}}
-{{end}}
-
-{{/* Snø's tree line: the forest's edge as one band, eyes on its ground. Desktop hero and phone hero. */}}
-{{define "sno-treeline"}}
-<div class="sno-treeline" aria-hidden="true">
-  <div class="sno-treeline__media">{{template "forest-picture"}}</div>
-  <canvas data-wolf-eyes data-pairs="3" data-band="0.62 0.9"></canvas>
-</div>
 {{end}}
 
 {{/* Services as plain rows (Grense, Vakt): each design lays them out itself. */}}

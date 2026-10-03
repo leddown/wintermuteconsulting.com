@@ -328,8 +328,8 @@ stage_prod() {
 	probe "https://$domain"
 
 	section "HTTP -> HTTPS"
-	loc=$(headers_of "http://$domain/v/varg?x=1" | grep -i '^location:' | awk '{print $2}')
-	[ "$loc" = "https://$domain/v/varg?x=1" ] && ok "port 80 redirects to HTTPS, keeping the path" || bad "port 80 redirect: '${loc:-none}'"
+	loc=$(headers_of "http://$domain/healthz?x=1" | grep -i '^location:' | awk '{print $2}')
+	[ "$loc" = "https://$domain/healthz?x=1" ] && ok "port 80 redirects to HTTPS, keeping the path" || bad "port 80 redirect: '${loc:-none}'"
 	c=$(code_of "http://$domain/.well-known/acme-challenge/../../etc/passwd")
 	case $c in 2??) bad "ACME challenge path traversal = $c" ;; *) ok "ACME challenge path traversal = $c" ;; esac
 

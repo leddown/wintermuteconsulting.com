@@ -59,7 +59,7 @@ func TestAboutPage(t *testing.T) {
 		}
 		// A forced layout follows every link off the page, and the design switcher stays on About.
 		_, _, body = getAs(t, path+"?view=desktop", uaIPhone)
-		for _, want := range []string{`href="/v/` + v.Slug + `?view=desktop#contact"`, `href="/v/varg/about?view=desktop"`, `href="` + path + `?view=mobile"`} {
+		for _, want := range []string{`href="/v/` + v.Slug + `?view=desktop#contact"`, `href="/v/` + variants[0].Slug + `/about?view=desktop"`, `href="` + path + `?view=mobile"`} {
 			if !strings.Contains(body, want) {
 				t.Errorf("%s?view=desktop: missing %q", path, want)
 			}

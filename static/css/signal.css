@@ -80,6 +80,6 @@
 .signal-contact__lede { margin: 1rem 0 2rem; color: var(--muted); }
 .signal .btn { font-family: var(--font-mono); }
 
-/* Signal 2: the picture 15% lighter (on the phone layout too: mobile.css reads
-   the same variable). */
+/* Signal 2 shows the picture 15% lighter (on the phone layout too: mobile.css
+   reads the same variable). */
 .signal2, .m--signal2 { --feed-light: 1.15; }

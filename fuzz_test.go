@@ -27,9 +27,9 @@ func fuzzApp(f *testing.F) http.Handler {
 
 func FuzzContact(f *testing.F) {
 	for _, p := range xssPayloads {
-		f.Add("varg", p, "a@b.co", p, p, "", "", p)
+		f.Add("spor", p, "a@b.co", p, p, "", "", p)
 	}
-	f.Add("signal", "Ada", "ada@example.com", "", "Hello there, long enough.", "", "", "desktop")
+	f.Add("signal2", "Ada", "ada@example.com", "", "Hello there, long enough.", "", "", "desktop")
 	f.Add("../x", "\x00", "\"a\"@b", "\xff\xfe", strings.Repeat("é", 5001), "bot", "null", "mobile")
 	h := fuzzApp(f)
 

@@ -86,7 +86,7 @@ func TestServesLayoutForDevice(t *testing.T) {
 		if !desktopBody.MatchString(body) || !strings.Contains(body, `?view=mobile"`) {
 			t.Errorf("%s: ?view=desktop on a phone should serve desktop with a way back", v.Slug)
 		}
-		if !strings.Contains(body, `href="/v/varg?view=desktop"`) {
+		if !strings.Contains(body, `href="/v/`+variants[0].Slug+`?view=desktop"`) {
 			t.Errorf("%s: forced layout not carried through the design switcher", v.Slug)
 		}
 
@@ -132,17 +132,17 @@ func TestContactKeepsLayout(t *testing.T) {
 
 	bad := validForm()
 	bad.Set("email", "nope")
-	if code, _, body := post(bad, uaIPhone); code != 422 || !strings.Contains(body, `class="m m--signal"`) {
+	if code, _, body := post(bad, uaIPhone); code != 422 || !strings.Contains(body, `class="m m--signal2 m--signal"`) {
 		t.Errorf("phone error re-render should stay mobile (code %d)", code)
 	}
 
 	f := validForm()
 	f.Set("view", "desktop")
-	if _, loc, _ := post(f, uaIPhone); loc != "/v/signal?sent=1&view=desktop#contact" {
+	if _, loc, _ := post(f, uaIPhone); loc != "/v/signal2?sent=1&view=desktop#contact" {
 		t.Errorf("forced layout lost on redirect: %q", loc)
 	}
 	f.Set("view", "javascript:alert(1)")
-	if _, loc, _ := post(f, uaIPhone); loc != "/v/signal?sent=1#contact" {
+	if _, loc, _ := post(f, uaIPhone); loc != "/v/signal2?sent=1#contact" {
 		t.Errorf("bogus view leaked into redirect: %q", loc)
 	}
 }
@@ -179,12 +179,12 @@ func TestNoGlitchAnywhere(t *testing.T) {
 		}
 	}
 
-	// Both Signal designs keep their eyes on the picture's forest floor, on both
-	// layouts: in the bottom half and below the trunk bases, which end at about
-	// 58% of its height. Signal 2's are the smaller ones.
+	// Signal 2 keeps its eyes on the picture's forest floor, on both layouts: in
+	// the bottom half and below the trunk bases, which end at about 58% of its
+	// height.
 	band := regexp.MustCompile(`data-band="([0-9.]+) ([0-9.]+)"`)
 	for _, ua := range []string{uaDesktop, uaIPhone} {
-		for _, slug := range []string{"signal", "signal2"} {
+		for _, slug := range []string{"signal2"} {
 			body := do(h, "GET", "/v/"+slug, nil, map[string]string{"User-Agent": ua}).Body.String()
 			m := band.FindStringSubmatch(body)
 			if m == nil {

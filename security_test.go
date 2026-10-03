@@ -45,8 +45,8 @@ func TestSecurityHeadersOnEveryResponse(t *testing.T) {
 		code   int
 	}{
 		{"index", "GET", "/", "", nil, 200},
-		{"variant", "GET", "/v/varg", "", nil, 200},
-		{"about", "GET", "/v/varg/about", "", nil, 200},
+		{"variant", "GET", "/v/natt", "", nil, 200},
+		{"about", "GET", "/v/natt/about", "", nil, 200},
 		{"static", "GET", "/static/css/base.css", "", nil, 200},
 		{"health", "GET", "/healthz", "", nil, 200},
 		{"not found", "GET", "/nope", "", nil, 404},
@@ -250,12 +250,12 @@ func TestContactReRenderEscapesInput(t *testing.T) {
 }
 
 func TestContactRedirectStaysLocal(t *testing.T) {
-	for _, v := range []string{"//evil.example", "https://evil.example", `/\evil.example`, "varg\r\nSet-Cookie: x=1", "../../etc/passwd", "%2F%2Fevil", ""} {
+	for _, v := range []string{"//evil.example", "https://evil.example", `/\evil.example`, "natt\r\nSet-Cookie: x=1", "../../etc/passwd", "%2F%2Fevil", ""} {
 		f := validForm()
 		f.Set("variant", v)
 		rec := postContact(testApp(t).routes(), f, "")
 		loc := rec.Header().Get("Location")
-		if loc != "/v/varg?sent=1#contact" {
+		if loc != "/v/"+variants[0].Slug+"?sent=1#contact" {
 			t.Errorf("variant=%q: Location = %q", v, loc)
 		}
 		if rec.Header().Get("Set-Cookie") != "" {
@@ -296,7 +296,7 @@ func TestContactBodyLimit(t *testing.T) {
 func TestMethodsAreRestricted(t *testing.T) {
 	h := testApp(t).routes()
 	for _, c := range []struct{ method, path string }{
-		{"GET", "/contact"}, {"PUT", "/contact"}, {"DELETE", "/"}, {"PATCH", "/v/varg"}, {"POST", "/v/varg/about"},
+		{"GET", "/contact"}, {"PUT", "/contact"}, {"DELETE", "/"}, {"PATCH", "/v/natt"}, {"POST", "/v/natt/about"},
 		{"TRACE", "/"}, {"POST", "/"}, {"POST", "/static/css/base.css"}, {"PROPFIND", "/"},
 	} {
 		rec := do(h, c.method, c.path, nil, nil)
