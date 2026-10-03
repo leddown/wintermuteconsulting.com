@@ -204,6 +204,20 @@ html.m-menu-open { overflow: hidden; }
 .m--signal .m-menu__sheet > a { font-size: 1.5rem; font-weight: 700; }
 .m--signal .m-bar__logo .logo-sub { letter-spacing: 0.53em; } /* monospace, and "Consulting OÜ" is longer */
 
+/* Signal 3: a copy of Signal's mobile treatment kept under its own class,
+   since Signal 3 owns its own stylesheet rather than reusing signal.css. */
+.m--signal3 { font-size: 0.9375rem; }
+.m--signal3 .m-hero__content { padding-top: 32px; }
+.m--signal3 .m-hero__title { font-weight: 700; font-size: clamp(2rem, 9.4vw, 2.6rem); color: var(--crit); letter-spacing: -0.02em; }
+.m--signal3 .m-hero__lede { font-size: 0.9375rem; color: #aac3ca; }
+.m--signal3 .m-section h2 { font-weight: 700; color: var(--accent); font-size: 1.5rem; }
+.m--signal3 .m-services__list h3, .m--signal3 .m-approach__list h3 { font-size: 1.05rem; font-weight: 700; }
+.m--signal3 .m-proof dd { font-weight: 700; font-size: 1.6rem; color: var(--accent); }
+.m--signal3 .terminal { min-height: 21rem; margin-top: 20px; padding: 16px; font-size: 0.75rem; line-height: 1.75; }
+.m--signal3 .m-ai__note { font-size: 0.8rem; color: var(--muted) !important; }
+.m--signal3 .m-menu__sheet > a { font-size: 1.5rem; font-weight: 700; }
+.m--signal3 .m-bar__logo .logo-sub { letter-spacing: 0.53em; }
+
 /* A hero with no picture behind the copy: the design supplies its own band. */
 .m-hero--plain { min-height: 0; justify-content: flex-start; }
 .m-hero--plain .m-hero__content { padding-top: 36px; }

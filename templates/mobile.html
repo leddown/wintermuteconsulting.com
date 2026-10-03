@@ -24,7 +24,7 @@
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="m-bar">
-  <a class="m-bar__logo" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{if eq .Variant.Theme "signal"}}{{template "logo-legal" .Site}}{{else}}{{template "logo" .Site}}{{end}}</a>
+  <a class="m-bar__logo" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{if .Variant.Signal}}{{template "logo-legal" .Site}}{{else}}{{template "logo" .Site}}{{end}}</a>
   <a class="m-bar__cta" href="{{.Home}}#contact">Contact</a>
   <details class="m-menu" data-menu>
     <summary class="m-menu__toggle" aria-label="Menu"><span class="m-menu__icon" aria-hidden="true"></span></summary>

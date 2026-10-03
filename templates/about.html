@@ -12,14 +12,14 @@
 {{if .Variant.PS}}<link rel="stylesheet" href="{{static "css/ps.css"}}">
 {{end}}<link rel="stylesheet" href="{{static (print "css/" .Variant.Theme ".css")}}">
 <link rel="stylesheet" href="{{static "css/about.css"}}">
-{{if eq .Variant.Theme "signal"}}<script type="module" src="{{static "js/terminal.js"}}"></script>
+{{if .Variant.Signal}}<script type="module" src="{{static "js/terminal.js"}}"></script>
 {{else if eq .Variant.Theme "grense"}}<script type="module" src="{{static "js/wolfeyes.js"}}"></script>
 {{end}}</head>
 <body class="{{if .Variant.PS}}ps {{end}}{{.Variant.Theme}}{{if ne .Variant.Theme .Variant.Slug}} {{.Variant.Slug}}{{end}} about-page">
 <a class="skip" href="#main">Skip to content</a>
 {{if eq .Variant.Theme "grense"}}{{template "grense-rail" .}}
 {{else if .Variant.PS}}{{template "ps-util" .}}{{template "ps-nav" .}}
-{{else if eq .Variant.Theme "signal"}}<div class="signal-scanlines" aria-hidden="true"></div>{{template "signal-header" .}}
+{{else if .Variant.Signal}}<div class="signal-scanlines" aria-hidden="true"></div>{{template "signal-header" .}}
 {{else}}{{template "spor-header" .}}
 {{end}}
 <main id="main">

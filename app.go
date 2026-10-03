@@ -33,6 +33,7 @@ func (v Variant) Theme() string {
 
 var variants = []Variant{
 	{"signal2", "Signal 2", "A supervision console: monospace, a live remediation tracker, scanlines over the forest."},
+	{"signal3", "Signal 3", "A second take on the supervision console, styled and scripted independently of Signal 2."},
 	{"spor", "Spor", "Scroll-driven descent into the forest that ends face to face with the wolf."},
 	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the single signal colour."},
 	{"grense", "Grense", "The tree line runs down the page: the forest and the navigation on the left, your side of it on the right."},
@@ -44,6 +45,15 @@ var psThemes = map[string]bool{"natt": true, "grense": true}
 
 // PS reports whether this variant's design uses the professional-services furniture.
 func (v Variant) PS() bool { return psThemes[v.Theme()] }
+
+// signalThemes are the console-style designs: full legal form ("OÜ") in the
+// logo, and the terminal lede on the About page. Signal 2 reaches this
+// through variantTheme (its Theme() is "signal"); Signal 3 is listed
+// directly since it owns its own stylesheet and theme name.
+var signalThemes = map[string]bool{"signal": true, "signal3": true}
+
+// Signal reports whether this variant is one of the console-style designs.
+func (v Variant) Signal() bool { return signalThemes[v.Theme()] }
 
 func findVariant(slug string) (Variant, bool) {
 	for _, v := range variants {
