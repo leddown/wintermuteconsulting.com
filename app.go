@@ -38,7 +38,7 @@ var variants = []Variant{
 	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the single signal colour."},
 	{"natt2", "Natt 2", "Natt, with a phone layout that keeps the title clear of the moon."},
 	{"grense", "Grense", "The tree line runs down the page: the forest and the navigation on the left, your side of it on the right."},
-	{"grense2", "Grense 2", "Grense on a slightly darker, cream white page."},
+	{"grense2", "Grense 2", "Grense on a darkened cream page."},
 }
 
 // psThemes are the designs built on the professional-services furniture

@@ -21,7 +21,7 @@ bleak, cold, forest, snow, threat, wolf, wolf eyes, dangers, AI, modern, high-qu
 | `--muted` | `#8d9b96` | `#6f8990` | secondary text |
 | `--accent` | `#e9a441` wolf amber | `#7fd4e8` ice | CTAs, highlights |
 
-The research-led design Grense uses the same roles: `#eef1f0` / `#0b1210` / `#4b5955` (light page, dark forest rail). It keeps wolf amber `#e9a441` for the eyes and the primary action; small amber text on its light page uses `#875000`, because the bright amber fails contrast on a light ground. Grense 2 is the same design on a slightly darker cream white: `#e9e3d5` / `#0b1210` / `#474f48`, with small amber text at `#7a4800`.
+The research-led design Grense uses the same roles: `#eef1f0` / `#0b1210` / `#4b5955` (light page, dark forest rail). It keeps wolf amber `#e9a441` for the eyes and the primary action; small amber text on its light page uses `#875000`, because the bright amber fails contrast on a light ground. Grense 2 is the same design on a darkened cream, `#8c8880` (the cream `#e9e3d5` made 40% darker): a mid-tone, so all its text, secondary and small labels included, is near-black (`#0b1210`, `#101714`, `#1c1206`); white text would only reach 3.5:1 there.
 
 Amber is reserved for the eyes and primary actions. Nothing else should glow.
 

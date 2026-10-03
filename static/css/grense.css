@@ -105,15 +105,24 @@
 .grense .ps-contact { grid-template-columns: minmax(0, 1fr); max-width: 46rem; margin-left: max(0px, calc((100% - var(--wide)) / 2)); }
 .grense .ps-contact__intro h2 { margin-top: 0; }
 
-/* ---- Grense 2: the same page on a slightly darker cream white ----
-   Grense's ground is a cool fog white (#eef1f0); this one is warm and a step
-   darker. The secondary text and the small-text amber are darkened with it so
-   both stay above 4.5:1 on the page and on the tinted bands. */
+/* ---- Grense 2: the same page on a darkened cream ----
+   The ground is the cream #e9e3d5 made 40% darker (each channel x 0.6), which
+   lands on a mid grey-brown; the tinted bands are darkened by the same amount.
+   On a mid-tone only near-black text reaches 4.5:1 (white manages 3.5:1), so
+   the secondary text, the small labels and the form's status colours all move
+   to near-black shades here, and the hairlines are drawn stronger. */
 .grense2, .m--grense2 {
-  --bg: #e9e3d5;           /* cream */
-  --surface: #ddd5c3;
-  --muted: #474f48;
-  --brand-ink: #e9e3d5;
-  --accent-text: #7a4800;
+  --bg: #8c8880;           /* cream #e9e3d5, 40% darker */
+  --surface: #858075;      /* band #ddd5c3, 40% darker */
+  --muted: #101714;
+  --line: rgb(11 18 16 / 0.3);
+  --brand-ink: #e9e3d5;    /* the mark in the dark footer stays light */
+  --accent-text: #1c1206;
+  --ok: #04200f;
+  --err: #360705;
 }
-:is(.grense2, .m--grense2) .field input, :is(.grense2, .m--grense2) .field textarea { background: #f8f4ea; }
+/* The phone shell and the About page soften their body text; there is no room for that here. */
+.m.m--grense2 { --soft: var(--ink); }
+:is(.grense2, .m--grense2) .about { --soft: var(--ink); }
+:is(.grense2, .m--grense2) main .btn--ghost { border-color: rgb(11 18 16 / 0.6); }
+:is(.grense2, .m--grense2) .field input, :is(.grense2, .m--grense2) .field textarea { background: #f8f4ea; border-color: rgb(11 18 16 / 0.45); }
