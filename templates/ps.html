@@ -1,4 +1,4 @@
-{{/* Professional-services family (Natt, Grense, Vakt): shared illustration,
+{{/* Professional-services family (Natt, Grense): shared illustration,
      icons and page furniture. Styled by static/css/ps.css plus each design's
      own tokens. Parsed with every page; it only defines templates. */}}
 
@@ -133,7 +133,7 @@
 {{template "variant-switcher" .}}
 {{end}}
 
-{{/* Services as plain rows (Grense, Vakt): each design lays them out itself. */}}
+{{/* Services as plain rows (Grense), laid out by the design's stylesheet. */}}
 {{define "svc-rows"}}
 <ul class="svc-rows">
   {{range .Site.Services}}
@@ -147,11 +147,13 @@
 {{end}}
 
 {{/* Grense's rail: the forest runs down the left edge of every page and
-     carries the navigation (a block across the top on narrow screens). */}}
+     carries the navigation (a block across the top on narrow screens). The
+     picture is Spor's misty woods path; its ground is the lowest fifth, which
+     is where the eyes are kept (data-band), clear of the button below them. */}}
 {{define "grense-rail"}}
 <header class="grense-rail">
-  <div class="grense-rail__media" aria-hidden="true">{{template "forest-picture"}}</div>
-  <canvas class="grense-rail__eyes" data-wolf-eyes data-pairs="2" data-band="0.62 0.84" aria-hidden="true"></canvas>
+  <div class="grense-rail__media" aria-hidden="true">{{template "woods-picture"}}</div>
+  <canvas class="grense-rail__eyes" data-wolf-eyes data-pairs="2" data-band="0.79 0.88" aria-hidden="true"></canvas>
   <a class="grense-rail__brand" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "ps-mark"}}{{template "logo" .Site}}</a>
   <nav class="grense-rail__nav" aria-label="Primary">
     <a href="{{.Home}}#services">Services</a>

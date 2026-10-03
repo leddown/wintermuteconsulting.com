@@ -117,11 +117,11 @@
 .about-page.spor .about-cta { background: #000; }
 
 /* Natt: the advisory firm. The kicker rule and an amber frame set off behind the portrait. */
-:is(.natt, .m--natt, .grense, .m--grense, .vakt, .m--vakt) .about-kicker {
+:is(.natt, .m--natt, .grense, .m--grense) .about-kicker {
   display: inline-flex; align-items: center; gap: 0.75rem;
   font: 600 0.75rem/1 var(--font-body); letter-spacing: 0.14em;
 }
-:is(.natt, .m--natt, .grense, .m--grense, .vakt, .m--vakt) .about-kicker::before { content: ""; width: 28px; height: 2px; background: var(--accent); }
+:is(.natt, .m--natt, .grense, .m--grense) .about-kicker::before { content: ""; width: 28px; height: 2px; background: var(--accent); }
 :is(.natt, .m--natt) .portrait__frame {
   margin: 0 12px 12px 0; border: 0;
   box-shadow: 12px 12px 0 -2px var(--bg), 12px 12px 0 0 var(--accent);
@@ -136,6 +136,3 @@
 :is(.grense, .m--grense) .about-cta .btn--ghost { border-color: rgb(230 236 234 / 0.4); color: #e6ecea; }
 :is(.grense, .m--grense) .about-cta :focus-visible { outline-color: var(--accent); }
 :is(.grense, .m--grense) .portrait__frame img { filter: grayscale(1) contrast(1.05); }
-
-/* Vakt: the amber rule from its homepage principles. */
-:is(.vakt, .m--vakt) .about-cta { border: 0; border-top: 2px solid var(--accent); }

@@ -38,12 +38,11 @@ var variants = []Variant{
 	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the single signal colour."},
 	{"natt2", "Natt 2", "A copy of Natt to develop separately."},
 	{"grense", "Grense", "The tree line runs down the page: the forest and the navigation on the left, your side of it on the right."},
-	{"vakt", "Vakt", "The named advisor: a portrait-led page in deep teal, for a firm that sells one senior person and no pyramid."},
 }
 
 // psThemes are the designs built on the professional-services furniture
 // (templates/ps.html, static/css/ps.css): its section heads, lists and footer.
-var psThemes = map[string]bool{"natt": true, "grense": true, "vakt": true}
+var psThemes = map[string]bool{"natt": true, "grense": true}
 
 // PS reports whether this variant's design uses the professional-services furniture.
 func (v Variant) PS() bool { return psThemes[v.Theme()] }

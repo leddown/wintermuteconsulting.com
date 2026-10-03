@@ -204,7 +204,7 @@ html.m-menu-open { overflow: hidden; }
 .m--signal .m-menu__sheet > a { font-size: 1.5rem; font-weight: 700; }
 .m--signal .m-bar__logo .logo-sub { letter-spacing: 0.53em; } /* monospace, and "Consulting OÜ" is longer */
 
-/* A hero with no picture behind the copy: the design supplies its own band or portrait. */
+/* A hero with no picture behind the copy: the design supplies its own band. */
 .m-hero--plain { min-height: 0; justify-content: flex-start; }
 .m-hero--plain .m-hero__content { padding-top: 36px; }
 
@@ -219,6 +219,3 @@ html.m-menu-open { overflow: hidden; }
 .grense-band { position: relative; isolation: isolate; overflow: hidden; height: 30svh; min-height: 180px; background: #0b1210; }
 .m--grense .grense-band .grense-rail__media { z-index: 0; }
 .m--grense .grense-band .grense-rail__eyes { z-index: 1; }
-/* Vakt: the portrait closes the hero. The long headline is set a size down. */
-.m--vakt .m-hero__title { font-size: clamp(1.9rem, 8.4vw, 2.6rem); line-height: 1.06; }
-.m-hero__portrait { margin-top: 36px; }

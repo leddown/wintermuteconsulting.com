@@ -29,7 +29,7 @@
 
 /* ---- The rail: forest, navigation, eyes on the ground ---- */
 .grense-rail {
-  --ink: #e6ecea; --muted: #a4b1ad; --line: rgb(230 236 234 / 0.2);
+  --ink: #e6ecea; --muted: #bcc7c4; --line: rgb(230 236 234 / 0.2);
   position: relative; isolation: isolate; overflow: hidden;
   display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1rem 1.5rem;
   min-height: clamp(15rem, 42svh, 22rem); padding: 1rem var(--gutter) 1.25rem;
@@ -38,9 +38,11 @@
 }
 .grense-rail__media, .grense-rail__media picture, .grense-rail__media img, .grense-rail__eyes { position: absolute; inset: 0; width: 100%; height: 100%; }
 .grense-rail__media { z-index: -2; }
-.grense-rail__media img { object-fit: cover; object-position: 42% 58%; filter: saturate(0.4) brightness(0.62) contrast(1.1); }
+/* Spor's woods path is a bright, foggy picture: darken it well so the links read.
+   Anchored to its lower edge, so the path and the ground are always in view. */
+.grense-rail__media img { object-fit: cover; object-position: 40% 100%; filter: saturate(0.5) brightness(0.5) contrast(1.08); }
 /* Dark at the top, where the links are; the ground stays visible below. */
-.grense-rail__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgb(11 18 16 / 0.86) 0%, rgb(11 18 16 / 0.55) 34%, rgb(11 18 16 / 0.1) 60%, rgb(11 18 16 / 0.45) 100%); }
+.grense-rail__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgb(11 18 16 / 0.88) 0%, rgb(11 18 16 / 0.72) 40%, rgb(11 18 16 / 0.5) 62%, rgb(11 18 16 / 0.12) 80%, rgb(11 18 16 / 0.45) 100%); }
 .grense-rail__eyes { z-index: -1; }
 .grense-rail__brand { display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; font: 600 0.82rem/1 var(--font-display); letter-spacing: 0.26em; text-transform: uppercase; }
 .grense-rail .ps-mark { color: #e6ecea; }
@@ -59,7 +61,7 @@
     display: flex; flex-direction: column; align-items: flex-start; gap: 0;
     padding: 2rem clamp(1.5rem, 2.4vw, 2.5rem) 2rem;
   }
-  .grense-rail__media img { object-position: 38% 50%; }
+  .grense-rail__media img { object-position: 37% 100%; }
   .grense-rail__nav { flex-direction: column; gap: 0; margin-top: clamp(2rem, 7vh, 4.5rem); overflow: visible; font-size: 1.15rem; font-family: var(--font-display); }
   .grense-rail__nav a { position: relative; padding: 0.45rem 0; }
   .grense-rail__nav a[aria-current]::before { content: ""; position: absolute; left: -1rem; top: 50%; width: 0.5rem; height: 2px; background: var(--accent); }
