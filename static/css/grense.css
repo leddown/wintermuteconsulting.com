@@ -104,3 +104,16 @@
 /* The page column is narrow beside the rail: intro above the form, not beside it. */
 .grense .ps-contact { grid-template-columns: minmax(0, 1fr); max-width: 46rem; margin-left: max(0px, calc((100% - var(--wide)) / 2)); }
 .grense .ps-contact__intro h2 { margin-top: 0; }
+
+/* ---- Grense 2: the same page on a slightly darker cream white ----
+   Grense's ground is a cool fog white (#eef1f0); this one is warm and a step
+   darker. The secondary text and the small-text amber are darkened with it so
+   both stay above 4.5:1 on the page and on the tinted bands. */
+.grense2, .m--grense2 {
+  --bg: #e9e3d5;           /* cream */
+  --surface: #ddd5c3;
+  --muted: #474f48;
+  --brand-ink: #e9e3d5;
+  --accent-text: #7a4800;
+}
+:is(.grense2, .m--grense2) .field input, :is(.grense2, .m--grense2) .field textarea { background: #f8f4ea; }
