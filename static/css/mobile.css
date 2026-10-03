@@ -229,6 +229,19 @@ html.m-menu-open { overflow: hidden; }
 .m-natt-line { display: block; width: fit-content; margin-top: 4px; color: var(--accent); border-bottom: 3px solid var(--accent); }
 .m--natt .m-hero__eyes { top: 8%; height: 40%; }
 
+/* Natt 2: the white title must never cross the white of the moon. The
+   illustration becomes a band of night sky across the top of the hero and the
+   copy starts below the moon. Every measure is a share of the hero's width
+   (cqi, with vw for browsers without container units), so it holds at any
+   phone size and text size. The picture is drawn 140 wide and shifted 20 left:
+   the moon then spans 53–71 across and 14–32.3 down; the band ends at 44,
+   before the pale bushes begin; the copy starts at 38 plus its padding. */
+.m--natt2 .m-hero { container-type: inline-size; min-height: 0; justify-content: flex-start; }
+.m--natt2 .m-hero__media { bottom: auto; height: 44vw; height: 44cqi; overflow: hidden; }
+.m--natt2 .m-hero__media img { inset: 0 auto auto -20%; width: 140%; max-width: none; height: auto; object-fit: fill; }
+.m--natt2 .m-hero__media::after { background: linear-gradient(to bottom, transparent 74%, var(--bg) 100%); }
+.m--natt2 .m-hero__content { padding-top: calc(38vw + 16px); padding-top: calc(38cqi + 16px); }
+
 /* Grense: light. The forest is a band across the top of the hero. */
 .grense-band { position: relative; isolation: isolate; overflow: hidden; height: 30svh; min-height: 180px; background: #0b1210; }
 .m--grense .grense-band .grense-rail__media { z-index: 0; }
