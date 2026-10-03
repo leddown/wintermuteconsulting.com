@@ -148,12 +148,13 @@
 
 {{/* Grense's rail: the forest runs down the left edge of every page and
      carries the navigation (a block across the top on narrow screens). The
-     picture is Spor's misty woods path; its ground is the lowest fifth, which
-     is where the eyes are kept (data-band), clear of the button below them. */}}
+     picture is Spor's misty woods path. The eyes appear between 25% and 40% of
+     the picture's height up from its bottom edge (data-band counts from the
+     top, so 0.6 to 0.75), on desktop and on a phone alike. */}}
 {{define "grense-rail"}}
 <header class="grense-rail">
   <div class="grense-rail__media" aria-hidden="true">{{template "woods-picture"}}</div>
-  <canvas class="grense-rail__eyes" data-wolf-eyes data-pairs="2" data-band="0.79 0.88" aria-hidden="true"></canvas>
+  <canvas class="grense-rail__eyes" data-wolf-eyes data-pairs="2" data-band="0.6 0.75" aria-hidden="true"></canvas>
   <a class="grense-rail__brand" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "ps-mark"}}{{template "logo" .Site}}</a>
   <nav class="grense-rail__nav" aria-label="Primary">
     <a href="{{.Home}}#services">Services</a>

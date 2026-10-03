@@ -49,7 +49,7 @@ class Pair {
     const [top, bottom] = this.field.band || (w < 700 ? [0.1, 0.28] : [0.42, 0.72]);
     // Two pairs side by side read as one animal with four eyes, which a narrow
     // band makes likely: look a few times for a spot clear of the others.
-    for (let tries = 0; tries < 8; tries++) {
+    for (let tries = 0; tries < 16; tries++) {
       const depth = Math.random();
       this.x = rand(w * 0.12, w * 0.88);
       this.s = (4 + depth * 6 + (w > 1200 ? 2 : 0)) * this.field.scale;
@@ -60,10 +60,12 @@ class Pair {
     }
   }
 
-  // Close enough to another pair that the two would read as one cluster.
+  // Close enough to another pair that the two would read as one cluster. The
+  // eyes of a pair sit about 4 sizes apart, so pairs at the same height need
+  // well over that between them or they read as four eyes in a row.
   crowded() {
     return (this.field.pairs || []).some(o => o !== this &&
-      Math.abs(o.x - this.x) < (o.s + this.s) * 4 && Math.abs(o.y - this.y) < (o.s + this.s) * 1.5);
+      Math.abs(o.x - this.x) < (o.s + this.s) * 8 && Math.abs(o.y - this.y) < (o.s + this.s) * 1.5);
   }
 
   // Chosen this time: fade in (or stay) and linger a little.
