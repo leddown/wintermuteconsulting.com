@@ -121,5 +121,9 @@
   --ok: #053d21;
   --err: #6e120d;
 }
+/* The forest picture 30% lighter than Grense's (brightness 0.5 x 1.3), on
+   request: the rail on desktop and the band on a phone. The scrim over it is
+   unchanged, so the links at the top of the rail keep their contrast. */
+:is(.grense2, .m--grense2) .grense-rail__media img { filter: saturate(0.5) brightness(0.65) contrast(1.08); }
 :is(.grense2, .m--grense2) main .btn--ghost { border-color: rgb(11 18 16 / 0.5); }
 :is(.grense2, .m--grense2) .field input, :is(.grense2, .m--grense2) .field textarea { background: #f8f4ea; border-color: rgb(11 18 16 / 0.4); }

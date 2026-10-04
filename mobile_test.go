@@ -195,11 +195,11 @@ func TestNoGlitchAnywhere(t *testing.T) {
 	}
 }
 
-// Natt 3's phone hero is kept short on purpose: the title and one sentence
+// Natt's phone hero is kept short on purpose: the title and one sentence
 // under it, so the copy stays well below the moon and the buttons are on the
 // first screen. Longer copy belongs further down the page, not in the hero.
-func TestNatt3HeroCopyStaysShort(t *testing.T) {
-	_, _, body := getAs(t, "/v/natt3", uaIPhone)
+func TestNattPhoneHeroCopyStaysShort(t *testing.T) {
+	_, _, body := getAs(t, "/v/natt", uaIPhone)
 	tags := regexp.MustCompile(`<[^>]+>`)
 	for _, c := range []struct {
 		name string
@@ -211,11 +211,11 @@ func TestNatt3HeroCopyStaysShort(t *testing.T) {
 	} {
 		m := c.re.FindStringSubmatch(body)
 		if m == nil {
-			t.Fatalf("natt3: no hero %s on the mobile page", c.name)
+			t.Fatalf("natt: no hero %s on the mobile page", c.name)
 		}
 		text := strings.Join(strings.Fields(html.UnescapeString(tags.ReplaceAllString(m[1], ""))), " ")
 		if n := utf8.RuneCountInString(text); n == 0 || n > c.max {
-			t.Errorf("natt3: hero %s is %d characters, want 1 to %d: %q", c.name, n, c.max, text)
+			t.Errorf("natt: hero %s is %d characters, want 1 to %d: %q", c.name, n, c.max, text)
 		}
 	}
 }
