@@ -86,23 +86,23 @@
 /* ======== Per-design treatments (desktop body class, or .m--<theme> on a phone) ======== */
 
 /* Signal: a console record. Mono labels with the // prefix, the portrait as a camera frame. */
-:is(.signal, .m--signal, .signal3, .m--signal3) .about-kicker::before,
-:is(.signal, .m--signal, .signal3, .m--signal3) .about-section > h2::before { content: "// "; }
-:is(.signal, .m--signal, .signal3, .m--signal3) .about-intro h1 { font-size: 2rem; font-size: clamp(1.9rem, 4.3cqi, 3.1rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.01em; }
-:is(.signal, .m--signal, .signal3, .m--signal3) .about-section > h2 { font: 400 0.75rem/1.7 var(--font-mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
-:is(.signal, .m--signal, .signal3, .m--signal3) .about-prose { font-size: 1em; }
-:is(.signal, .m--signal, .signal3, .m--signal3) .portrait__frame { background: #000; }
-:is(.signal, .m--signal, .signal3, .m--signal3) .portrait__frame img { filter: grayscale(1) contrast(1.15) brightness(0.92); }
-:is(.signal, .m--signal, .signal3, .m--signal3) .portrait__frame::before {
+:is(.signal, .m--signal) .about-kicker::before,
+:is(.signal, .m--signal) .about-section > h2::before { content: "// "; }
+:is(.signal, .m--signal) .about-intro h1 { font-size: 2rem; font-size: clamp(1.9rem, 4.3cqi, 3.1rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.01em; }
+:is(.signal, .m--signal) .about-section > h2 { font: 400 0.75rem/1.7 var(--font-mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+:is(.signal, .m--signal) .about-prose { font-size: 1em; }
+:is(.signal, .m--signal) .portrait__frame { background: #000; }
+:is(.signal, .m--signal) .portrait__frame img { filter: grayscale(1) contrast(1.15) brightness(0.92); }
+:is(.signal, .m--signal) .portrait__frame::before {
   content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.55));
 }
-:is(.signal, .m--signal, .signal3, .m--signal3) .portrait__frame::after {
+:is(.signal, .m--signal) .portrait__frame::after {
   content: "ID 01"; position: absolute; left: 10px; top: 9px; z-index: 2;
   font: 0.75rem/1 var(--font-mono); letter-spacing: 0.12em; color: var(--accent);
 }
-:is(.signal, .m--signal, .signal3, .m--signal3) .portrait__name { font-weight: 700; font-size: 1.05rem; color: var(--accent); }
-:is(.signal, .m--signal, .signal3, .m--signal3) .about-cta h2 { font-weight: 700; font-size: 1.5rem; font-size: clamp(1.4rem, 2.6cqi, 1.9rem); }
+:is(.signal, .m--signal) .portrait__name { font-weight: 700; font-size: 1.05rem; color: var(--accent); }
+:is(.signal, .m--signal) .about-cta h2 { font-weight: 700; font-size: 1.5rem; font-size: clamp(1.4rem, 2.6cqi, 1.9rem); }
 
 /* Spor: light type, and the sections follow each other like tracks on a dashed trail. */
 :is(.spor, .m--spor) .about-intro h1,

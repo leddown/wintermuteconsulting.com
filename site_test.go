@@ -40,7 +40,7 @@ func TestPagesRender(t *testing.T) {
 
 func TestNotFound(t *testing.T) {
 	h := testApp(t).routes()
-	for _, p := range []string{"/v/nope", "/v/nope/about", "/v/natt/nope", "/v/natt/about/x", "/v/varg", "/v/varg2", "/v/signal", "/v/sno", "/v/vakt", "/v/vakt/about", "/v/spor2", "/v/spor2/about", "/v/signal/about", "/about", "/nope", "/static/", "/static/css/"} {
+	for _, p := range []string{"/v/nope", "/v/nope/about", "/v/natt/nope", "/v/natt/about/x", "/v/varg", "/v/varg2", "/v/signal2", "/v/signal3", "/v/sno", "/v/vakt", "/v/vakt/about", "/v/spor2", "/v/spor2/about", "/v/signal2/about", "/v/signal3/about", "/about", "/nope", "/static/", "/static/css/"} {
 		rec := httptest.NewRecorder()
 		h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, p, nil))
 		if rec.Code != http.StatusNotFound {
@@ -62,7 +62,7 @@ func postContact(h http.Handler, form url.Values, origin string) *httptest.Respo
 
 func validForm() url.Values {
 	return url.Values{
-		"variant": {"signal2"},
+		"variant": {"signal"},
 		"name":    {"Ada"},
 		"email":   {"ada@example.com"},
 		"message": {"We think someone is inside our network."},
@@ -78,8 +78,8 @@ func TestContact(t *testing.T) {
 		wantLoc  string
 		wantBody string
 	}{
-		{name: "valid", wantCode: http.StatusSeeOther, wantLoc: "/v/signal2?sent=1#contact"},
-		{name: "honeypot", mutate: func(f url.Values) { f.Set("website", "http://spam") }, wantCode: http.StatusSeeOther, wantLoc: "/v/signal2?sent=1#contact"},
+		{name: "valid", wantCode: http.StatusSeeOther, wantLoc: "/v/signal?sent=1#contact"},
+		{name: "honeypot", mutate: func(f url.Values) { f.Set("website", "http://spam") }, wantCode: http.StatusSeeOther, wantLoc: "/v/signal?sent=1#contact"},
 		{name: "bad email", mutate: func(f url.Values) { f.Set("email", "nope") }, wantCode: http.StatusUnprocessableEntity, wantBody: "valid email"},
 		{name: "short message", mutate: func(f url.Values) { f.Set("message", "hi") }, wantCode: http.StatusUnprocessableEntity, wantBody: "at least 10"},
 		{name: "unknown variant falls back", mutate: func(f url.Values) { f.Set("variant", "../x") }, wantCode: http.StatusSeeOther, wantLoc: "/v/" + variants[0].Slug + "?sent=1#contact"},
@@ -174,7 +174,7 @@ func TestProfessionalServicesFamily(t *testing.T) {
 			t.Errorf("%s: About page should carry the top bar", v.Slug)
 		}
 	}
-	for slug, want := range map[string]bool{"natt": true, "natt2": true, "grense": true, "grense2": true, "signal2": false, "spor": false} {
+	for slug, want := range map[string]bool{"natt": true, "natt2": true, "grense": true, "grense2": true, "signal": false, "spor": false} {
 		if v, _ := findVariant(slug); v.PS() != want {
 			t.Errorf("%s.PS() = %v, want %v", slug, v.PS(), want)
 		}

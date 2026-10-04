@@ -14,7 +14,7 @@ bleak, cold, forest, snow, threat, wolf, wolf eyes, dangers, AI, modern, high-qu
 
 ## Palette
 
-| Token | Default (Spor, chooser) | Signal 2 | Use |
+| Token | Default (Spor, chooser) | Signal | Use |
 |---|---|---|---|
 | `--bg` | `#07090a` | `#040607` | page background |
 | `--ink` | `#e4ebe8` | `#d6ecf2` | body text |
@@ -55,7 +55,7 @@ Rules it follows, from the review of the earlier designs: the hero fits a 1366×
 ## About page and portrait
 
 - **Why it exists.** Buyers of advisory work check who they would be dealing with before they make contact: a named person with a photograph, a specific biography and the company's registered details. A firm that sells "one named advisor" has to show one.
-- **The photograph.** Head and shoulders, face filling the frame, eyes to the camera, plain background, daylight or soft light. Cropped 4:5. The designs treat it lightly (Spor mutes the colour a little, Signal 2 and Grense show it in monochrome, Natt leaves it natural): do not darken a face the way the forest pictures are darkened.
+- **The photograph.** Head and shoulders, face filling the frame, eyes to the camera, plain background, daylight or soft light. Cropped 4:5. The designs treat it lightly (Spor mutes the colour a little, Signal and Grense show it in monochrome, Natt leaves it natural): do not darken a face the way the forest pictures are darkened.
 - **The biography.** Roles, institutions and years, in the first person plural or the third person, in the same register as the rest of the site. No adjectives doing the work of facts, no client names.
 - **Company details** (legal name, form, registry code, registered office, VAT number, email) are on the page because EU law expects them on a company's site, not as decoration.
 

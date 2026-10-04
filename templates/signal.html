@@ -1,6 +1,4 @@
-{{/* Signal 3: a copy of Signal 2's console design, kept independent. It has
-     its own stylesheet (static/css/signal3.css) and its own theme name, so it
-     no longer goes through variantTheme / the shared signal.css. Eyes appear
+{{/* Signal: the console design. Styled by static/css/signal.css. Eyes appear
      between 25% and 40% of the picture's height up from its bottom edge
      (data-band counts from the top, so 0.6 to 0.75): the forest floor just
      below the trunks. */}}
@@ -9,12 +7,12 @@
 <head>
 {{template "head-common" .}}
 <title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
-<link rel="stylesheet" href="{{static "css/signal3.css"}}">
+<link rel="stylesheet" href="{{static "css/signal.css"}}">
 <script type="module" src="{{static "js/wolfeyes.js"}}"></script>
 <script type="module" src="{{static "js/terminal.js"}}"></script>
 <script type="module" src="{{static "js/reveal.js"}}"></script>
 </head>
-<body class="signal3">
+<body class="signal">
 <a class="skip" href="#main">Skip to content</a>
 <div class="signal-scanlines" aria-hidden="true"></div>
 

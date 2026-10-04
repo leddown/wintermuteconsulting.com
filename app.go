@@ -21,7 +21,7 @@ type Variant struct {
 
 // variantTheme maps a variant to the design whose stylesheet (and mobile
 // treatment) it reuses, for variants that are a tweak of another design.
-var variantTheme = map[string]string{"signal2": "signal", "natt2": "natt", "grense2": "grense"}
+var variantTheme = map[string]string{"natt2": "natt", "grense2": "grense"}
 
 // Theme is the design whose stylesheet and tokens this variant uses.
 func (v Variant) Theme() string {
@@ -32,8 +32,7 @@ func (v Variant) Theme() string {
 }
 
 var variants = []Variant{
-	{"signal2", "Signal 2", "A supervision console: monospace, a live remediation tracker, scanlines over the forest."},
-	{"signal3", "Signal 3", "A second take on the supervision console, styled and scripted independently of Signal 2."},
+	{"signal", "Signal", "A supervision console: monospace, a live remediation tracker, scanlines over the forest."},
 	{"spor", "Spor", "Scroll-driven descent into the forest that ends face to face with the wolf."},
 	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the single signal colour."},
 	{"natt2", "Natt 2", "Natt, with a phone layout that keeps the title clear of the moon."},
@@ -48,14 +47,9 @@ var psThemes = map[string]bool{"natt": true, "grense": true}
 // PS reports whether this variant's design uses the professional-services furniture.
 func (v Variant) PS() bool { return psThemes[v.Theme()] }
 
-// signalThemes are the console-style designs: full legal form ("OÜ") in the
-// logo, and the terminal lede on the About page. Signal 2 reaches this
-// through variantTheme (its Theme() is "signal"); Signal 3 is listed
-// directly since it owns its own stylesheet and theme name.
-var signalThemes = map[string]bool{"signal": true, "signal3": true}
-
-// Signal reports whether this variant is one of the console-style designs.
-func (v Variant) Signal() bool { return signalThemes[v.Theme()] }
+// Signal reports whether this variant uses the console design: full legal
+// form ("OÜ") in the logo, and the terminal lede on the About page.
+func (v Variant) Signal() bool { return v.Theme() == "signal" }
 
 func findVariant(slug string) (Variant, bool) {
 	for _, v := range variants {
