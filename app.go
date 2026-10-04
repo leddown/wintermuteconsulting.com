@@ -20,8 +20,9 @@ type Variant struct {
 }
 
 // variantTheme maps a variant to the design whose stylesheet (and mobile
-// treatment) it reuses, for variants that are a tweak of another design.
-var variantTheme = map[string]string{"grense2": "grense"}
+// treatment) it reuses, for variants that are a tweak of another design
+// (a copy made to develop separately, e.g. {"natt2": "natt"}). None right now.
+var variantTheme = map[string]string{}
 
 // Theme is the design whose stylesheet and tokens this variant uses.
 func (v Variant) Theme() string {
@@ -33,10 +34,8 @@ func (v Variant) Theme() string {
 
 var variants = []Variant{
 	{"signal", "Signal", "A supervision console: monospace, a live remediation tracker, scanlines over the forest."},
-	{"spor", "Spor", "Scroll-driven descent into the forest that ends face to face with the wolf."},
 	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the single signal colour."},
 	{"grense", "Grense", "The tree line runs down the page: the forest and the navigation on the left, your side of it on the right."},
-	{"grense2", "Grense 2", "Grense on a darkened cream page."},
 }
 
 // psThemes are the designs built on the professional-services furniture

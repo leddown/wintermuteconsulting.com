@@ -26,17 +26,6 @@
 </header>
 {{end}}
 
-{{define "spor-header"}}
-<header class="spor-header">
-  <a class="spor-logo" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "logo" .Site}}</a>
-  <nav class="spor-header__nav" aria-label="Primary">
-    <a class="spor-header__link" href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}"{{if eq .Page "about"}} aria-current="page"{{end}}>About</a>
-    <a class="spor-header__cta" href="{{.Home}}#contact">Contact</a>
-  </nav>
-  <div class="spor-depth" aria-hidden="true"><span data-depth-bar></span></div>
-</header>
-{{end}}
-
 {{/* Logo lockup, called with .Site. Kept as one link-able phrase for screen readers. */}}
 {{define "logo"}}<span class="logo"><span class="logo-mark">{{.LogoMark}}</span> <span class="logo-sub">{{.LogoSub}}</span></span>{{end}}
 

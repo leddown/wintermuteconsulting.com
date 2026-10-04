@@ -173,8 +173,6 @@ html.m-menu-open { overflow: hidden; }
 
 /* ======== Per-design treatments ======== */
 
-/* The defaults above are amber on near-black: Spor uses them as they are. */
-
 /* Signal: a console. The hero is a framed camera feed, not a full-bleed photo. */
 .m--signal { font-size: 0.9375rem; }
 .m-hero--console { min-height: 0; justify-content: flex-start; padding-top: 20px; }
@@ -192,15 +190,6 @@ html.m-menu-open { overflow: hidden; }
 .m--signal .terminal { min-height: 21rem; margin-top: 20px; padding: 16px; font-size: 0.75rem; line-height: 1.75; }
 .m--signal .m-ai__note { font-size: 0.8rem; color: var(--muted) !important; }
 
-/* Spor: the misty path, tracks down the services, eyes waiting in the dark. */
-.m--spor .m-hero__media img { filter: saturate(0.6) brightness(0.72); }
-.m--spor .m-hero__title { font-weight: 400; letter-spacing: -0.035em; }
-.m--spor .m-services__code { display: flex; align-items: center; gap: 10px; }
-.m--spor .m-services__code::before { content: ""; width: 18px; height: 18px; background: url("/static/images/opt/paw.svg") center / contain no-repeat; opacity: 0.85; }
-.m--spor .m-services__list li:nth-child(even) .m-services__code::before { transform: rotate(12deg); }
-.m--spor .m-ai { position: relative; isolation: isolate; min-height: 88svh; display: flex; flex-direction: column; justify-content: flex-end; background: #000; }
-.m-ai__eyes { position: absolute; left: 0; right: 0; top: 0; height: 60%; width: 100%; z-index: -1; pointer-events: none; }
-.m--spor .m-ai h2 { font-weight: 400; }
 .m--signal .m-menu__sheet > a { font-size: 1.5rem; font-weight: 700; }
 .m--signal .m-bar__logo .logo-sub { letter-spacing: 0.53em; } /* monospace, and "Consulting OÜ" is longer */
 

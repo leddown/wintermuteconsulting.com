@@ -20,7 +20,6 @@
 {{if eq .Variant.Theme "grense"}}{{template "grense-rail" .}}
 {{else if .Variant.PS}}{{template "ps-util" .}}{{template "ps-nav" .}}
 {{else if .Variant.Signal}}<div class="signal-scanlines" aria-hidden="true"></div>{{template "signal-header" .}}
-{{else}}{{template "spor-header" .}}
 {{end}}
 <main id="main">
 {{template "about-body" .}}

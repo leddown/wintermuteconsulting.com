@@ -1,31 +1,38 @@
 /* Grense (border, tree line): the forest runs down the left edge of the page
    and carries the navigation; your side of the line is the light page beside
-   it. On narrow screens the rail becomes a block across the top. */
+   it. On narrow screens the rail becomes a block across the top.
+   The ground is the cream #e9e3d5 made 20% darker (each channel x 0.8); the
+   tinted bands are darkened by the same amount. The secondary text, the small
+   amber labels and the form's status colours are dark enough to stay above
+   4.5:1 on the page and on the bands: keep them in step if the page colour
+   changes. (A cool fog white, #eef1f0, was the first ground and was replaced
+   on request; 40% darker was tried and was too much: only near-black text is
+   readable on that mid-tone.) */
 
 :root {
   color-scheme: light;
-  --bg: #eef1f0;           /* fog over snow */
-  --surface: #e1e6e4;
+  --bg: #bab6aa;           /* cream #e9e3d5, 20% darker */
+  --surface: #b1aa9c;      /* band #ddd5c3, 20% darker */
   --ink: #0b1210;
-  --muted: #4b5955;
-  --line: rgb(11 18 16 / 0.16);
+  --muted: #2c332e;
+  --line: rgb(11 18 16 / 0.22);
   --brand: #0b1210;
-  --brand-ink: #eef1f0;
+  --brand-ink: #e9e3d5;    /* the mark in the dark footer stays light */
   --accent: #e9a441;
   --accent-ink: #120c03;
-  --accent-text: #875000;
+  --accent-text: #4d2d00;
   --mark-dot: #e9a441;
   --footer-bg: #0b1210;
   --footer-ink: #e4ebe8;
-  --ok: #0b6b3c;
-  --err: #b3261e;
+  --ok: #053d21;
+  --err: #6e120d;
   --rail: clamp(17.5rem, 26vw, 25rem);
 }
 
 :is(.grense, .m--grense) main :focus-visible { outline-color: var(--ink); }
-:is(.grense, .m--grense) main .btn--ghost { border-color: rgb(11 18 16 / 0.38); }
+:is(.grense, .m--grense) main .btn--ghost { border-color: rgb(11 18 16 / 0.5); }
 :is(.grense, .m--grense) .field input:focus, :is(.grense, .m--grense) .field textarea:focus { border-color: var(--ink); background: #fff; }
-.grense .field input, .grense .field textarea { background: #fff; }
+:is(.grense, .m--grense) .field input, :is(.grense, .m--grense) .field textarea { background: #f8f4ea; border-color: rgb(11 18 16 / 0.4); }
 
 /* ---- The rail: forest, navigation, eyes on the ground ---- */
 .grense-rail {
@@ -38,9 +45,11 @@
 }
 .grense-rail__media, .grense-rail__media picture, .grense-rail__media img, .grense-rail__eyes { position: absolute; inset: 0; width: 100%; height: 100%; }
 .grense-rail__media { z-index: -2; }
-/* Spor's woods path is a bright, foggy picture: darken it well so the links read.
-   Anchored to its lower edge, so the path and the ground are always in view. */
-.grense-rail__media img { object-fit: cover; object-position: 40% 100%; filter: saturate(0.5) brightness(0.5) contrast(1.08); }
+/* The woods path is a bright, foggy picture, shown close to its own brightness
+   (0.5 was the first setting; lightened on request). The scrim below is what
+   keeps the links readable. Anchored to its lower edge, so the path and the
+   ground are always in view. */
+.grense-rail__media img { object-fit: cover; object-position: 40% 100%; filter: saturate(0.5) brightness(0.95) contrast(1.08); }
 /* Dark at the top, where the links are; the ground stays visible below. */
 .grense-rail__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgb(11 18 16 / 0.88) 0%, rgb(11 18 16 / 0.72) 40%, rgb(11 18 16 / 0.5) 62%, rgb(11 18 16 / 0.12) 80%, rgb(11 18 16 / 0.45) 100%); }
 .grense-rail__eyes { z-index: -1; }
@@ -104,26 +113,3 @@
 /* The page column is narrow beside the rail: intro above the form, not beside it. */
 .grense .ps-contact { grid-template-columns: minmax(0, 1fr); max-width: 46rem; margin-left: max(0px, calc((100% - var(--wide)) / 2)); }
 .grense .ps-contact__intro h2 { margin-top: 0; }
-
-/* ---- Grense 2: the same page on a darkened cream ----
-   The ground is the cream #e9e3d5 made 20% darker (each channel x 0.8); the
-   tinted bands are darkened by the same amount. The secondary text, the small
-   amber labels and the form's status colours are darkened with it so that all
-   of them stay above 4.5:1 on the page and on the bands. (40% darker was tried
-   and was too much: only near-black text is readable on that mid-tone.) */
-.grense2, .m--grense2 {
-  --bg: #bab6aa;           /* cream #e9e3d5, 20% darker */
-  --surface: #b1aa9c;      /* band #ddd5c3, 20% darker */
-  --muted: #2c332e;
-  --line: rgb(11 18 16 / 0.22);
-  --brand-ink: #e9e3d5;    /* the mark in the dark footer stays light */
-  --accent-text: #4d2d00;
-  --ok: #053d21;
-  --err: #6e120d;
-}
-/* The forest picture 30% lighter than Grense's (brightness 0.5 x 1.3), on
-   request: the rail on desktop and the band on a phone. The scrim over it is
-   unchanged, so the links at the top of the rail keep their contrast. */
-:is(.grense2, .m--grense2) .grense-rail__media img { filter: saturate(0.5) brightness(0.95) contrast(1.08); }
-:is(.grense2, .m--grense2) main .btn--ghost { border-color: rgb(11 18 16 / 0.5); }
-:is(.grense2, .m--grense2) .field input, :is(.grense2, .m--grense2) .field textarea { background: #f8f4ea; border-color: rgb(11 18 16 / 0.4); }

@@ -14,15 +14,6 @@
 .ps .about { max-width: calc(var(--wide) + 2 * var(--gutter)); }
 .m .about { padding: 40px var(--pad) 64px; }
 
-/* Spor fixes its header over the hero picture. There is no picture
-   here, so give it a ground: otherwise the text scrolls through the nav. */
-.about-page .spor-header {
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
-}
-.about-page.spor .about { padding-top: calc(3.5rem + clamp(3rem, 7cqi, 6rem)); }
-
 /* ---- Intro ---- */
 .about-intro h1 {
   margin: 1.25rem 0 1.5rem; max-width: 17em;
@@ -63,7 +54,6 @@
 
 @container about (min-width: 560px) {
   .about-section { grid-template-columns: 10rem minmax(0, 1fr); }
-  :is(.spor, .m--spor) .about-section { grid-template-columns: 11.5rem minmax(0, 1fr); } /* room for the paw mark */
 }
 
 /* Wide: copy on the left, the portrait beside it, held in view while the copy scrolls. */
@@ -103,18 +93,6 @@
 }
 :is(.signal, .m--signal) .portrait__name { font-weight: 700; font-size: 1.05rem; color: var(--accent); }
 :is(.signal, .m--signal) .about-cta h2 { font-weight: 700; font-size: 1.5rem; font-size: clamp(1.4rem, 2.6cqi, 1.9rem); }
-
-/* Spor: light type, and the sections follow each other like tracks on a dashed trail. */
-:is(.spor, .m--spor) .about-intro h1,
-:is(.spor, .m--spor) .about-cta h2 { font-weight: 400; letter-spacing: -0.035em; }
-:is(.spor, .m--spor) .about-section { border-top-style: dashed; }
-:is(.spor, .m--spor) .about-section > h2 { font-weight: 400; }
-:is(.spor, .m--spor) .about-section > h2::before {
-  content: ""; display: inline-block; width: 16px; height: 16px; margin-right: 0.6rem; vertical-align: -2px;
-  background: url("/static/images/opt/paw.svg") center / contain no-repeat; opacity: 0.85;
-}
-:is(.spor, .m--spor) .portrait__frame img { filter: saturate(0.7); }
-.about-page.spor .about-cta { background: #000; }
 
 /* Natt: the advisory firm. The kicker rule and an amber frame set off behind the portrait. */
 :is(.natt, .m--natt, .grense, .m--grense) .about-kicker {

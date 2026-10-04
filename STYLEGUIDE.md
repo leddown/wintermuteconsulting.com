@@ -14,14 +14,14 @@ bleak, cold, forest, snow, threat, wolf, wolf eyes, dangers, AI, modern, high-qu
 
 ## Palette
 
-| Token | Default (Spor, chooser) | Signal | Use |
+| Token | Default (chooser) | Signal | Use |
 |---|---|---|---|
 | `--bg` | `#07090a` | `#040607` | page background |
 | `--ink` | `#e4ebe8` | `#d6ecf2` | body text |
 | `--muted` | `#8d9b96` | `#6f8990` | secondary text |
 | `--accent` | `#e9a441` wolf amber | `#7fd4e8` ice | CTAs, highlights |
 
-The research-led design Grense uses the same roles: `#eef1f0` / `#0b1210` / `#4b5955` (light page, dark forest rail). It keeps wolf amber `#e9a441` for the eyes and the primary action; small amber text on its light page uses `#875000`, because the bright amber fails contrast on a light ground. Grense 2 is the same design on a darkened cream: `#bab6aa` / `#0b1210` / `#2c332e` (the cream `#e9e3d5` made 20% darker), with small amber text at `#4d2d00`.
+The research-led design Grense uses the same roles on a darkened cream: `#bab6aa` / `#0b1210` / `#2c332e` (light page, the cream `#e9e3d5` made 20% darker; dark forest rail). It keeps wolf amber `#e9a441` for the eyes and the primary action; small amber text on its light page uses `#4d2d00`, because the bright amber fails contrast on a light ground. (Its first ground, a cool fog white `#eef1f0`, was replaced on request.)
 
 Amber is reserved for the eyes and primary actions. Nothing else should glow.
 
@@ -34,7 +34,7 @@ Amber is reserved for the eyes and primary actions. Nothing else should glow.
 ## Imagery
 
 Fog, spruce, moss, snow, dusk. Desaturate and darken photos. The forest should feel quiet, not horror-movie. Wolf eyes: real eyeshine footage (trail-camera style, eyes only, on black) composited over the forest, with a procedural canvas fallback. No stock-wolf clichés.
-**Still needed:** higher-resolution originals. `juliaboldt-woods` is only 640 px wide and looks soft on large screens. Winter/snow and wolf photography would strengthen Spor.
+**Still needed:** higher-resolution originals. `juliaboldt-woods` is only 640 px wide and looks soft on large screens.
 
 ## Motion rules
 
@@ -55,7 +55,7 @@ Rules it follows, from the review of the earlier designs: the hero fits a 1366×
 ## About page and portrait
 
 - **Why it exists.** Buyers of advisory work check who they would be dealing with before they make contact: a named person with a photograph, a specific biography and the company's registered details. A firm that sells "one named advisor" has to show one.
-- **The photograph.** Head and shoulders, face filling the frame, eyes to the camera, plain background, daylight or soft light. Cropped 4:5. The designs treat it lightly (Spor mutes the colour a little, Signal and Grense show it in monochrome, Natt leaves it natural): do not darken a face the way the forest pictures are darkened.
+- **The photograph.** Head and shoulders, face filling the frame, eyes to the camera, plain background, daylight or soft light. Cropped 4:5. The designs treat it lightly (Signal and Grense show it in monochrome, Natt leaves it natural): do not darken a face the way the forest pictures are darkened.
 - **The biography.** Roles, institutions and years, in the first person plural or the third person, in the same register as the rest of the site. No adjectives doing the work of facts, no client names.
 - **Company details** (legal name, form, registry code, registered office, VAT number, email) are on the page because EU law expects them on a company's site, not as decoration.
 
