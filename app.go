@@ -36,7 +36,7 @@ var variants = []Variant{
 	{"spor", "Spor", "Scroll-driven descent into the forest that ends face to face with the wolf."},
 	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the single signal colour."},
 	{"natt2", "Natt 2", "Natt, with a phone layout that keeps the title clear of the moon."},
-	{"natt3", "Natt 3", "Natt 2, with the moon higher, the copy lower and a shorter hero on a phone."},
+	{"natt3", "Natt 3", "Natt on a phone with the whole picture behind the copy: the moon higher, the text below it, a shorter hero."},
 	{"grense", "Grense", "The tree line runs down the page: the forest and the navigation on the left, your side of it on the right."},
 	{"grense2", "Grense 2", "Grense on a darkened cream page."},
 }
