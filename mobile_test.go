@@ -219,3 +219,27 @@ func TestNattPhoneHeroCopyStaysShort(t *testing.T) {
 		}
 	}
 }
+
+// A design's wording lives once, under "designs" in content.json: its desktop
+// page and its phone page must both show it, and neither may word it differently.
+func TestDesktopAndPhoneShareTheDesignsCopy(t *testing.T) {
+	content := testApp(t).content
+	for _, v := range variants {
+		c := content.copyFor(v)
+		want := []string{c.HeroTitle, c.CTA, c.Services.Title, c.Contact.Title, c.Contact.Body, c.AI.Body}
+		for _, side := range c.Sides {
+			want = append(want, side.Title)
+			want = append(want, side.Items...)
+		}
+		for _, ua := range []string{uaDesktop, uaIPhone} {
+			_, _, body := getAs(t, "/v/"+v.Slug, ua)
+			for _, text := range want {
+				if text == "" {
+					t.Errorf("%s: a piece of copy both layouts show is empty", v.Slug)
+				} else if !strings.Contains(body, html.EscapeString(text)) {
+					t.Errorf("%s (%s): page does not show %q", v.Slug, ua[13:20], text)
+				}
+			}
+		}
+	}
+}

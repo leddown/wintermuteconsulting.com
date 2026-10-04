@@ -13,7 +13,7 @@
 {{/* Brand mark: two peaks forming a W under a watchful amber point. */}}
 {{define "ps-mark"}}<svg class="ps-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" fill="currentColor"/><path class="ps-mark__w" d="M6 11 L11 23 L16 14 L21 23 L26 11" fill="none" stroke="#fff" stroke-width="2.6"/><circle class="ps-mark__dot" cx="24.5" cy="6.5" r="2.4" fill="#e9a441"/></svg>{{end}}
 
-{{/* Line icon per service, chosen by the code prefix in content.go. */}}
+{{/* Line icon per service, chosen by the code prefix in content.json. */}}
 {{define "svc-icon"}}{{$c := slice . 0 2}}<svg class="ps-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 {{- if eq $c "VC"}}<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8z"/><circle cx="12" cy="12" r=".8" fill="currentColor"/>
 {{- else if eq $c "AI"}}<rect x="6" y="6" width="12" height="12" rx="1.5"/><path d="M9.5 9.5h5v5h-5z"/><path d="M9 2.5V6M15 2.5V6M9 18v3.5M15 18v3.5M2.5 9H6M2.5 15H6M18 9h3.5M18 15h3.5"/>
@@ -168,24 +168,18 @@
 </header>
 {{end}}
 
-{{/* Grense: AI on both sides of the tree line. Desktop section and phone section. */}}
+{{/* Grense: AI on both sides of the tree line. Desktop section and phone
+     section; the first side is the forest's. Wording: "sides" under designs.grense in content.json. */}}
 {{define "grense-sides"}}
 <div class="grense-sides">
-  <div class="grense-side grense-side--forest">
-    <h3>Used against you</h3>
+  {{range $i, $s := .Copy.Sides}}
+  <div class="grense-side{{if eq $i 0}} grense-side--forest{{end}}">
+    <h3>{{$s.Title}}</h3>
     <ul>
-      <li>Voice and video deepfakes of the people who approve payments</li>
-      <li>AI-written spear phishing aimed at treasury and payments staff</li>
-      <li>Automated reconnaissance of your perimeter</li>
+      {{range $s.Items}}<li>{{.}}</li>
+      {{end}}
     </ul>
   </div>
-  <div class="grense-side">
-    <h3>Put to work for you</h3>
-    <ul>
-      <li>An AI policy stack, from risk appetite to controls an auditor can test</li>
-      <li>Governance for the AI you deploy, under the EU AI Act and DORA</li>
-      <li>Defences that use AI themselves</li>
-    </ul>
-  </div>
+  {{end}}
 </div>
 {{end}}

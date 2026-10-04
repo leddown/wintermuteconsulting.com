@@ -1,0 +1,310 @@
+{
+  "_readme": [
+    "All the text on the site is in this file. The site reads it; nothing here is shown except what is under 'site' and 'designs'.",
+    "Change the text between the quotes and leave the names on the left of each colon as they are.",
+    "Each text stays on one line. A double quote inside a text needs a backslash in front of it.",
+    "'site' is shared by every design: services, principles, numbers, industries, insights, the brief, the lede and the About page.",
+    "'designs' is each design's own wording. Its desktop page and its phone page both use it, so a change here shows on both.",
+    "A phone page may leave a piece out: it has no Insights or Industries sections, no section paragraphs and no contact points. Natt's phone hero shows site.brief; its desktop hero shows site.lede.",
+    "In a heading, 'kicker' is the small label above the title and 'accent' is the rest of the title in the accent colour. Leave either out for none.",
+    "Signal's approach title and Grense's ai kicker and title are shown on the phone only.",
+    "Limits: Natt's heroTitle plus heroTitleAccent may be 60 characters and site.brief 180 (the phone hero must stay short); site.about.summary should stay under 160.",
+    "A service's code starts with two letters that pick its icon: AI, RM, TI, VC, RG, FT, CX or TR.",
+    "site.stats are placeholder figures: replace them with real ones before launch. Text in [square brackets] is a placeholder for your own details.",
+    "To check the file after a change, run: go test ./...   To see changes on a browser refresh, run: go run . -dev"
+  ],
+  "site": {
+    "name": "Wintermute Consulting OÜ",
+    "legalForm": "OÜ",
+    "logoMark": "Wintermute",
+    "logoSub": "Consulting",
+    "descriptor": "AI, cyber & ICT risk advisory",
+    "brief": "Boutique AI, cyber and ICT risk advisory for financial institutions across the European Union: from board-approved policy to implemented, auditable controls.",
+    "lede": "A boutique team of senior advisors helping financial institutions across the European Union meet emerging AI and cyber threats. We build the complete stack, from board-approved policy to implemented, auditable controls, sized to your organisation and your risk appetite, and stay through the long night when something goes wrong.",
+    "email": "info@wintermuteconsulting.com",
+    "location": "Serving clients across the European Union",
+    "services": [
+      {
+        "code": "AI-01",
+        "title": "Emerging AI: threats, security & governance",
+        "body": "Offensive and defensive AI. How attackers now use it, from voice and video deepfakes to AI-written spear phishing and automated reconnaissance, and how to defend with it. We build the AI policy stack and controls, and govern the AI your institution deploys under the EU AI Act and DORA."
+      },
+      {
+        "code": "RM-02",
+        "title": "Custom frameworks & controls",
+        "body": "Your own information security and ICT risk management framework, not a template: the complete stack from board-approved policy to standards, procedures and implemented controls, built on DORA and its regulatory technical standards, NIS2, ISO/IEC 27001, NIST CSF 2.0 and NIST SP 800-53, mapped to local regulation, and sized to your organisation and risk appetite."
+      },
+      {
+        "code": "TI-03",
+        "title": "Threat intelligence & geopolitical risk",
+        "body": "Emerging cyber threats and the geopolitical drivers behind them: state-aligned intrusion, hacktivism, sanctions, conflict and supply-chain exposure, translated into scenarios, control changes and briefings your management body can act on."
+      },
+      {
+        "code": "VC-04",
+        "title": "Virtual CISO",
+        "body": "Fractional or interim security leadership for a single institution or across a private equity portfolio. We own the security programme, report to your management body and represent it before your supervisor, for as long as you need us."
+      },
+      {
+        "code": "RG-05",
+        "title": "Regulatory audits & remediation",
+        "body": "Audits and inspection readiness under DORA, the ECB's supervisory expectations and NIS2, integrated with the national rules of your member state: every requirement traced to a control and its evidence, and remediation programmes that close the findings."
+      },
+      {
+        "code": "FT-06",
+        "title": "Fintech advisory",
+        "body": "For founders and early teams: a policy stack and controls sized to your stage, built in from the licence application onwards, and ready for the supervisor, your banking partners and investor due diligence."
+      },
+      {
+        "code": "CX-07",
+        "title": "Crisis exercises",
+        "body": "Tabletop exercises and crisis simulations built on today's threats (a deepfaked CFO, a state-aligned outage, a critical provider gone dark) for management bodies, investment committees and crisis teams, with a debrief that shows who must decide what."
+      },
+      {
+        "code": "TR-08",
+        "title": "Training",
+        "body": "Security and digital operational resilience training matched to the role: awareness for all staff, including recognising AI-enabled social engineering, specialist sessions for control functions, and briefings for members of the management body."
+      }
+    ],
+    "principles": [
+      {
+        "title": "Sized to you",
+        "body": "Not every institution is in the same place. Frameworks and controls are fitted to your size, complexity and risk appetite, as DORA's proportionality principle intends, never copied from a template."
+      },
+      {
+        "title": "Auditable end to end",
+        "body": "Every requirement traced from regulation to policy, control and evidence, so your auditor and your supervisor can follow the thread."
+      },
+      {
+        "title": "Boutique by design",
+        "body": "Senior advisors only, with no leverage pyramid and no hand-offs. The advisor who scopes your engagement is the one in the room with your management body."
+      },
+      {
+        "title": "Discretion",
+        "body": "We never publish client names or discuss our work, we don't sell data, and this site sets no cookies."
+      }
+    ],
+    "stats": [
+      {
+        "value": 15,
+        "unit": "yrs",
+        "label": "average senior experience"
+      },
+      {
+        "value": 1,
+        "label": "named advisor per client"
+      },
+      {
+        "value": 27,
+        "label": "EU member states, one DORA rulebook"
+      }
+    ],
+    "industries": [
+      {
+        "name": "Banking",
+        "body": "Credit institutions under ECB and national supervision, preparing for inspections and meeting DORA's requirements for ICT risk management."
+      },
+      {
+        "name": "Fintech & payments",
+        "body": "Payment and e-money institutions and fintech startups, from the first licence application to scale, with security sized to the stage."
+      },
+      {
+        "name": "Private equity",
+        "body": "General partners and their portfolio companies: cyber due diligence before signing, a remediation plan in the first hundred days, and a clean account of security at exit."
+      },
+      {
+        "name": "SME institutional holders",
+        "body": "Small and mid-sized institutional holders, from holding companies and foundations to smaller pension and endowment funds: institutional assets and obligations, run by a lean team."
+      },
+      {
+        "name": "Wealth & asset management",
+        "body": "Boutique wealth managers and funds meeting allocators' operational due diligence and their supervisors' expectations with a lean team."
+      },
+      {
+        "name": "Trading & digital assets",
+        "body": "Investment firms, trading venues and crypto-asset service providers under MiCA, where availability, custody and third-party infrastructure are regulatory questions."
+      }
+    ],
+    "insights": [
+      {
+        "tag": "AI threats",
+        "title": "The CFO's voice is not the CFO: deepfakes in the treasury",
+        "summary": "How AI-generated voice and video now drive payment fraud, and the call-back and approval controls that still stop it.",
+        "minutes": 5
+      },
+      {
+        "tag": "AI governance",
+        "title": "Your AI policy stack: from risk appetite to controls an auditor can test",
+        "summary": "What the management body should decide about AI, how that becomes policy, and the controls that prove it is being followed.",
+        "minutes": 7
+      },
+      {
+        "tag": "Geopolitical risk",
+        "title": "Geopolitics is now an ICT risk driver",
+        "summary": "Why supervisors expect sanctions, conflict and state-aligned activity to appear in your ICT risk assessment, and the questions your management body should ask.",
+        "minutes": 7
+      }
+    ],
+    "about": {
+      "title": "The advisor you brief is the one who does the work.",
+      "lede": "Wintermute Consulting is a boutique AI, cyber and ICT risk advisory for financial institutions across the European Union. It is small by design: senior advisors only, no hand-offs, and one named advisor from the first briefing to the last closed finding.",
+      "summary": "Who is behind Wintermute Consulting OÜ, a boutique AI, cyber and ICT risk advisory for regulated finance across the European Union.",
+      "principal": {
+        "name": "[Your name]",
+        "role": "Founder and principal advisor",
+        "bio": [
+          "[Your background in two or three sentences: the institutions you have worked in, the roles you held and for how long. Boards and supervisors read this for seniority, so name roles and responsibilities rather than adjectives.]",
+          "[What you do for clients today: the engagements you lead and the regulation you work with most, such as DORA, NIS2 or the EU AI Act.]",
+          "[One human detail to close on: where you are based, or what you do away from work.]"
+        ],
+        "facts": [
+          {
+            "label": "Experience",
+            "value": "[n] years in [field]"
+          },
+          {
+            "label": "Qualifications",
+            "value": "[degrees and certifications]"
+          },
+          {
+            "label": "Languages",
+            "value": "[languages you work in]"
+          },
+          {
+            "label": "Based in",
+            "value": "[city, country]"
+          }
+        ]
+      },
+      "nameNote": "The name nods to Wintermute, the artificial intelligence in William Gibson's Neuromancer. It marks where the firm starts: AI is already part of the threat, and already at work inside the institutions we advise. Both call for controls that a supervisor and an auditor can verify.",
+      "company": [
+        {
+          "label": "Legal form",
+          "value": "Private limited company (osaühing), registered in Estonia"
+        },
+        {
+          "label": "Registry code",
+          "value": "[Estonian commercial register code]"
+        },
+        {
+          "label": "Registered office",
+          "value": "[street, postcode, city, Estonia]"
+        },
+        {
+          "label": "VAT number",
+          "value": "[EE number, if VAT-registered]"
+        }
+      ]
+    }
+  },
+  "designs": {
+    "signal": {
+      "heroTitle": "Finding raised.",
+      "cta": "> arrange_briefing",
+      "ctaSecondary": "Our services",
+      "ai": {
+        "title": "// wintermute-consulting: threat & remediation feed (simulated)",
+        "body": "From the first signal of a threat to closed findings: every step documented, every control evidenced, every decision the board's own."
+      },
+      "services": {
+        "title": "// services"
+      },
+      "approach": {
+        "title": "// operating_principles"
+      },
+      "contact": {
+        "title": "// open_channel",
+        "body": "Encrypted in transit. Read by a senior advisor in strict confidence; reply within one working day."
+      }
+    },
+    "natt": {
+      "heroTitle": "Crises come at night.",
+      "heroTitleAccent": "Be ready before they do.",
+      "cta": "Arrange a private briefing",
+      "ctaSecondary": "Our services",
+      "ai": {
+        "kicker": "Emerging AI",
+        "title": "Attackers adopted AI first.",
+        "accent": "Your controls should not be the last to know.",
+        "body": "AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify."
+      },
+      "services": {
+        "kicker": "Services",
+        "title": "What we do, and how",
+        "body": "Emerging AI and cyber threats, the geopolitics behind them, regulatory readiness and ICT resilience: from the management body's agenda to the technical control, delivered by senior advisors end to end."
+      },
+      "insights": {
+        "kicker": "Insights",
+        "title": "From the watch",
+        "body": "Short, practical notes from current engagements. No fear, no product pitches."
+      },
+      "industries": {
+        "kicker": "Industries",
+        "title": "Private capital, regulated markets"
+      },
+      "approach": {
+        "kicker": "How we work",
+        "title": "A small pack, by design"
+      },
+      "contact": {
+        "kicker": "Contact",
+        "title": "Tell us where you're worried.",
+        "body": "Every enquiry is read by a senior advisor and treated in strict confidence. We reply within one working day.",
+        "points": [
+          "Encrypted in transit",
+          "A non-disclosure agreement first, if you prefer",
+          "We don't share or sell what you send"
+        ]
+      }
+    },
+    "grense": {
+      "heroTitle": "AI is on both sides of the tree line.",
+      "cta": "Arrange a private briefing",
+      "ctaSecondary": "Our services",
+      "ai": {
+        "kicker": "Emerging AI",
+        "title": "Attackers adopted AI first.",
+        "body": "AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify."
+      },
+      "sides": [
+        {
+          "title": "Used against you",
+          "items": [
+            "Voice and video deepfakes of the people who approve payments",
+            "AI-written spear phishing aimed at treasury and payments staff",
+            "Automated reconnaissance of your perimeter"
+          ]
+        },
+        {
+          "title": "Put to work for you",
+          "items": [
+            "An AI policy stack, from risk appetite to controls an auditor can test",
+            "Governance for the AI you deploy, under the EU AI Act and DORA",
+            "Defences that use AI themselves"
+          ]
+        }
+      ],
+      "services": {
+        "title": "Services"
+      },
+      "insights": {
+        "title": "Insights",
+        "body": "Short, practical notes from current engagements. No fear, no product pitches."
+      },
+      "industries": {
+        "title": "Industries"
+      },
+      "approach": {
+        "title": "How we work"
+      },
+      "contact": {
+        "title": "Tell us which side you are worried about.",
+        "body": "Every enquiry is read by a senior advisor and treated in strict confidence. We reply within one working day.",
+        "points": [
+          "Encrypted in transit",
+          "A non-disclosure agreement first, if you prefer",
+          "We don't share or sell what you send"
+        ]
+      }
+    }
+  }
+}

@@ -69,7 +69,8 @@ type app struct {
 	log        *slog.Logger
 	limiter    *rateLimiter
 
-	mu sync.Mutex
+	mu      sync.Mutex
+	content *Content // content.json: the site's text
 	// "index"; each variant slug and "m/<slug>" for its mobile layout; "about"
 	// (one desktop template for every design) and "m/<slug>/about".
 	pages map[string]*template.Template
@@ -79,10 +80,26 @@ type app struct {
 
 func newApp(assets fs.FS, dev, trustProxy bool, log *slog.Logger) (*app, error) {
 	a := &app{assets: assets, dev: dev, trustProxy: trustProxy, log: log, limiter: newRateLimiter(5, contactWindow)}
+	if err := a.reloadContent(); err != nil {
+		return nil, err
+	}
 	if err := a.parseTemplates(); err != nil {
 		return nil, err
 	}
 	return a, nil
+}
+
+// reloadContent reads content.json: once at start-up, and in -dev before every
+// page so that a text edit shows on a refresh.
+func (a *app) reloadContent() error {
+	c, err := loadContent(a.assets)
+	if err != nil {
+		return err
+	}
+	a.mu.Lock()
+	a.content = c
+	a.mu.Unlock()
+	return nil
 }
 
 // staticURL is the template func "static": the URL of a file under static/
@@ -148,6 +165,7 @@ func (a *app) parseTemplates() error {
 
 type pageData struct {
 	Site     Site
+	Copy     Copy // the design's own wording ("designs" in content.json)
 	Variants []Variant
 	Variant  Variant
 	Page     string // "" for the design's homepage, "about" for its About page
@@ -227,17 +245,22 @@ func (a *app) renderVariant(w http.ResponseWriter, r *http.Request, status int, 
 
 func (a *app) render(w http.ResponseWriter, status int, name string, data pageData) {
 	if a.dev {
-		if err := a.parseTemplates(); err != nil {
-			a.log.Error("reparse", "err", err)
+		err := a.reloadContent()
+		if err == nil {
+			err = a.parseTemplates()
+		}
+		if err != nil {
+			a.log.Error("reload", "err", err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 	}
 	a.mu.Lock()
-	t := a.pages[name]
+	t, content := a.pages[name], a.content
 	a.mu.Unlock()
 
-	data.Site = site
+	data.Site = content.Site
+	data.Copy = content.copyFor(data.Variant)
 	data.Variants = variants
 
 	// Render into a buffer so a template error doesn't leave a half-written page.

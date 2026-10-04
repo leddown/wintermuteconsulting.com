@@ -15,14 +15,14 @@ import (
 )
 
 // Only the optimised assets are embedded; the full-size originals in
-// static/images stay out of the binary.
+// static/images stay out of the binary. content.json is the site's text.
 //
-//go:embed templates static/css static/js static/fonts static/images/opt
+//go:embed content.json templates static/css static/js static/fonts static/images/opt
 var embedded embed.FS
 
 func main() {
 	addr := flag.String("addr", envOr("ADDR", "127.0.0.1:8080"), "listen address")
-	dev := flag.Bool("dev", os.Getenv("DEV") == "1", "serve templates and static files from disk and re-parse templates on every request")
+	dev := flag.Bool("dev", os.Getenv("DEV") == "1", "serve templates, content.json and static files from disk and re-read templates and content on every request")
 	trustProxy := flag.Bool("trust-proxy", os.Getenv("TRUST_PROXY") == "1", "take the client IP from X-Forwarded-For (only behind a reverse proxy)")
 	flag.Parse()
 

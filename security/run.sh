@@ -155,7 +155,7 @@ probe() {
 		;;
 	esac
 
-	for p in /.git/config /.env /go.mod /main.go /templates/partials.html /static/../go.mod /static/..%2fgo.mod \
+	for p in /.git/config /.env /go.mod /main.go /content.json /templates/partials.html /static/../go.mod /static/..%2fgo.mod \
 		/static/%2e%2e/%2e%2e/etc/passwd /static/ /static/css/ /static/images/cocoparisienne-forest-1258845.jpg \
 		/server-status /admin /wp-login.php /debug/pprof/ /static/%84; do
 		c=$(code_of "$base$p")

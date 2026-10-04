@@ -12,7 +12,8 @@ import (
 // The About page: one template for every design, served in both layouts.
 
 func TestAboutPage(t *testing.T) {
-	h := testApp(t).routes()
+	a := testApp(t)
+	h, site := a.routes(), a.content.Site
 	portrait := "Portrait to follow"
 	if hasPortrait(embedded) {
 		portrait = `src="/static/images/opt/portrait-960.jpg?v=`
@@ -101,7 +102,7 @@ func TestAboutShowsPortraitOnceAllRenditionsExist(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	h := a.routes()
+	h, site := a.routes(), a.content.Site
 	for _, ua := range []string{uaDesktop, uaIPhone} {
 		body := do(h, "GET", "/v/natt/about", nil, map[string]string{"User-Agent": ua}).Body.String()
 		checkHTMLPolicy(t, "about with portrait", body)

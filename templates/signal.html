@@ -1,7 +1,8 @@
 {{/* Signal: the console design. Styled by static/css/signal.css. Eyes appear
      between 25% and 40% of the picture's height up from its bottom edge
      (data-band counts from the top, so 0.6 to 0.75): the forest floor just
-     below the trunks. */}}
+     below the trunks. The wording is designs.signal in content.json (.Copy
+     here), shared with the phone page (templates/m/signal.html). */}}
 {{define "page"}}<!doctype html>
 <html lang="en">
 <head>
@@ -26,23 +27,23 @@
     </div>
     <div class="signal-hero__text">
       <p class="eyebrow">// {{.Site.Descriptor}}</p>
-      <h1>Finding raised.</h1>
+      <h1>{{.Copy.HeroTitle}}</h1>
       <p>{{.Site.Lede}}</p>
-      <a class="btn btn--primary" href="#contact">&gt; arrange_briefing</a>
+      <a class="btn btn--primary" href="#contact">{{.Copy.CTA}}</a>
     </div>
   </section>
 
   <section class="signal-console" id="ai" aria-labelledby="console-title">
-    <h2 id="console-title" class="eyebrow">// wintermute-consulting: threat &amp; remediation feed (simulated)</h2>
+    <h2 id="console-title" class="eyebrow">{{.Copy.AI.Title}}</h2>
     <div class="terminal" data-terminal>
       <ol class="terminal__out" aria-live="off"></ol>
       {{template "terminal-lines"}}
     </div>
-    <p class="signal-console__note">From the first signal of a threat to closed findings: every step documented, every control evidenced, every decision the board's own.</p>
+    <p class="signal-console__note">{{.Copy.AI.Body}}</p>
   </section>
 
   <section class="signal-services" id="services">
-    <h2 class="eyebrow">// services</h2>
+    <h2 class="eyebrow">{{.Copy.Services.Title}}</h2>
     <table class="signal-table">
       <thead><tr><th scope="col">id</th><th scope="col">service</th><th scope="col">description</th></tr></thead>
       <tbody>
@@ -60,8 +61,8 @@
   </section>
 
   <section class="signal-contact" id="contact">
-    <h2 class="eyebrow">// open_channel</h2>
-    <p class="signal-contact__lede">Encrypted in transit. Read by a senior advisor in strict confidence; reply within one working day.</p>
+    <h2 class="eyebrow">{{.Copy.Contact.Title}}</h2>
+    <p class="signal-contact__lede">{{.Copy.Contact.Body}}</p>
     {{template "contact-form" .}}
   </section>
 </main>

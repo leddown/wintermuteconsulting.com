@@ -1,4 +1,6 @@
-{{/* Grense on a phone: the forest is a band across the top, the page below it is your side of the line. */}}
+{{/* Grense on a phone: the forest is a band across the top, the page below it
+     is your side of the line. The wording is designs.grense in
+     content.json, shared with the desktop page. */}}
 {{define "m-theme-color"}}#bab6aa{{end}}
 {{define "m-scripts"}}<script type="module" src="{{static "js/wolfeyes.js"}}"></script>{{end}}
 
@@ -10,20 +12,18 @@
   </div>
   <div class="m-hero__content">
     <p class="eyebrow">{{.Site.Descriptor}}</p>
-    <h1 class="m-hero__title">AI is on both sides of the tree line.</h1>
+    <h1 class="m-hero__title">{{.Copy.HeroTitle}}</h1>
     <p class="m-hero__lede">{{.Site.Brief}}</p>
     {{template "m-actions" .}}
   </div>
 </section>
 {{end}}
 
-{{define "m-contact-title"}}Tell us which side you are worried about.{{end}}
-
 {{define "m-ai"}}
 <section class="m-section m-ai" id="ai" data-reveal>
-  <p class="eyebrow">Emerging AI</p>
-  <h2>Attackers adopted AI first.</h2>
-  {{template "grense-sides"}}
-  <p>AI now runs inside your own credit, fraud and customer processes too. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify.</p>
+  <p class="eyebrow">{{.Copy.AI.Kicker}}</p>
+  <h2>{{.Copy.AI.Title}}</h2>
+  {{template "grense-sides" .}}
+  <p>{{.Copy.AI.Body}}</p>
 </section>
 {{end}}

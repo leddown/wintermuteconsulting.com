@@ -1,6 +1,8 @@
 {{/* Mobile layout shared by every design. Served to phones at the same URL
      (see mobile.go). Each templates/m/<slug>.html overrides the blocks below to
-     give the design its own hero, AI section, colours and motion. Another page
+     give the design its own hero, AI section, colours and motion. The wording
+     is the design's Copy ("designs" in content.json), the same as on its
+     desktop page; a heading's kicker is shown only where the design sets one. Another page
      (templates/m/about.html) replaces "m-main" and keeps the bar and footer. */}}
 {{define "page"}}<!doctype html>
 <html lang="en">
@@ -46,7 +48,7 @@
     <div class="m-hero__media">{{template "forest-picture"}}</div>
     <div class="m-hero__content">
       <p class="eyebrow">{{.Site.Descriptor}}</p>
-      <h1 class="m-hero__title">{{.Site.Tagline}}</h1>
+      <h1 class="m-hero__title">{{.Copy.HeroTitle}}</h1>
       <p class="m-hero__lede">{{.Site.Lede}}</p>
       {{template "m-actions" .}}
     </div>
@@ -62,8 +64,7 @@
   </section>
 
   <section class="m-section m-services" id="services">
-    <p class="eyebrow">Services</p>
-    <h2>{{block "m-services-title" .}}What we do{{end}}</h2>
+    {{template "m-heading" .Copy.Services}}
     <ol class="m-services__list">
       {{range $i, $s := .Site.Services}}
       <li data-reveal>
@@ -77,15 +78,13 @@
 
   {{block "m-ai" .}}
   <section class="m-section m-ai" id="ai" data-reveal>
-    <p class="eyebrow">Emerging AI</p>
-    <h2>Attackers adopted AI first. Your controls should not be last.</h2>
-    <p>AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify.</p>
+    {{template "m-heading" .Copy.AI}}
+    <p>{{.Copy.AI.Body}}</p>
   </section>
   {{end}}
 
   <section class="m-section m-approach" id="approach">
-    <p class="eyebrow">How we work</p>
-    <h2>{{block "m-approach-title" .}}Our principles{{end}}</h2>
+    {{template "m-heading" .Copy.Approach}}
     <ol class="m-approach__list">
       {{range $i, $p := .Site.Principles}}
       <li data-reveal><span class="m-approach__num">0{{inc $i}}</span><h3>{{$p.Title}}</h3><p>{{$p.Body}}</p></li>
@@ -94,9 +93,8 @@
   </section>
 
   <section class="m-section m-contact" id="contact">
-    <p class="eyebrow">Contact</p>
-    <h2>{{block "m-contact-title" .}}Tell us what keeps you awake.{{end}}</h2>
-    <p class="m-contact__lede">Every enquiry is read by a senior advisor and treated in strict confidence. We reply within one working day.</p>
+    {{template "m-heading" .Copy.Contact}}
+    <p class="m-contact__lede">{{.Copy.Contact.Body}}</p>
     {{template "contact-form" .}}
     <p class="m-contact__alt">Prefer email? <a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></p>
   </section>
@@ -117,7 +115,13 @@
 
 {{define "m-actions"}}
 <div class="m-actions">
-  <a class="btn btn--primary" href="#contact">{{block "m-cta" .}}Arrange a private briefing{{end}}</a>
-  <a class="btn btn--ghost" href="#services">Our services</a>
+  <a class="btn btn--primary" href="#contact">{{.Copy.CTA}}</a>
+  <a class="btn btn--ghost" href="#services">{{.Copy.CTASecondary}}</a>
 </div>
+{{end}}
+
+{{/* A section's heading, called with a Heading from the design's Copy. */}}
+{{define "m-heading"}}
+{{if .Kicker}}<p class="eyebrow">{{.Kicker}}</p>{{end}}
+<h2>{{.Title}}{{if .Accent}} <em>{{.Accent}}</em>{{end}}</h2>
 {{end}}

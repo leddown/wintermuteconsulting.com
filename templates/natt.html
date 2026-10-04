@@ -1,3 +1,5 @@
+{{/* Natt: the advisory firm at night. The wording is designs.natt in
+     content.json (.Copy here), shared with the phone page (templates/m/natt.html). */}}
 {{define "page"}}<!doctype html>
 <html lang="en">
 <head>
@@ -17,11 +19,11 @@
     <div class="natt-hero__media">{{template "night-picture"}}</div>
     <div class="natt-hero__content">
       <p class="ps-kicker">{{.Site.Descriptor}}</p>
-      <h1>Crises come at night.<span class="natt-hero__line2">Be ready before they do.</span></h1>
+      <h1>{{.Copy.HeroTitle}}<span class="natt-hero__line2">{{.Copy.HeroTitleAccent}}</span></h1>
       <p class="natt-hero__lede">{{.Site.Lede}}</p>
       <div class="natt-hero__cta">
-        <a class="btn btn--primary" href="#contact">Arrange a private briefing</a>
-        <a class="btn btn--ghost" href="#services">Our services</a>
+        <a class="btn btn--primary" href="#contact">{{.Copy.CTA}}</a>
+        <a class="btn btn--ghost" href="#services">{{.Copy.CTASecondary}}</a>
       </div>
     </div>
   </section>
@@ -33,8 +35,8 @@
   <section id="services">
     <div class="ps-wrap">
       <header class="ps-head">
-        <div><p class="ps-kicker">Services</p><h2>What we do, and how</h2></div>
-        <p>Emerging AI and cyber threats, the geopolitics behind them, regulatory readiness and ICT resilience: from the management body's agenda to the technical control, delivered by senior advisors end to end.</p>
+        <div><p class="ps-kicker">{{.Copy.Services.Kicker}}</p><h2>{{.Copy.Services.Title}}</h2></div>
+        <p>{{.Copy.Services.Body}}</p>
       </header>
       {{template "ps-services" .}}
     </div>
@@ -42,17 +44,17 @@
 
   <section class="natt-ai" id="ai">
     <div class="ps-wrap natt-ai__grid">
-      <p class="ps-kicker">Emerging AI</p>
-      <h2 data-reveal>Attackers adopted AI first. <em>Your controls should not be the last to know.</em></h2>
-      <p data-reveal>AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify.</p>
+      <p class="ps-kicker">{{.Copy.AI.Kicker}}</p>
+      <h2 data-reveal>{{.Copy.AI.Title}} <em>{{.Copy.AI.Accent}}</em></h2>
+      <p data-reveal>{{.Copy.AI.Body}}</p>
     </div>
   </section>
 
   <section class="natt-insights" id="insights">
     <div class="ps-wrap">
       <header class="ps-head">
-        <div><p class="ps-kicker">Insights</p><h2>From the watch</h2></div>
-        <p>Short, practical notes from current engagements. No fear, no product pitches.</p>
+        <div><p class="ps-kicker">{{.Copy.Insights.Kicker}}</p><h2>{{.Copy.Insights.Title}}</h2></div>
+        <p>{{.Copy.Insights.Body}}</p>
       </header>
       {{template "ps-insights" .}}
     </div>
@@ -61,7 +63,7 @@
   <section id="industries">
     <div class="ps-wrap">
       <header class="ps-head">
-        <div><p class="ps-kicker">Industries</p><h2>Private capital, regulated markets</h2></div>
+        <div><p class="ps-kicker">{{.Copy.Industries.Kicker}}</p><h2>{{.Copy.Industries.Title}}</h2></div>
       </header>
       {{template "ps-industries" .}}
     </div>
@@ -70,7 +72,7 @@
   <section class="natt-approach" id="approach">
     <div class="ps-wrap">
       <header class="ps-head">
-        <div><p class="ps-kicker">How we work</p><h2>A small pack, by design</h2></div>
+        <div><p class="ps-kicker">{{.Copy.Approach.Kicker}}</p><h2>{{.Copy.Approach.Title}}</h2></div>
       </header>
       {{template "ps-approach" .}}
     </div>
@@ -78,16 +80,15 @@
 
   <section id="contact">
     <div class="ps-wrap ps-contact">
-      <div class="ps-contact__intro">
-        <p class="ps-kicker">Contact</p>
-        <h2>Tell us where you're worried.</h2>
-        <p>Every enquiry is read by a senior advisor and treated in strict confidence. We reply within one working day.</p>
-        <ul>
-          <li>Encrypted in transit</li>
-          <li>A non-disclosure agreement first, if you prefer</li>
-          <li>We don't share or sell what you send</li>
-        </ul>
-      </div>
+      {{with .Copy.Contact}}<div class="ps-contact__intro">
+        <p class="ps-kicker">{{.Kicker}}</p>
+        <h2>{{.Title}}</h2>
+        <p>{{.Body}}</p>
+        {{if .Points}}<ul>
+          {{range .Points}}<li>{{.}}</li>
+          {{end}}
+        </ul>{{end}}
+      </div>{{end}}
       {{template "contact-form" .}}
     </div>
   </section>
