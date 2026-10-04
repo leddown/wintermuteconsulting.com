@@ -21,7 +21,7 @@ type Variant struct {
 
 // variantTheme maps a variant to the design whose stylesheet (and mobile
 // treatment) it reuses, for variants that are a tweak of another design.
-var variantTheme = map[string]string{"natt2": "natt", "grense2": "grense"}
+var variantTheme = map[string]string{"natt2": "natt", "natt3": "natt", "grense2": "grense"}
 
 // Theme is the design whose stylesheet and tokens this variant uses.
 func (v Variant) Theme() string {
@@ -36,6 +36,7 @@ var variants = []Variant{
 	{"spor", "Spor", "Scroll-driven descent into the forest that ends face to face with the wolf."},
 	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the single signal colour."},
 	{"natt2", "Natt 2", "Natt, with a phone layout that keeps the title clear of the moon."},
+	{"natt3", "Natt 3", "Natt 2, with the moon higher, the copy lower and a shorter hero on a phone."},
 	{"grense", "Grense", "The tree line runs down the page: the forest and the navigation on the left, your side of it on the right."},
 	{"grense2", "Grense 2", "Grense on a darkened cream page."},
 }

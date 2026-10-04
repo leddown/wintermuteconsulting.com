@@ -174,7 +174,7 @@ func TestProfessionalServicesFamily(t *testing.T) {
 			t.Errorf("%s: About page should carry the top bar", v.Slug)
 		}
 	}
-	for slug, want := range map[string]bool{"natt": true, "natt2": true, "grense": true, "grense2": true, "signal": false, "spor": false} {
+	for slug, want := range map[string]bool{"natt": true, "natt2": true, "natt3": true, "grense": true, "grense2": true, "signal": false, "spor": false} {
 		if v, _ := findVariant(slug); v.PS() != want {
 			t.Errorf("%s.PS() = %v, want %v", slug, v.PS(), want)
 		}

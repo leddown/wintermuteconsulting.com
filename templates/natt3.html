@@ -1,0 +1,103 @@
+{{/* Natt 3: a copy of Natt 2 to develop separately. Like Natt 2 it takes Natt's
+     stylesheet (static/css/natt.css) through variantTheme in app.go; its own
+     rules hang off the natt3 / m--natt3 classes. The desktop page is Natt's;
+     the difference is on the phone, where the moon sits higher, the copy lower
+     and the hero carries less text (templates/m/natt3.html). */}}
+{{define "page"}}<!doctype html>
+<html lang="en">
+<head>
+{{template "head-common" .}}
+<title>{{.Site.Name}}: {{.Site.Descriptor}}</title>
+<link rel="stylesheet" href="{{static "css/ps.css"}}">
+<link rel="stylesheet" href="{{static "css/natt.css"}}">
+<script type="module" src="{{static "js/reveal.js"}}"></script>
+</head>
+<body class="ps natt natt3">
+<a class="skip" href="#main">Skip to content</a>
+{{template "ps-util" .}}
+{{template "ps-nav" .}}
+
+<main id="main">
+  <section class="natt-hero">
+    <div class="natt-hero__media">{{template "night-picture"}}</div>
+    <div class="natt-hero__content">
+      <p class="ps-kicker">{{.Site.Descriptor}}</p>
+      <h1>Crises come at night.<span class="natt-hero__line2">Be ready before they do.</span></h1>
+      <p class="natt-hero__lede">{{.Site.Lede}}</p>
+      <div class="natt-hero__cta">
+        <a class="btn btn--primary" href="#contact">Arrange a private briefing</a>
+        <a class="btn btn--ghost" href="#services">Our services</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="natt-figures" aria-label="In numbers">
+    <div class="ps-wrap">{{template "ps-figures" .}}</div>
+  </section>
+
+  <section id="services">
+    <div class="ps-wrap">
+      <header class="ps-head">
+        <div><p class="ps-kicker">Services</p><h2>What we do, and how</h2></div>
+        <p>Emerging AI and cyber threats, the geopolitics behind them, regulatory readiness and ICT resilience: from the management body's agenda to the technical control, delivered by senior advisors end to end.</p>
+      </header>
+      {{template "ps-services" .}}
+    </div>
+  </section>
+
+  <section class="natt-ai" id="ai">
+    <div class="ps-wrap natt-ai__grid">
+      <p class="ps-kicker">Emerging AI</p>
+      <h2 data-reveal>Attackers adopted AI first. <em>Your controls should not be the last to know.</em></h2>
+      <p data-reveal>AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify.</p>
+    </div>
+  </section>
+
+  <section class="natt-insights" id="insights">
+    <div class="ps-wrap">
+      <header class="ps-head">
+        <div><p class="ps-kicker">Insights</p><h2>From the watch</h2></div>
+        <p>Short, practical notes from current engagements. No fear, no product pitches.</p>
+      </header>
+      {{template "ps-insights" .}}
+    </div>
+  </section>
+
+  <section id="industries">
+    <div class="ps-wrap">
+      <header class="ps-head">
+        <div><p class="ps-kicker">Industries</p><h2>Private capital, regulated markets</h2></div>
+      </header>
+      {{template "ps-industries" .}}
+    </div>
+  </section>
+
+  <section class="natt-approach" id="approach">
+    <div class="ps-wrap">
+      <header class="ps-head">
+        <div><p class="ps-kicker">How we work</p><h2>A small pack, by design</h2></div>
+      </header>
+      {{template "ps-approach" .}}
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="ps-wrap ps-contact">
+      <div class="ps-contact__intro">
+        <p class="ps-kicker">Contact</p>
+        <h2>Tell us where you're worried.</h2>
+        <p>Every enquiry is read by a senior advisor and treated in strict confidence. We reply within one working day.</p>
+        <ul>
+          <li>Encrypted in transit</li>
+          <li>A non-disclosure agreement first, if you prefer</li>
+          <li>We don't share or sell what you send</li>
+        </ul>
+      </div>
+      {{template "contact-form" .}}
+    </div>
+  </section>
+</main>
+{{template "ps-footer" .}}
+</body>
+</html>
+{{end}}

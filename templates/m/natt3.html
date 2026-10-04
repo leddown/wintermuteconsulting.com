@@ -1,0 +1,31 @@
+{{/* Natt 3 on a phone: Natt 2's band of night sky, with the moon moved up and
+     the copy moved down so there is clear sky between them (.m--natt3 in
+     mobile.css). The hero says less: the one-sentence Site.Brief in place of
+     the lede. TestNatt3HeroCopyStaysShort caps how much text it may hold. */}}
+{{define "m-theme-color"}}#070729{{end}}
+
+{{define "m-hero"}}
+<section class="m-hero">
+  <div class="m-hero__media">{{template "night-picture"}}</div>
+  <div class="m-hero__content">
+    <p class="eyebrow">{{.Site.Descriptor}}</p>
+    <h1 class="m-hero__title">Crises come at night. <span class="m-natt-line">Be ready before they do.</span></h1>
+    <p class="m-hero__lede">{{.Site.Brief}}</p>
+    {{template "m-actions" .}}
+  </div>
+</section>
+{{end}}
+
+{{define "m-cta"}}Arrange a private briefing{{end}}
+{{define "m-services-title"}}What we do, and how{{end}}
+{{define "m-approach-title"}}A small pack, by design{{end}}
+
+{{define "m-ai"}}
+<section class="m-section m-ai" id="ai" data-reveal>
+  <p class="eyebrow">Emerging AI</p>
+  <h2>Attackers adopted AI first. <em>Your controls should not be the last to know.</em></h2>
+  <p>AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify.</p>
+</section>
+{{end}}
+
+{{define "m-contact-title"}}Tell us where you're worried.{{end}}

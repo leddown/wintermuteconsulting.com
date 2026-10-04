@@ -1,11 +1,13 @@
 package main
 
 import (
+	"html"
 	"net/http"
 	"net/url"
 	"regexp"
 	"strings"
 	"testing"
+	"unicode/utf8"
 )
 
 const (
@@ -189,6 +191,31 @@ func TestNoGlitchAnywhere(t *testing.T) {
 		// Grense's eyes appear between 18% and 26% up from the bottom of its picture.
 		if body := do(h, "GET", "/v/grense", nil, map[string]string{"User-Agent": ua}).Body.String(); !strings.Contains(body, `data-band="0.74 0.82"`) {
 			t.Errorf("grense (%s): eyes are not in the band 18%%–26%% from the bottom", ua[13:20])
+		}
+	}
+}
+
+// Natt 3's phone hero is kept short on purpose: the title and one sentence
+// under it, so the copy stays well below the moon and the buttons are on the
+// first screen. Longer copy belongs further down the page, not in the hero.
+func TestNatt3HeroCopyStaysShort(t *testing.T) {
+	_, _, body := getAs(t, "/v/natt3", uaIPhone)
+	tags := regexp.MustCompile(`<[^>]+>`)
+	for _, c := range []struct {
+		name string
+		re   *regexp.Regexp
+		max  int
+	}{
+		{"title", regexp.MustCompile(`(?s)<h1 class="m-hero__title">(.*?)</h1>`), 60},
+		{"lede", regexp.MustCompile(`(?s)<p class="m-hero__lede">(.*?)</p>`), 180},
+	} {
+		m := c.re.FindStringSubmatch(body)
+		if m == nil {
+			t.Fatalf("natt3: no hero %s on the mobile page", c.name)
+		}
+		text := strings.Join(strings.Fields(html.UnescapeString(tags.ReplaceAllString(m[1], ""))), " ")
+		if n := utf8.RuneCountInString(text); n == 0 || n > c.max {
+			t.Errorf("natt3: hero %s is %d characters, want 1 to %d: %q", c.name, n, c.max, text)
 		}
 	}
 }

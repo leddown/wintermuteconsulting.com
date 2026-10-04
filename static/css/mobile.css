@@ -228,6 +228,19 @@ html.m-menu-open { overflow: hidden; }
 .m--natt2 .m-hero__media::after { background: linear-gradient(to bottom, transparent 74%, var(--bg) 100%); }
 .m--natt2 .m-hero__content { padding-top: calc(38vw + 16px); padding-top: calc(38cqi + 16px); }
 
+/* Natt 3: Natt 2's band, with clear sky between the moon and the copy. The
+   picture is drawn as in Natt 2 (140 wide, shifted 20 left) and lifted by 8,
+   so the moon spans 6–24.3 down; the band ends at 36, where the pale bushes
+   would begin; the copy starts at 44 plus its padding. The first line of text
+   is therefore at least 20 of the hero's width below the moon at any size.
+   The hero also says less: Site.Brief in place of the lede (see the template;
+   TestNatt3HeroCopyStaysShort caps the length). */
+.m--natt3 .m-hero { container-type: inline-size; min-height: 0; justify-content: flex-start; }
+.m--natt3 .m-hero__media { bottom: auto; height: 36vw; height: 36cqi; overflow: hidden; }
+.m--natt3 .m-hero__media img { inset: -8vw auto auto -20%; inset: -8cqi auto auto -20%; width: 140%; max-width: none; height: auto; object-fit: fill; }
+.m--natt3 .m-hero__media::after { background: linear-gradient(to bottom, transparent 68%, var(--bg) 100%); }
+.m--natt3 .m-hero__content { padding-top: calc(44vw + 16px); padding-top: calc(44cqi + 16px); }
+
 /* Grense: light. The forest is a band across the top of the hero. */
 .grense-band { position: relative; isolation: isolate; overflow: hidden; height: 30svh; min-height: 180px; background: #0b1210; }
 .m--grense .grense-band .grense-rail__media { z-index: 0; }
