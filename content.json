@@ -18,21 +18,21 @@
     "legalForm": "OÜ",
     "logoMark": "Wintermute",
     "logoSub": "Consulting",
-    "descriptor": "AI, cyber & ICT risk advisory",
-    "brief": "Boutique AI, cyber and ICT risk advisory for financial institutions across the European Union: from board-approved policy to implemented, auditable controls.",
-    "lede": "A boutique team of senior advisors helping financial institutions across the European Union meet emerging AI and cyber threats. We build the complete stack, from board-approved policy to implemented, auditable controls, sized to your organisation and your risk appetite, and stay through the long night when something goes wrong.",
+    "descriptor": "AI, Cyber & ICT risk advisory",
+    "brief": "Boutique AI, cyber and ICT risk advisory with a special focus on regulated financial institutions across the European Union: from board-approved policy to implemented, auditable controls, and reporting.",
+    "lede": "A boutique team of senior advisors helping financial institutions across the European Union meet emerging AI and cyber threats. We build the complete stack, from board-approved policy to implemented, auditable controls, sized to your organisation and your risk appetite, and rest easier through the long nights.",
     "email": "info@wintermuteconsulting.com",
     "location": "Serving clients across the European Union",
     "services": [
       {
         "code": "AI-01",
         "title": "Emerging AI: threats, security & governance",
-        "body": "Offensive and defensive AI. How attackers now use it, from voice and video deepfakes to AI-written spear phishing and automated reconnaissance, and how to defend with it. We build the AI policy stack and controls, and govern the AI your institution deploys under the EU AI Act and DORA."
+        "body": "Offensive and defensive AI. How attackers now use it, from deepfakes and  AI-executed spear phishing to the increased inherent cyber risk due to rapidly advancing fronteir models. What it means for your orginziation and how to defend with it. We help institutions build the AI policy stack and controls, and govern the AI your institution deploys under the EU AI Act and DORA."
       },
       {
         "code": "RM-02",
         "title": "Custom frameworks & controls",
-        "body": "Your own information security and ICT risk management framework, not a template: the complete stack from board-approved policy to standards, procedures and implemented controls, built on DORA and its regulatory technical standards, NIS2, ISO/IEC 27001, NIST CSF 2.0 and NIST SP 800-53, mapped to local regulation, and sized to your organisation and risk appetite."
+        "body": "Your own information security and ICT risk management framework, not a template: we help you build the complete stack from board-approved policy to standards, procedures and implemented controls, built on DORA and its regulatory technical standards, NIS2, ISO/IEC 27001, NIST CSF 2.0 and NIST SP 800-53, mapped to local regulation, and sized to your organisation and risk appetite."
       },
       {
         "code": "TI-03",
