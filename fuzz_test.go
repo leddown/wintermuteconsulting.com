@@ -27,10 +27,10 @@ func fuzzApp(f *testing.F) http.Handler {
 
 func FuzzContact(f *testing.F) {
 	for _, p := range xssPayloads {
-		f.Add("natt", p, "a@b.co", p, p, "", "", p)
+		f.Add(p, "a@b.co", p, p, "", "", p)
 	}
-	f.Add("signal", "Ada", "ada@example.com", "", "Hello there, long enough.", "", "", "desktop")
-	f.Add("../x", "\x00", "\"a\"@b", "\xff\xfe", strings.Repeat("é", 5001), "bot", "null", "mobile")
+	f.Add("Ada", "ada@example.com", "", "Hello there, long enough.", "", "", "desktop")
+	f.Add("\x00", "\"a\"@b", "\xff\xfe", strings.Repeat("é", 5001), "bot", "null", "mobile")
 	h := fuzzApp(f)
 
 	post := func(form url.Values, phone bool, origin string) *httptest.ResponseRecorder {
@@ -47,23 +47,23 @@ func FuzzContact(f *testing.F) {
 		return rec
 	}
 
-	f.Fuzz(func(t *testing.T, variant, name, email, company, message, website, origin, view string) {
-		form := url.Values{"variant": {variant}, "name": {name}, "email": {email}, "company": {company}, "message": {message}, "website": {website}, "view": {view}}
+	f.Fuzz(func(t *testing.T, name, email, company, message, website, origin, view string) {
+		form := url.Values{"name": {name}, "email": {email}, "company": {company}, "message": {message}, "website": {website}, "view": {view}}
 		phone := len(name)%2 == 1 // exercise both layouts
 		rec := post(form, phone, origin)
 
 		switch rec.Code {
 		case http.StatusSeeOther:
 			loc := rec.Header().Get("Location")
-			if !strings.HasPrefix(loc, "/v/") || strings.ContainsAny(loc, "\r\n\\") || strings.HasPrefix(loc, "//") {
+			if !strings.HasPrefix(loc, "/?") || strings.ContainsAny(loc, "\r\n\\") || strings.HasPrefix(loc, "//") {
 				t.Fatalf("unsafe redirect %q", loc)
 			}
 			u, err := url.Parse(loc)
 			if err != nil || u.Host != "" || u.Scheme != "" {
 				t.Fatalf("unsafe redirect %q", loc)
 			}
-			if _, ok := findVariant(strings.TrimPrefix(u.Path, "/v/")); !ok {
-				t.Fatalf("redirect to unknown page %q", loc)
+			if u.Path != "/" {
+				t.Fatalf("redirect away from the homepage %q", loc)
 			}
 		case http.StatusUnprocessableEntity:
 			// For each field, compare with the same request where only that field is

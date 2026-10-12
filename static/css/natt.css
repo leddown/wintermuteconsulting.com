@@ -1,5 +1,5 @@
 /* Natt: the dark advisory site. The illustration's night as the page,
-   amber as the single signal colour (and the eyes between the trees). */
+   amber as the single signal colour. */
 
 :root {
   --bg: #070729;
@@ -36,8 +36,6 @@
     linear-gradient(90deg, rgb(7 7 41 / 0.92) 0%, rgb(7 7 41 / 0.7) 38%, rgb(7 7 41 / 0) 70%),
     linear-gradient(to top, var(--bg) 0%, rgb(7 7 41 / 0) 35%);
 }
-/* Eyes live in the dark band between the trunks, above the snow. */
-.natt-hero__eyes { position: absolute; left: 35%; right: 0; top: 12%; height: 50%; width: 65%; z-index: -2; }
 .natt-hero__content { padding: 0 var(--gutter) clamp(4rem, 10vh, 7rem); max-width: 50rem; }
 .natt-hero h1 { margin: 1.5rem 0; font-size: clamp(2.8rem, 6.2vw, 5.4rem); line-height: 1.02; letter-spacing: -0.035em; }
 .natt-hero__line2 { display: block; width: fit-content; color: var(--accent); padding-bottom: 0.1em; border-bottom: 4px solid var(--accent); }
@@ -55,4 +53,3 @@
 
 .natt-insights .ps-insight { background: var(--bg); border-top-color: var(--accent); }
 .natt-approach { background: var(--surface); }
-

@@ -57,16 +57,12 @@ func (a *app) handleContact(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	v, ok := findVariant(r.PostFormValue("variant"))
-	if !ok {
-		v = variants[0]
-	}
 	view := viewOverride(r.PostFormValue("view"))
 	q := url.Values{"sent": {"1"}}
 	if view != "" {
 		q.Set("view", view)
 	}
-	back := "/v/" + v.Slug + "?" + q.Encode() + "#contact"
+	back := "/?" + q.Encode() + "#contact"
 
 	// Honeypot: humans never see this field. Pretend success so bots move on.
 	if r.PostFormValue("website") != "" {
@@ -82,12 +78,12 @@ func (a *app) handleContact(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if errs := form.validate(); len(errs) > 0 {
-		a.renderVariant(w, r, http.StatusUnprocessableEntity, pageData{Variant: v, Form: form, Errors: errs, View: view})
+		a.renderPage(w, r, http.StatusUnprocessableEntity, pageData{Form: form, Errors: errs, View: view})
 		return
 	}
 
 	if !a.limiter.allow(rateKey(a.clientIP(r))) {
-		a.renderVariant(w, r, http.StatusTooManyRequests, pageData{Variant: v, Form: form, View: view,
+		a.renderPage(w, r, http.StatusTooManyRequests, pageData{Form: form, View: view,
 			Errors: map[string]string{"form": "We have received several enquiries from your network. Please try again in a few minutes, or write to us directly."}})
 		return
 	}

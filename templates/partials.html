@@ -10,63 +10,8 @@
 
 {{define "meta-description"}}{{if eq .Page "about"}}{{.Site.About.Summary}}{{else}}{{.Site.Name}}: {{.Site.Descriptor}}. {{.Site.Lede}}{{end}}{{end}}
 
-{{/* A design's site header, shared by its homepage(s) and its About page.
-     .Home is empty on the homepage, so the section links there stay in-page
-     anchors. A "2" copy that needs its own header can inline one again. */}}
-{{define "signal-header"}}
-<header class="signal-header">
-  <a class="signal-logo" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "logo-legal" .Site}}<span class="blink" aria-hidden="true">_</span></a>
-  <nav aria-label="Primary">
-    <a href="{{.Home}}#services">./services</a>
-    <a href="{{.Home}}#ai">./emerging_ai</a>
-    <a href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}"{{if eq .Page "about"}} aria-current="page"{{end}}>./about</a>
-    <a href="{{.Home}}#contact">./contact</a>
-  </nav>
-  <span class="signal-clock" data-clock aria-hidden="true">--:--:-- UTC</span>
-</header>
-{{end}}
-
 {{/* Logo lockup, called with .Site. Kept as one link-able phrase for screen readers. */}}
 {{define "logo"}}<span class="logo"><span class="logo-mark">{{.LogoMark}}</span> <span class="logo-sub">{{.LogoSub}}</span></span>{{end}}
-
-{{/* The same lockup with the company form (OÜ), for designs that show the legal name at the top (Signal). */}}
-{{define "logo-legal"}}<span class="logo"><span class="logo-mark">{{.LogoMark}}</span> <span class="logo-sub">{{.LogoSub}} <span class="logo-legal">{{.LegalForm}}</span></span></span>{{end}}
-
-{{define "forest-picture"}}
-<picture>
-  <source type="image/webp" srcset="/static/images/opt/forest-960.webp 960w, /static/images/opt/forest-1600.webp 1600w, /static/images/opt/forest-2400.webp 2400w" sizes="100vw">
-  <img src="/static/images/opt/forest-1600.jpg" srcset="/static/images/opt/forest-960.jpg 960w, /static/images/opt/forest-1600.jpg 1600w, /static/images/opt/forest-2400.jpg 2400w" sizes="100vw" alt="" width="1600" height="1067" decoding="async" fetchpriority="high">
-</picture>
-{{end}}
-
-{{define "woods-picture"}}
-<picture>
-  <source type="image/webp" srcset="/static/images/opt/woods-640.webp">
-  <img src="/static/images/opt/woods-640.jpg" alt="" width="640" height="427" decoding="async">
-</picture>
-{{end}}
-
-{{/* Signal's simulated threat and remediation feed, typed out by terminal.js. */}}
-{{define "terminal-lines"}}
-<template data-lines>
-  <li>&gt; ingest: ENISA, CERT-EU and national CSIRT advisories … ok</li>
-  <li class="warn">! geopolitical: new sanctions package, retaliation risk to EU payment rails elevated</li>
-  <li class="warn">! AI: voice-cloned "CFO" requests urgent transfer to a new beneficiary</li>
-  <li class="warn">! AI: LLM-written spear phishing aimed at treasury and payments staff</li>
-  <li>&gt; map exposure: critical ICT providers, concentration and jurisdiction risk</li>
-  <li class="crit">!! gap: payment call-back control bypassable by deepfaked voice</li>
-  <li>&gt; align controls: DORA art. 5–16, ISO/IEC 27001, NIST CSF 2.0, NIST SP 800-53</li>
-  <li>&gt; board briefing + crisis exercise: "state-aligned outage, day 1, 06:40"</li>
-  <li class="ok">✓ management body decision recorded. remediation tracked.</li>
-</template>
-{{end}}
-
-{{define "variant-switcher"}}
-<nav class="switcher" aria-label="Design alternatives">
-  <a href="/">All designs</a>
-  {{range .Variants}}<a href="/v/{{.Slug}}{{$.Sub}}{{$.ViewQuery}}"{{if eq .Slug $.Variant.Slug}} aria-current="page"{{end}}>{{.Name}}</a>{{end}}
-</nav>
-{{end}}
 
 {{define "contact-form"}}
 {{if .Sent}}
@@ -74,7 +19,6 @@
 {{else}}
 <form class="contact-form" method="post" action="/contact#contact" novalidate>
   {{with .Errors.form}}<p class="form-status form-status--err" role="alert">{{.}}</p>{{end}}
-  <input type="hidden" name="variant" value="{{.Variant.Slug}}">
   {{with .View}}<input type="hidden" name="view" value="{{.}}">{{end}}
   <div class="hp" aria-hidden="true">
     <label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
@@ -130,14 +74,3 @@
 
 {{/* Offered to phones (and anyone who forced a layout) so a wrong guess is one tap from fixed. */}}
 {{define "layout-switch"}}{{if or .Phone .View}}<p class="layout-switch">{{if .Mobile}}<a href="{{.Path}}?view=desktop">Desktop version</a>{{else}}<a href="{{.Path}}?view=mobile">Mobile version</a>{{end}}</p>{{end}}{{end}}
-
-{{define "footer"}}
-<footer class="site-footer">
-  <p class="site-footer__brand">{{.Site.Name}}</p>
-  <p>{{.Site.Descriptor}} · {{.Site.Location}}</p>
-  <p class="site-footer__note">No cookies. No trackers. Nothing loaded from third parties.</p>
-  <p><a href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}">About the firm</a> · <a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></p>
-  {{template "layout-switch" .}}
-</footer>
-{{template "variant-switcher" .}}
-{{end}}

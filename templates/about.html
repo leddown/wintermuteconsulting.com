@@ -1,30 +1,24 @@
-{{/* About page, desktop layout: one template for every design. .Variant.Theme
-     picks the design's stylesheet, header and footer; static/css/about.css lays
-     out the content (templates/about-body.html) with the design's tokens. A new
-     design needs a branch here for its header (the professional-services
-     designs share one). The page itself is still: the only scripts are the ones
-     a design's own header needs (Signal's clock, the eyes in Grense's rail). */}}
+{{/* About page, desktop layout: the site's header and footer around the shared
+     content (templates/about-body.html), which static/css/about.css lays out.
+     The page is still: it loads no scripts. */}}
 {{define "page"}}<!doctype html>
 <html lang="en">
 <head>
 {{template "head-common" .}}
 <title>About {{.Site.Name}}</title>
-{{if .Variant.PS}}<link rel="stylesheet" href="{{static "css/ps.css"}}">
-{{end}}<link rel="stylesheet" href="{{static (print "css/" .Variant.Theme ".css")}}">
+<link rel="stylesheet" href="{{static "css/ps.css"}}">
+<link rel="stylesheet" href="{{static "css/natt.css"}}">
 <link rel="stylesheet" href="{{static "css/about.css"}}">
-{{if .Variant.Signal}}<script type="module" src="{{static "js/terminal.js"}}"></script>
-{{else if eq .Variant.Theme "grense"}}<script type="module" src="{{static "js/wolfeyes.js"}}"></script>
-{{end}}</head>
-<body class="{{if .Variant.PS}}ps {{end}}{{.Variant.Theme}}{{if ne .Variant.Theme .Variant.Slug}} {{.Variant.Slug}}{{end}} about-page">
+</head>
+<body class="ps natt about-page">
 <a class="skip" href="#main">Skip to content</a>
-{{if eq .Variant.Theme "grense"}}{{template "grense-rail" .}}
-{{else if .Variant.PS}}{{template "ps-util" .}}{{template "ps-nav" .}}
-{{else if .Variant.Signal}}<div class="signal-scanlines" aria-hidden="true"></div>{{template "signal-header" .}}
-{{end}}
+{{template "ps-util" .}}
+{{template "ps-nav" .}}
+
 <main id="main">
 {{template "about-body" .}}
 </main>
-{{if .Variant.PS}}{{template "ps-footer" .}}{{else}}{{template "footer" .}}{{end}}
+{{template "ps-footer" .}}
 </body>
 </html>
 {{end}}

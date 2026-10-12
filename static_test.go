@@ -15,10 +15,7 @@ import (
 
 func TestStaticURLsCarryTheContentVersion(t *testing.T) {
 	h := testApp(t).routes()
-	pages := []string{"/"}
-	for _, v := range variants {
-		pages = append(pages, "/v/"+v.Slug, "/v/"+v.Slug+"/about")
-	}
+	pages := []string{"/", "/about"}
 	asset := regexp.MustCompile(`(?:href|src)="(/static/(?:css|js)/[^"]*)"`)
 	seen := map[string]bool{}
 	for _, p := range pages {
@@ -49,7 +46,7 @@ func TestStaticURLsCarryTheContentVersion(t *testing.T) {
 	}
 
 	// A bare or outdated URL still works, but is only kept for a day.
-	for _, url := range []string{"/static/js/wolfeyes.js", "/static/js/wolfeyes.js?v=000000000000", "/static/js/wolfeyes.js?v=", "/static/fonts/inter.woff2"} {
+	for _, url := range []string{"/static/js/reveal.js", "/static/js/reveal.js?v=000000000000", "/static/js/reveal.js?v=", "/static/fonts/inter.woff2"} {
 		rec := do(h, "GET", url, nil, nil)
 		if cc := rec.Header().Get("Cache-Control"); rec.Code != 200 || cc != "public, max-age=86400" {
 			t.Errorf("GET %s = %d, Cache-Control %q; want 200 and a one-day cache", url, rec.Code, cc)
@@ -64,22 +61,22 @@ func TestStaticURLsCarryTheContentVersion(t *testing.T) {
 func TestStaticVersionFollowsTheContent(t *testing.T) {
 	quiet := slog.New(slog.NewTextHandler(io.Discard, nil))
 	a := testApp(t)
-	before := a.staticURL("js/wolfeyes.js")
+	before := a.staticURL("js/reveal.js")
 	version := func(url string) string { _, v, _ := strings.Cut(url, "?v="); return v }
-	if before != a.staticURL("js/wolfeyes.js") || version(before) == "" || version(before) == version(a.staticURL("js/reveal.js")) {
+	if before != a.staticURL("js/reveal.js") || version(before) == "" || version(before) == version(a.staticURL("js/mnav.js")) {
 		t.Fatalf("version is not stable and per file: %s", before)
 	}
 
-	changed := overlayFS{embedded, fstest.MapFS{"static/js/wolfeyes.js": &fstest.MapFile{Data: []byte("// a new release")}}}
+	changed := overlayFS{embedded, fstest.MapFS{"static/js/reveal.js": &fstest.MapFile{Data: []byte("// a new release")}}}
 	b, err := newApp(changed, false, false, quiet)
 	if err != nil {
 		t.Fatal(err)
 	}
-	after := b.staticURL("js/wolfeyes.js")
-	if after == before || !strings.HasPrefix(after, "/static/js/wolfeyes.js?v=") {
+	after := b.staticURL("js/reveal.js")
+	if after == before || !strings.HasPrefix(after, "/static/js/reveal.js?v=") {
 		t.Errorf("changed file kept its URL: before %s, after %s", before, after)
 	}
-	if b.staticURL("js/reveal.js") != a.staticURL("js/reveal.js") {
+	if b.staticURL("js/mnav.js") != a.staticURL("js/mnav.js") {
 		t.Error("an unchanged file got a new URL")
 	}
 	// The old URL must not be treated as naming the new content.
@@ -89,7 +86,7 @@ func TestStaticVersionFollowsTheContent(t *testing.T) {
 
 	// In -dev files change under the running server: no version, nothing cached.
 	dev := &app{dev: true, assets: embedded}
-	if got := dev.staticURL("js/wolfeyes.js"); got != "/static/js/wolfeyes.js" {
+	if got := dev.staticURL("js/reveal.js"); got != "/static/js/reveal.js" {
 		t.Errorf("dev URL = %s, want it bare", got)
 	}
 	// Unknown files get a bare URL and are not remembered.

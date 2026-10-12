@@ -1,21 +1,19 @@
 {
   "_readme": [
-    "All the text on the site is in this file. The site reads it; nothing here is shown except what is under 'site' and 'designs'.",
+    "All the text on the site is in this file. The site reads it; nothing here is shown except what is under 'site' and 'home'.",
     "Change the text between the quotes and leave the names on the left of each colon as they are.",
     "Each text stays on one line. A double quote inside a text needs a backslash in front of it.",
-    "'site' is shared by every design: services, principles, numbers, industries, insights, the brief, the lede and the About page.",
-    "'designs' is each design's own wording. Its desktop page and its phone page both use it, so a change here shows on both.",
-    "A phone page may leave a piece out: it has no Insights or Industries sections, no section paragraphs and no contact points. Natt's phone hero shows site.brief; its desktop hero shows site.lede.",
+    "'site' is what the firm says about itself: services, principles, numbers, industries, insights, the brief, the lede and the About page.",
+    "'home' is the homepage's own wording: the hero title, the buttons and each section's heading. The desktop page and the phone page both use it, so a change here shows on both.",
+    "The phone page leaves some pieces out: it has no Insights or Industries sections, no section paragraphs and no contact points. Its hero shows site.brief; the desktop hero shows site.lede.",
     "In a heading, 'kicker' is the small label above the title and 'accent' is the rest of the title in the accent colour. Leave either out for none.",
-    "Signal's approach title and Grense's ai kicker and title are shown on the phone only.",
-    "Limits: Natt's heroTitle plus heroTitleAccent may be 60 characters and site.brief 180 (the phone hero must stay short); site.about.summary should stay under 160.",
+    "Limits: heroTitle plus heroTitleAccent may be 60 characters and site.brief 180 (the phone hero must stay short); site.about.summary should stay under 160.",
     "A service's code starts with two letters that pick its icon: AI, RM, TI, VC, RG, FT, CX or TR.",
     "site.stats are placeholder figures: replace them with real ones before launch. Text in [square brackets] is a placeholder for your own details.",
     "To check the file after a change, run: go test ./...   To see changes on a browser refresh, run: go run . -dev"
   ],
   "site": {
     "name": "Wintermute Consulting OÜ",
-    "legalForm": "OÜ",
     "logoMark": "Wintermute",
     "logoSub": "Consulting",
     "descriptor": "AI, Cyber & ICT risk advisory",
@@ -196,115 +194,44 @@
       ]
     }
   },
-  "designs": {
-    "signal": {
-      "heroTitle": "Finding raised.",
-      "cta": "> arrange_briefing",
-      "ctaSecondary": "Our services",
-      "ai": {
-        "title": "// wintermute-consulting: threat & remediation feed (simulated)",
-        "body": "From the first signal of a threat to closed findings: every step documented, every control evidenced, every decision the board's own."
-      },
-      "services": {
-        "title": "// services"
-      },
-      "approach": {
-        "title": "// operating_principles"
-      },
-      "contact": {
-        "title": "// open_channel",
-        "body": "Encrypted in transit. Read by a senior advisor in strict confidence; reply within one working day."
-      }
+  "home": {
+    "heroTitle": "Crises come at night.",
+    "heroTitleAccent": "Be ready before they do.",
+    "cta": "Arrange a private briefing",
+    "ctaSecondary": "Our services",
+    "ai": {
+      "kicker": "Emerging AI",
+      "title": "Attackers adopted AI first.",
+      "accent": "Your controls should not be the last to know.",
+      "body": "AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify."
     },
-    "natt": {
-      "heroTitle": "Crises come at night.",
-      "heroTitleAccent": "Be ready before they do.",
-      "cta": "Arrange a private briefing",
-      "ctaSecondary": "Our services",
-      "ai": {
-        "kicker": "Emerging AI",
-        "title": "Attackers adopted AI first.",
-        "accent": "Your controls should not be the last to know.",
-        "body": "AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify."
-      },
-      "services": {
-        "kicker": "Services",
-        "title": "What we do, and how",
-        "body": "Emerging AI and cyber threats, the geopolitics behind them, regulatory readiness and ICT resilience: from the management body's agenda to the technical control, delivered by senior advisors end to end."
-      },
-      "insights": {
-        "kicker": "Insights",
-        "title": "From the watch",
-        "body": "Short, practical notes from current engagements. No fear, no product pitches."
-      },
-      "industries": {
-        "kicker": "Industries",
-        "title": "Private capital, regulated markets"
-      },
-      "approach": {
-        "kicker": "How we work",
-        "title": "A small pack, by design"
-      },
-      "contact": {
-        "kicker": "Contact",
-        "title": "Tell us where you're worried.",
-        "body": "Every enquiry is read by a senior advisor and treated in strict confidence. We reply within one working day.",
-        "points": [
-          "Encrypted in transit",
-          "A non-disclosure agreement first, if you prefer",
-          "We don't share or sell what you send"
-        ]
-      }
+    "services": {
+      "kicker": "Services",
+      "title": "What we do, and how",
+      "body": "Emerging AI and cyber threats, the geopolitics behind them, regulatory readiness and ICT resilience: from the management body's agenda to the technical control, delivered by senior advisors end to end."
     },
-    "grense": {
-      "heroTitle": "AI is on both sides of the tree line.",
-      "cta": "Arrange a private briefing",
-      "ctaSecondary": "Our services",
-      "ai": {
-        "kicker": "Emerging AI",
-        "title": "Attackers adopted AI first.",
-        "body": "AI now writes the phishing, clones the voice and scans the perimeter, and it runs inside your own credit, fraud and customer processes. We build the policies and controls that let you meet AI-driven threats, and use AI yourselves, in a way your supervisor and auditor can verify."
-      },
-      "sides": [
-        {
-          "title": "Used against you",
-          "items": [
-            "Voice and video deepfakes of the people who approve payments",
-            "AI-written spear phishing aimed at treasury and payments staff",
-            "Automated reconnaissance of your perimeter"
-          ]
-        },
-        {
-          "title": "Put to work for you",
-          "items": [
-            "An AI policy stack, from risk appetite to controls an auditor can test",
-            "Governance for the AI you deploy, under the EU AI Act and DORA",
-            "Defences that use AI themselves"
-          ]
-        }
-      ],
-      "services": {
-        "title": "Services"
-      },
-      "insights": {
-        "title": "Insights",
-        "body": "Short, practical notes from current engagements. No fear, no product pitches."
-      },
-      "industries": {
-        "title": "Industries"
-      },
-      "approach": {
-        "title": "How we work"
-      },
-      "contact": {
-        "title": "Tell us which side you are worried about.",
-        "body": "Every enquiry is read by a senior advisor and treated in strict confidence. We reply within one working day.",
-        "points": [
-          "Encrypted in transit",
-          "A non-disclosure agreement first, if you prefer",
-          "We don't share or sell what you send"
-        ]
-      }
+    "insights": {
+      "kicker": "Insights",
+      "title": "From the watch",
+      "body": "Short, practical notes from current engagements. No fear, no product pitches."
+    },
+    "industries": {
+      "kicker": "Industries",
+      "title": "Private capital, regulated markets"
+    },
+    "approach": {
+      "kicker": "How we work",
+      "title": "A small pack, by design"
+    },
+    "contact": {
+      "kicker": "Contact",
+      "title": "Tell us where you're worried.",
+      "body": "Every enquiry is read by a senior advisor and treated in strict confidence. We reply within one working day.",
+      "points": [
+        "Encrypted in transit",
+        "A non-disclosure agreement first, if you prefer",
+        "We don't share or sell what you send"
+      ]
     }
   }
 }

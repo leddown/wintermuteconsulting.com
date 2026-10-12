@@ -1,9 +1,9 @@
-/* Professional-services family (Natt, Grense): the page furniture of a
-   large advisory firm. Utility bar, nav, service tiles, figures, industries,
-   insights, steps, contact and a column footer. Each design's stylesheet sets
-   the tokens (--bg, --ink, --brand, --accent, fonts) and its own hero. */
+/* The page furniture of a large advisory firm (templates/ps.html): utility
+   bar, nav, service tiles, figures, industries, insights, steps, contact and
+   a column footer. natt.css sets the tokens (--bg, --ink, --brand, --accent)
+   and the hero. */
 
-/* Defaults on :root so each design's own :root (loaded after) wins. */
+/* Defaults on :root so natt.css's own :root (loaded after) wins. */
 :root {
   --brand: #1b1650;
   --brand-ink: #f4f3ff;
@@ -74,12 +74,6 @@
 .ps-more span[aria-hidden] { display: inline-block; transition: transform 0.2s; color: var(--accent); }
 .ps-more:hover span[aria-hidden] { transform: translateX(4px); }
 
-/* ---- Service rows (Grense): plain rows, laid out by the design ---- */
-.svc-rows { list-style: none; padding: 0; }
-.svc-row__code { font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.14em; color: var(--muted); }
-.svc-row h3 { font-size: 1.3rem; line-height: 1.2; }
-.svc-row__body { color: var(--muted); font-size: 0.97rem; }
-
 /* ---- Key figures ---- */
 .ps-figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 2rem 3rem; }
 .ps-figures div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 0.6rem; padding-top: 1.25rem; border-top: 2px solid var(--accent); }
@@ -95,7 +89,7 @@
 /* ---- Insights ---- */
 .ps-insights { list-style: none; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
 .ps-insight { display: flex; flex-direction: column; gap: 0.9rem; padding: 2rem; background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--brand); }
-.ps-insight__tag { font: 600 0.72rem/1 var(--font-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-text, var(--accent)); }
+.ps-insight__tag { font: 600 0.72rem/1 var(--font-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
 .ps-insight h3 { font-size: 1.35rem; line-height: 1.25; }
 .ps-insight p:not(.ps-insight__tag) { color: var(--muted); font-size: 0.97rem; }
 .ps-insight__meta { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.85rem !important; }
@@ -104,7 +98,7 @@
 /* ---- Steps (principles) ---- */
 .ps-steps { list-style: none; padding: 0; display: grid; gap: 2.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); counter-reset: step; }
 .ps-steps li { position: relative; padding-top: 1.5rem; border-top: 1px solid var(--line); }
-.ps-steps__num { font: 500 0.8rem/1 var(--font-mono); color: var(--accent-text, var(--accent)); }
+.ps-steps__num { font: 500 0.8rem/1 var(--font-mono); color: var(--accent); }
 .ps-steps h3 { margin: 0.9rem 0 0.5rem; font-size: 1.3rem; }
 .ps-steps p { color: var(--muted); }
 
@@ -133,7 +127,3 @@
 .ps-footer .ps-mark__w { stroke: var(--brand); }
 .ps-footer__legal { max-width: var(--wide); margin: 3.5rem auto 0; padding-top: 1.5rem; border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent); display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; font-size: 0.8rem; opacity: 0.7; }
 .ps-footer .layout-switch a { color: inherit; }
-.ps .switcher { background: var(--footer-bg, var(--brand)); color: color-mix(in srgb, var(--footer-ink, var(--brand-ink)) 65%, transparent); margin: 0; }
-.ps .switcher a:hover, .ps .switcher a[aria-current] { color: var(--footer-ink, var(--brand-ink)); }
-
-

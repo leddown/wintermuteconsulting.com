@@ -61,7 +61,7 @@ type Principal struct {
 	Facts []Fact   `json:"facts"`
 }
 
-// About is the copy for the About page (/v/{slug}/about). Anything in
+// About is the copy for the About page (/about). Anything in
 // [square brackets] is a placeholder for the owner's own details.
 type About struct {
 	Title     string    `json:"title"` // the page's headline
@@ -72,12 +72,11 @@ type About struct {
 	Company   []Fact    `json:"company"`  // registration details; the legal name and email come from Site
 }
 
-// Site is the copy every design shares.
+// Site is what the firm says about itself, wherever a page needs it.
 type Site struct {
-	Name       string      `json:"name"`      // full legal name: titles, meta, footers
-	LegalForm  string      `json:"legalForm"` // company form, shown in the top logo only where a design asks for it
-	LogoMark   string      `json:"logoMark"`  // logo lockup: the word mark...
-	LogoSub    string      `json:"logoSub"`   // ...and the lighter qualifier beside or under it
+	Name       string      `json:"name"`     // full legal name: titles, meta, footers
+	LogoMark   string      `json:"logoMark"` // logo lockup: the word mark...
+	LogoSub    string      `json:"logoSub"`  // ...and the lighter qualifier beside or under it
 	Descriptor string      `json:"descriptor"`
 	Brief      string      `json:"brief"` // the offer in one sentence, for heroes that must fit a laptop screen
 	Lede       string      `json:"lede"`
@@ -91,7 +90,7 @@ type Site struct {
 	About      About       `json:"about"`
 }
 
-// Heading is one section's heading on a design's page.
+// Heading is one section's heading on the homepage.
 type Heading struct {
 	Kicker string   `json:"kicker"` // small label above the title; empty for none
 	Title  string   `json:"title"`
@@ -100,22 +99,14 @@ type Heading struct {
 	Points []string `json:"points"` // short list under the paragraph; empty for none
 }
 
-// Side is one side of Grense's tree line: a title and what is on that side.
-type Side struct {
-	Title string   `json:"title"`
-	Items []string `json:"items"`
-}
-
-// Copy is one design's own wording. Its desktop page and its phone page both
-// read it (as .Copy), so a change is made once. A layout that has no room for
-// a piece leaves it out; it never words it differently:
-//   - the phone pages have no Insights or Industries sections, no section
+// Copy is the homepage's own wording: the hero title, the buttons and each
+// section's heading. The desktop page and the phone page both read it (as
+// .Copy), so a change is made once. A layout that has no room for a piece
+// leaves it out; it never words it differently:
+//   - the phone page has no Insights or Industries sections, no section
 //     paragraphs and no contact points;
-//   - Natt's phone hero shows Site.Brief under the title, its desktop hero
-//     Site.Lede (TestNattPhoneHeroCopyStaysShort caps the phone hero);
-//   - Signal's Approach title is shown on the phone only (the desktop page
-//     lists the principles without a heading), and so are Grense's AI kicker
-//     and title (on desktop the two sides sit directly under the hero).
+//   - the phone hero shows Site.Brief under the title, the desktop hero
+//     Site.Lede (TestNattPhoneHeroCopyStaysShort caps the phone hero).
 type Copy struct {
 	HeroTitle       string `json:"heroTitle"`
 	HeroTitleAccent string `json:"heroTitleAccent"` // second line of the title, in the accent colour; empty for none
@@ -123,7 +114,6 @@ type Copy struct {
 	CTASecondary    string `json:"ctaSecondary"`    // the quieter button beside it
 
 	AI         Heading `json:"ai"`
-	Sides      []Side  `json:"sides"` // Grense: AI on both sides of the tree line
 	Services   Heading `json:"services"`
 	Insights   Heading `json:"insights"`
 	Industries Heading `json:"industries"`
@@ -133,21 +123,12 @@ type Copy struct {
 
 // Content is everything in content.json.
 type Content struct {
-	Readme  []string        `json:"_readme"` // notes for whoever edits the file; shown nowhere
-	Site    Site            `json:"site"`
-	Designs map[string]Copy `json:"designs"` // by variant slug
+	Readme []string `json:"_readme"` // notes for whoever edits the file; shown nowhere
+	Site   Site     `json:"site"`
+	Home   Copy     `json:"home"`
 }
 
 const contentFile = "content.json"
-
-// copyFor is a design's wording. A copy of a design (see variantTheme in
-// app.go) uses the original's until it is given its own entry under "designs".
-func (c *Content) copyFor(v Variant) Copy {
-	if d, ok := c.Designs[v.Slug]; ok {
-		return d
-	}
-	return c.Designs[v.Theme()]
-}
 
 func loadContent(assets fs.FS) (*Content, error) {
 	b, err := fs.ReadFile(assets, contentFile)
@@ -327,29 +308,18 @@ func (c *Content) validate() error {
 		need(at+".body", v.Body)
 	}
 
-	for name := range c.Designs {
-		if _, ok := findVariant(name); !ok {
-			return fmt.Errorf("designs.%s: there is no design with that name", name)
-		}
-	}
-	for _, v := range variants {
-		if _, ok := c.Designs[v.Slug]; !ok {
-			if _, ok := c.Designs[v.Theme()]; !ok {
-				return fmt.Errorf("designs.%s is missing", v.Slug)
-			}
-			continue
-		}
-		d, at := c.Designs[v.Slug], "designs."+v.Slug
-		need(at+".heroTitle", d.HeroTitle)
-		need(at+".cta", d.CTA)
-		need(at+".ctaSecondary", d.CTASecondary)
-		need(at+".ai.title", d.AI.Title)
-		need(at+".ai.body", d.AI.Body)
-		need(at+".services.title", d.Services.Title)
-		need(at+".approach.title", d.Approach.Title)
-		need(at+".contact.title", d.Contact.Title)
-		need(at+".contact.body", d.Contact.Body)
-	}
+	h := c.Home
+	need("home.heroTitle", h.HeroTitle)
+	need("home.cta", h.CTA)
+	need("home.ctaSecondary", h.CTASecondary)
+	need("home.ai.title", h.AI.Title)
+	need("home.ai.body", h.AI.Body)
+	need("home.services.title", h.Services.Title)
+	need("home.insights.title", h.Insights.Title)
+	need("home.industries.title", h.Industries.Title)
+	need("home.approach.title", h.Approach.Title)
+	need("home.contact.title", h.Contact.Title)
+	need("home.contact.body", h.Contact.Body)
 	if len(missing) > 0 {
 		return fmt.Errorf("missing or empty: %s", strings.Join(missing, ", "))
 	}

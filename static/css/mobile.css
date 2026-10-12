@@ -1,6 +1,6 @@
 /* Mobile layout (templates/mobile.html), served to phones by mobile.go.
-   Colours and fonts come from base.css plus the design's own stylesheet, which
-   is loaded first for its tokens; everything here is scoped to .m.
+   Colours and fonts come from base.css plus natt.css, which is loaded first
+   for its tokens; everything here is scoped to .m.
    Rules of thumb: 16px+ body text, 44px+ tap targets, one column, content
    clear of the notch and home indicator (safe-area insets). */
 
@@ -75,8 +75,8 @@ html.m-menu-open { overflow: hidden; }
   font: 500 1.9rem/1.1 var(--font-display); letter-spacing: -0.02em;
   text-decoration: none;
 }
-.m-menu__sheet > a span { font: 500 0.72rem/1 var(--font-mono); letter-spacing: 0.12em; color: var(--accent-text, var(--accent)); }
-.m-menu__sheet > a[aria-current] { color: var(--accent-text, var(--accent)); }
+.m-menu__sheet > a span { font: 500 0.72rem/1 var(--font-mono); letter-spacing: 0.12em; color: var(--accent); }
+.m-menu__sheet > a[aria-current] { color: var(--accent); }
 .m-menu__foot { margin-top: auto; padding-top: 32px; font-size: 0.9rem; color: var(--muted); }
 .m-menu__foot a { color: var(--ink); }
 
@@ -98,8 +98,6 @@ html.m-menu-open { overflow: hidden; }
     color-mix(in srgb, var(--bg) 94%, transparent) 72%,
     var(--bg) 100%);
 }
-/* Eyes live in the canopy, above the copy. */
-.m-hero__eyes { position: absolute; left: 0; right: 0; top: 0; height: 50%; width: 100%; z-index: -2; }
 .m-hero__snow { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
 .m-hero__content { padding: 48px var(--pad) calc(32px + env(safe-area-inset-bottom)); }
 .m-hero__title {
@@ -129,7 +127,7 @@ html.m-menu-open { overflow: hidden; }
 
 .m-services__list, .m-approach__list { list-style: none; padding: 0; border-top: 1px solid var(--line); }
 .m-services__list li { padding: 24px 0; border-bottom: 1px solid var(--line); }
-.m-services__code { font: 500 0.72rem/1 var(--font-mono); letter-spacing: 0.15em; color: var(--accent-text, var(--accent)); }
+.m-services__code { font: 500 0.72rem/1 var(--font-mono); letter-spacing: 0.15em; color: var(--accent); }
 .m-services__list h3 { margin: 12px 0 8px; font-size: 1.3rem; line-height: 1.2; }
 .m-services__list p:last-child { color: var(--muted); font-size: 0.975rem; }
 
@@ -137,7 +135,7 @@ html.m-menu-open { overflow: hidden; }
 .m-ai h2 { margin-bottom: 8px; }
 
 .m-approach__list li { display: grid; grid-template-columns: 44px 1fr; column-gap: 8px; padding: 22px 0; border-bottom: 1px solid var(--line); }
-.m-approach__num { grid-row: span 2; font: 500 0.75rem/1.9 var(--font-mono); color: var(--accent-text, var(--accent)); }
+.m-approach__num { grid-row: span 2; font: 500 0.75rem/1.9 var(--font-mono); color: var(--accent); }
 .m-approach__list h3 { font-size: 1.15rem; line-height: 1.3; margin-bottom: 6px; }
 .m-approach__list p { color: var(--muted); font-size: 0.975rem; }
 
@@ -162,8 +160,6 @@ html.m-menu-open { overflow: hidden; }
 .m-footer__note { margin-top: 12px; font: 0.72rem/1.5 var(--font-mono); }
 .m .layout-switch { margin-top: 20px; }
 .m .layout-switch a, .layout-switch a { color: var(--ink); font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; text-underline-offset: 4px; }
-.m .switcher { padding: 20px 0 0; }
-.m .switcher a { padding: 6px 0; }
 
 /* A forced mobile view on a wide screen stays phone-shaped rather than stretching. */
 @media (min-width: 700px) {
@@ -171,35 +167,9 @@ html.m-menu-open { overflow: hidden; }
   .m-hero { min-height: 760px; }
 }
 
-/* ======== Per-design treatments ======== */
+/* ---- Hero: the night picture ---- */
 
-/* Signal: a console. The hero is a framed camera feed, not a full-bleed photo. */
-.m--signal { font-size: 0.9375rem; }
-.m-hero--console { min-height: 0; justify-content: flex-start; padding-top: 20px; }
-.m-viewport { position: relative; margin: 0 var(--pad); aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--line); background: #000; isolation: isolate; }
-.m-viewport .m-hero__media img { filter: grayscale(1) brightness(0.45) contrast(1.35) sepia(0.4) hue-rotate(150deg) brightness(var(--feed-light, 1)); }
-.m-viewport .m-hero__media::after { background: radial-gradient(ellipse at center, transparent 40%, rgb(0 0 0 / 0.75)); }
-.m-viewport .m-hero__eyes { height: 100%; }
-.m-viewport__hud { position: absolute; left: 10px; right: 10px; bottom: 8px; display: flex; justify-content: space-between; font: 0.66rem/1 var(--font-mono); letter-spacing: 0.12em; color: var(--accent); }
-.m--signal .m-hero__content { padding-top: 32px; }
-.m--signal .m-hero__title { font-weight: 700; font-size: clamp(2rem, 9.4vw, 2.6rem); color: var(--crit); letter-spacing: -0.02em; }
-.m--signal .m-hero__lede { font-size: 0.9375rem; color: #aac3ca; }
-.m--signal .m-section h2 { font-weight: 700; color: var(--accent); font-size: 1.5rem; }
-.m--signal .m-services__list h3, .m--signal .m-approach__list h3 { font-size: 1.05rem; font-weight: 700; }
-.m--signal .m-proof dd { font-weight: 700; font-size: 1.6rem; color: var(--accent); }
-.m--signal .terminal { min-height: 21rem; margin-top: 20px; padding: 16px; font-size: 0.75rem; line-height: 1.75; }
-.m--signal .m-ai__note { font-size: 0.8rem; color: var(--muted) !important; }
-
-.m--signal .m-menu__sheet > a { font-size: 1.5rem; font-weight: 700; }
-.m--signal .m-bar__logo .logo-sub { letter-spacing: 0.53em; } /* monospace, and "Consulting OÜ" is longer */
-
-/* A hero with no picture behind the copy: the design supplies its own band. */
-.m-hero--plain { min-height: 0; justify-content: flex-start; }
-.m-hero--plain .m-hero__content { padding-top: 36px; }
-
-/* ---- Professional-services family ---- */
-
-/* Natt: the full picture behind the copy and an amber second line, and the
+/* The full picture behind the copy and an amber second line, and the
    white title can never cross the white moon. The picture is placed by the
    hero's width, not by its height (cqi, with vw for browsers without container
    units), so the moon is in the same place at any phone size and text size:
@@ -226,8 +196,3 @@ html.m-menu-open { overflow: hidden; }
 .m--natt .m-hero__content { padding-top: calc(45vw + 16px); padding-top: calc(45cqi + 16px); }
 .m--natt .m-hero .eyebrow { color: var(--ink); } /* small text over the bushes: the muted colour falls under 4.5:1 there */
 .m-natt-line { display: block; width: fit-content; margin-top: 4px; color: var(--accent); border-bottom: 3px solid var(--accent); }
-
-/* Grense: light. The forest is a band across the top of the hero. */
-.grense-band { position: relative; isolation: isolate; overflow: hidden; height: 30svh; min-height: 180px; background: #0b1210; }
-.m--grense .grense-band .grense-rail__media { z-index: 0; }
-.m--grense .grense-band .grense-rail__eyes { z-index: 1; }

@@ -36,13 +36,8 @@ func TestContentFileIsValid(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, v := range variants {
-		if c.copyFor(v).HeroTitle == "" {
-			t.Errorf("design %s has no wording", v.Slug)
-		}
-	}
 	// What the pages are built from is this file and nothing else.
-	if got := testApp(t).content; got.Site.Name != c.Site.Name || len(got.Designs) != len(c.Designs) {
+	if got := testApp(t).content; got.Site.Name != c.Site.Name || got.Home.HeroTitle != c.Home.HeroTitle {
 		t.Error("the app did not load the embedded content.json")
 	}
 }
@@ -80,19 +75,19 @@ func TestContentRejectsMistakes(t *testing.T) {
 		want  []string // each must appear in the error
 	}{
 		{"comma after the last item", swap("\n  }\n}", ",\n  }\n}"), []string{"line ", "comma after the last item"}},
-		{"missing comma", swap(`"legalForm": "OÜ",`, `"legalForm": "OÜ"`), []string{"line ", "comma missing"}},
-		{"unescaped quote in a text", swap(`"heroTitle": "Finding raised."`, `"heroTitle": "Finding "raised"."`), []string{lineOf(`"heroTitle": "Finding raised."`), "backslash"}},
-		{"text broken over two lines", swap(`"heroTitle": "Finding raised."`, "\"heroTitle\": \"Finding\nraised.\""), []string{"line ", "one line"}},
-		{"misspelled name", swap(`"heroTitle": "Finding raised."`, `"heroTitel": "Finding raised."`), []string{lineOf(`"heroTitle": "Finding raised."`), `"heroTitel" is not a name the site knows`}},
-		{"name used twice", swap(`"heroTitle": "Finding raised.",`, `"heroTitle": "Finding raised.", "heroTitle": "Again.",`), []string{lineOf(`"heroTitle": "Finding raised."`), `"heroTitle" appears twice`}},
+		{"missing comma", swap(`"logoMark": "Wintermute",`, `"logoMark": "Wintermute"`), []string{"line ", "comma missing"}},
+		{"unescaped quote in a text", swap(`"heroTitle": "Crises come at night."`, `"heroTitle": "Crises "come" at night."`), []string{lineOf(`"heroTitle": "Crises come at night."`), "backslash"}},
+		{"text broken over two lines", swap(`"heroTitle": "Crises come at night."`, "\"heroTitle\": \"Crises come\nat night.\""), []string{"line ", "one line"}},
+		{"misspelled name", swap(`"heroTitle": "Crises come at night."`, `"heroTitel": "Crises come at night."`), []string{lineOf(`"heroTitle": "Crises come at night."`), `"heroTitel" is not a name the site knows`}},
+		{"name used twice", swap(`"heroTitle": "Crises come at night.",`, `"heroTitle": "Crises come at night.", "heroTitle": "Again.",`), []string{lineOf(`"heroTitle": "Crises come at night."`), `"heroTitle" appears twice`}},
 		{"number in quotes", swap(`"value": 15`, `"value": "15"`), []string{lineOf(`"value": 15`), "whole number without quotes"}},
 		{"text after the end", swap("\n  }\n}", "\n  }\n}\n}"), []string{"after the closing brace"}},
 		{"file cut short", func(*testing.T) []byte { return good[:len(good)/2] }, []string{"ends early"}},
 		{"empty file", func(*testing.T) []byte { return nil }, []string{"the file is empty"}},
-		{"design left out", change(func(c *Content) { delete(c.Designs, "natt") }), []string{"designs.natt is missing"}},
-		{"design that does not exist", change(func(c *Content) { c.Designs["spor"] = c.Designs["natt"] }), []string{"designs.spor", "no design with that name"}},
+		{"homepage wording left out", change(func(c *Content) { c.Home = Copy{} }), []string{"missing or empty", "home.heroTitle", "home.contact.body"}},
+		{"a file from before there was one design", swap(`"home": {`, `"designs": {`), []string{lineOf(`"home": {`), `"designs" is not a name the site knows`}},
 		{"shared text emptied", change(func(c *Content) { c.Site.Brief = " " }), []string{"missing or empty", "site.brief"}},
-		{"design text emptied", change(func(c *Content) { d := c.Designs["grense"]; d.Contact.Title = ""; c.Designs["grense"] = d }), []string{"designs.grense.contact.title"}},
+		{"homepage text emptied", change(func(c *Content) { c.Home.Contact.Title = "" }), []string{"home.contact.title"}},
 		{"service code too short for an icon", change(func(c *Content) { c.Site.Services[0].Code = "A" }), []string{"site.services[1].code"}},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
@@ -123,14 +118,14 @@ func TestDevRereadsContent(t *testing.T) {
 	}
 	h := a.routes()
 	get := func() (int, string) {
-		rec := do(h, "GET", "/v/signal", nil, map[string]string{"User-Agent": uaDesktop})
+		rec := do(h, "GET", "/", nil, map[string]string{"User-Agent": uaDesktop})
 		return rec.Code, rec.Body.String()
 	}
-	if code, body := get(); code != 200 || !strings.Contains(body, "Finding raised.") {
+	if code, body := get(); code != 200 || !strings.Contains(body, "Crises come at night.") {
 		t.Fatalf("first load: %d", code)
 	}
-	file[contentFile] = &fstest.MapFile{Data: bytes.Replace(good, []byte("Finding raised."), []byte("Finding closed."), 1)}
-	if code, body := get(); code != 200 || !strings.Contains(body, "Finding closed.") || strings.Contains(body, "Finding raised.") {
+	file[contentFile] = &fstest.MapFile{Data: bytes.Replace(good, []byte("Crises come at night."), []byte("Crises come at noon."), 1)}
+	if code, body := get(); code != 200 || !strings.Contains(body, "Crises come at noon.") || strings.Contains(body, "Crises come at night.") {
 		t.Errorf("edited text not shown on the next request (code %d)", code)
 	}
 	file[contentFile] = &fstest.MapFile{Data: good[:len(good)/2]}

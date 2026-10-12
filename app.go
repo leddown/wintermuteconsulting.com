@@ -12,52 +12,6 @@ import (
 	"sync"
 )
 
-// Variant is one of the alternative homepage designs, served at /v/{Slug}.
-type Variant struct {
-	Slug    string
-	Name    string
-	Summary string
-}
-
-// variantTheme maps a variant to the design whose stylesheet (and mobile
-// treatment) it reuses, for variants that are a tweak of another design
-// (a copy made to develop separately, e.g. {"natt2": "natt"}). None right now.
-var variantTheme = map[string]string{}
-
-// Theme is the design whose stylesheet and tokens this variant uses.
-func (v Variant) Theme() string {
-	if t, ok := variantTheme[v.Slug]; ok {
-		return t
-	}
-	return v.Slug
-}
-
-var variants = []Variant{
-	{"signal", "Signal", "A supervision console: monospace, a live remediation tracker, scanlines over the forest."},
-	{"natt", "Natt", "The dark advisory site: the illustrated night as the page, amber as the single signal colour."},
-	{"grense", "Grense", "The tree line runs down the page: the forest and the navigation on the left, your side of it on the right."},
-}
-
-// psThemes are the designs built on the professional-services furniture
-// (templates/ps.html, static/css/ps.css): its section heads, lists and footer.
-var psThemes = map[string]bool{"natt": true, "grense": true}
-
-// PS reports whether this variant's design uses the professional-services furniture.
-func (v Variant) PS() bool { return psThemes[v.Theme()] }
-
-// Signal reports whether this variant uses the console design: full legal
-// form ("OÜ") in the logo, and the terminal lede on the About page.
-func (v Variant) Signal() bool { return v.Theme() == "signal" }
-
-func findVariant(slug string) (Variant, bool) {
-	for _, v := range variants {
-		if v.Slug == slug {
-			return v, true
-		}
-	}
-	return Variant{}, false
-}
-
 var templateFuncs = template.FuncMap{
 	"inc": func(i int) int { return i + 1 },
 }
@@ -71,11 +25,10 @@ type app struct {
 
 	mu      sync.Mutex
 	content *Content // content.json: the site's text
-	// "index"; each variant slug and "m/<slug>" for its mobile layout; "about"
-	// (one desktop template for every design) and "m/<slug>/about".
+	// "home" and "about", and "m/home" and "m/about" for the phone layout.
 	pages map[string]*template.Template
 
-	versions sync.Map // static file ("js/wolfeyes.js") -> hash of its content; see staticVersion
+	versions sync.Map // static file ("js/reveal.js") -> hash of its content; see staticVersion
 }
 
 func newApp(assets fs.FS, dev, trustProxy bool, log *slog.Logger) (*app, error) {
@@ -134,21 +87,17 @@ func (a *app) staticVersion(file string) string {
 	return v
 }
 
-// parseTemplates builds one template set per page: the shared partials plus
-// that page's own file, so each page can define its own "page" block. Mobile
-// pages share templates/mobile.html, whose {{block}}s each templates/m/<slug>.html
-// overrides. The About page has one desktop template for every design; on a
-// phone it is the design's mobile shell with templates/m/about.html on top.
+// parseTemplates builds one template set per page and layout: the shared
+// partials plus that page's own file, which defines "page". On a phone both
+// pages are templates/mobile.html, the shell with the homepage in it;
+// templates/m/about.html replaces its "m-main" for the About page.
 func (a *app) parseTemplates() error {
 	pages := map[string]*template.Template{}
 	sets := map[string][]string{
-		"index": {"templates/index.html"},
-		"about": {"templates/about-body.html", "templates/about.html"},
-	}
-	for _, v := range variants {
-		sets[v.Slug] = []string{"templates/" + v.Slug + ".html"}
-		sets["m/"+v.Slug] = []string{"templates/mobile.html", "templates/m/" + v.Slug + ".html"}
-		sets["m/"+v.Slug+"/about"] = []string{"templates/about-body.html", "templates/mobile.html", "templates/m/" + v.Slug + ".html", "templates/m/about.html"}
+		"home":    {"templates/home.html"},
+		"about":   {"templates/about-body.html", "templates/about.html"},
+		"m/home":  {"templates/mobile.html"},
+		"m/about": {"templates/about-body.html", "templates/mobile.html", "templates/m/about.html"},
 	}
 	for name, files := range sets {
 		t, err := template.New(name).Funcs(templateFuncs).Funcs(template.FuncMap{"static": a.staticURL}).ParseFS(a.assets, append([]string{"templates/partials.html", "templates/ps.html"}, files...)...)
@@ -165,10 +114,8 @@ func (a *app) parseTemplates() error {
 
 type pageData struct {
 	Site     Site
-	Copy     Copy // the design's own wording ("designs" in content.json)
-	Variants []Variant
-	Variant  Variant
-	Page     string // "" for the design's homepage, "about" for its About page
+	Copy     Copy   // the homepage's own wording ("home" in content.json)
+	Page     string // "" for the homepage, "about" for the About page
 	Form     contactForm
 	Errors   map[string]string
 	Sent     bool
@@ -187,28 +134,19 @@ func (d pageData) ViewQuery() string {
 	return "?view=" + d.View
 }
 
-// Sub is the path below a design's homepage ("" or "/about"), so the design
-// switcher can stay on the same page.
-func (d pageData) Sub() string {
-	if d.Page == "" {
-		return ""
-	}
-	return "/" + d.Page
-}
-
 // Path is this page's own URL path, without the layout override.
 func (d pageData) Path() string {
-	return "/v/" + d.Variant.Slug + d.Sub()
+	return "/" + d.Page
 }
 
 // Home goes in front of the homepage's anchors (#services, #contact): empty on
 // the homepage itself, so they stay in-page links, and the homepage's URL on
-// any other page.
+// the About page.
 func (d pageData) Home() string {
 	if d.Page == "" {
 		return ""
 	}
-	return "/v/" + d.Variant.Slug + d.ViewQuery()
+	return "/" + d.ViewQuery()
 }
 
 // portraitFiles are the renditions of the principal's photo that
@@ -225,20 +163,18 @@ func hasPortrait(assets fs.FS) bool {
 	return true
 }
 
-// renderVariant serves a design's page in the layout that suits the request.
-func (a *app) renderVariant(w http.ResponseWriter, r *http.Request, status int, data pageData) {
+// renderPage serves a page in the layout that suits the request.
+func (a *app) renderPage(w http.ResponseWriter, r *http.Request, status int, data pageData) {
 	data.Phone = isPhone(r)
 	data.Mobile = wantMobile(r, data.View)
 	data.Portrait = hasPortrait(a.assets)
 	varyOnDevice(w)
-	name := data.Variant.Slug
-	switch {
-	case data.Mobile && data.Page != "":
-		name = "m/" + name + "/" + data.Page
-	case data.Mobile:
-		name = "m/" + name
-	case data.Page != "":
+	name := "home"
+	if data.Page != "" {
 		name = data.Page
+	}
+	if data.Mobile {
+		name = "m/" + name
 	}
 	a.render(w, status, name, data)
 }
@@ -260,8 +196,7 @@ func (a *app) render(w http.ResponseWriter, status int, name string, data pageDa
 	a.mu.Unlock()
 
 	data.Site = content.Site
-	data.Copy = content.copyFor(data.Variant)
-	data.Variants = variants
+	data.Copy = content.Home
 
 	// Render into a buffer so a template error doesn't leave a half-written page.
 	var buf bytes.Buffer

@@ -1,5 +1,6 @@
 /* Shared foundation: self-hosted fonts, reset, tokens, buttons, forms.
-   Each variant stylesheet overrides the tokens and adds its own layout. */
+   natt.css overrides the tokens; ps.css, mobile.css and about.css lay out
+   the pages. */
 
 @font-face { font-family: "Space Grotesk"; src: url("/static/fonts/space-grotesk.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
 @font-face { font-family: "Inter"; src: url("/static/fonts/inter.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
@@ -13,7 +14,6 @@
   --line: rgb(228 235 232 / 0.12);
   --accent: #e9a441;       /* wolf-eye amber */
   --accent-ink: #120c03;
-  --ice: #9fdcf0;
   --err: #ff7a6b;
   --ok: #8fe3b0;
   --font-display: "Space Grotesk", system-ui, sans-serif;
@@ -129,23 +129,3 @@ p { text-wrap: pretty; }
 .form-status--ok { color: var(--ok); }
 .form-status--err { color: var(--err); }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-
-/* ---- Footer + preview switcher ---- */
-.site-footer {
-  display: grid; gap: 0.35rem;
-  padding: 4rem var(--gutter) 2rem;
-  border-top: 1px solid var(--line);
-  font-size: 0.85rem; color: var(--muted);
-}
-.site-footer__brand { font: 600 1rem/1 var(--font-display); letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink); }
-.site-footer__note { font-family: var(--font-mono); font-size: 0.75rem; }
-
-.switcher {
-  display: flex; flex-wrap: wrap; gap: 0.25rem 1rem;
-  padding: 1rem var(--gutter) 5rem;
-  font: 500 0.75rem/1.4 var(--font-mono);
-  text-transform: uppercase; letter-spacing: 0.12em;
-  color: var(--muted);
-}
-.switcher a { text-decoration: none; }
-.switcher a:hover, .switcher a[aria-current] { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }

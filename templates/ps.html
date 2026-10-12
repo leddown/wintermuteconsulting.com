@@ -1,6 +1,9 @@
-{{/* Professional-services family (Natt, Grense): shared illustration,
-     icons and page furniture. Styled by static/css/ps.css plus each design's
-     own tokens. Parsed with every page; it only defines templates. */}}
+{{/* The site's page furniture, in the manner of a large advisory firm: the
+     night illustration, brand mark, service icons, top bar, navigation, tiles,
+     figures, insights and the column footer. Styled by static/css/ps.css with
+     the tokens in natt.css. Parsed with every page; it only defines templates.
+     Section links put .Home in front of the anchor: it is empty on the
+     homepage, so they stay in-page links there. */}}
 
 {{/* The moonlit forest illustration (brickbard, square). */}}
 {{define "night-picture"}}
@@ -36,13 +39,13 @@
 
 {{define "ps-nav"}}
 <header class="ps-nav">
-  <a class="ps-nav__brand" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "ps-mark"}}{{template "logo" .Site}}</a>
+  <a class="ps-nav__brand" href="/{{.ViewQuery}}">{{template "ps-mark"}}{{template "logo" .Site}}</a>
   <nav class="ps-nav__links" aria-label="Primary">
     <a href="{{.Home}}#services">Services</a>
     <a href="{{.Home}}#industries">Industries</a>
     <a href="{{.Home}}#insights">Insights</a>
     <a href="{{.Home}}#approach">How we work</a>
-    <a href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}"{{if eq .Page "about"}} aria-current="page"{{end}}>About</a>
+    <a href="/about{{.ViewQuery}}"{{if eq .Page "about"}} aria-current="page"{{end}}>About</a>
   </nav>
   <a class="btn btn--primary ps-nav__cta" href="{{.Home}}#contact">Contact us</a>
 </header>
@@ -118,7 +121,7 @@
     <div>
       <h2>Firm</h2>
       <ul>
-        <li><a href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}">About the firm</a></li>
+        <li><a href="/about{{.ViewQuery}}">About the firm</a></li>
         <li><a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></li>
         <li><a href="{{.Home}}#contact">Send a secure message</a></li>
       </ul>
@@ -130,56 +133,4 @@
     {{template "layout-switch" .}}
   </div>
 </footer>
-{{template "variant-switcher" .}}
-{{end}}
-
-{{/* Services as plain rows (Grense), laid out by the design's stylesheet. */}}
-{{define "svc-rows"}}
-<ul class="svc-rows">
-  {{range .Site.Services}}
-  <li class="svc-row" data-reveal>
-    <p class="svc-row__code">{{.Code}}</p>
-    <h3>{{.Title}}</h3>
-    <p class="svc-row__body">{{.Body}}</p>
-  </li>
-  {{end}}
-</ul>
-{{end}}
-
-{{/* Grense's rail: the forest runs down the left edge of every page and
-     carries the navigation (a block across the top on narrow screens). The
-     picture is the misty woods path. The eyes appear between 18% and 26% of
-     the picture's height up from its bottom edge (data-band counts from the
-     top, so 0.74 to 0.82), on desktop and on a phone alike. */}}
-{{define "grense-rail"}}
-<header class="grense-rail">
-  <div class="grense-rail__media" aria-hidden="true">{{template "woods-picture"}}</div>
-  <canvas class="grense-rail__eyes" data-wolf-eyes data-pairs="2" data-band="0.74 0.82" aria-hidden="true"></canvas>
-  <a class="grense-rail__brand" href="/v/{{.Variant.Slug}}{{.ViewQuery}}">{{template "ps-mark"}}{{template "logo" .Site}}</a>
-  <nav class="grense-rail__nav" aria-label="Primary">
-    <a href="{{.Home}}#services">Services</a>
-    <a href="{{.Home}}#ai">Emerging AI</a>
-    <a href="{{.Home}}#industries">Industries</a>
-    <a href="{{.Home}}#insights">Insights</a>
-    <a href="{{.Home}}#approach">How we work</a>
-    <a href="/v/{{.Variant.Slug}}/about{{.ViewQuery}}"{{if eq .Page "about"}} aria-current="page"{{end}}>About</a>
-  </nav>
-  <a class="btn btn--primary grense-rail__cta" href="{{.Home}}#contact">Contact us</a>
-</header>
-{{end}}
-
-{{/* Grense: AI on both sides of the tree line. Desktop section and phone
-     section; the first side is the forest's. Wording: "sides" under designs.grense in content.json. */}}
-{{define "grense-sides"}}
-<div class="grense-sides">
-  {{range $i, $s := .Copy.Sides}}
-  <div class="grense-side{{if eq $i 0}} grense-side--forest{{end}}">
-    <h3>{{$s.Title}}</h3>
-    <ul>
-      {{range $s.Items}}<li>{{.}}</li>
-      {{end}}
-    </ul>
-  </div>
-  {{end}}
-</div>
 {{end}}

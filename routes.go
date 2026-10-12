@@ -2,17 +2,9 @@ package main
 
 import (
 	"io/fs"
-	"mime"
 	"net/http"
 	"strings"
 )
-
-// Go's built-in MIME table lacks video types, and a minimal VPS may have no
-// /etc/mime.types. With nosniff set, a wrong type would stop eye footage playing.
-func init() {
-	_ = mime.AddExtensionType(".webm", "video/webm")
-	_ = mime.AddExtensionType(".mp4", "video/mp4")
-}
 
 func (a *app) routes() http.Handler {
 	mux := http.NewServeMux()
@@ -21,36 +13,21 @@ func (a *app) routes() http.Handler {
 	fileServer := http.StripPrefix("/static/", http.FileServerFS(static))
 	mux.Handle("GET /static/", a.cacheStatic(staticGuard(fileServer)))
 
-	mux.HandleFunc("GET /{$}", a.handleIndex)
-	mux.HandleFunc("GET /v/{slug}", a.handleVariant)
-	mux.HandleFunc("GET /v/{slug}/about", a.handleAbout)
+	mux.HandleFunc("GET /{$}", a.handleHome)
+	mux.HandleFunc("GET /about", a.handleAbout)
 	mux.HandleFunc("POST /contact", a.handleContact)
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) { _, _ = w.Write([]byte("ok")) })
 
 	return securityHeaders(mux)
 }
 
-func (a *app) handleIndex(w http.ResponseWriter, r *http.Request) {
-	a.render(w, http.StatusOK, "index", pageData{})
-}
-
-func (a *app) handleVariant(w http.ResponseWriter, r *http.Request) {
-	v, ok := findVariant(r.PathValue("slug"))
-	if !ok {
-		http.NotFound(w, r)
-		return
-	}
+func (a *app) handleHome(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
-	a.renderVariant(w, r, http.StatusOK, pageData{Variant: v, Sent: q.Get("sent") == "1", View: viewOverride(q.Get("view"))})
+	a.renderPage(w, r, http.StatusOK, pageData{Sent: q.Get("sent") == "1", View: viewOverride(q.Get("view"))})
 }
 
 func (a *app) handleAbout(w http.ResponseWriter, r *http.Request) {
-	v, ok := findVariant(r.PathValue("slug"))
-	if !ok {
-		http.NotFound(w, r)
-		return
-	}
-	a.renderVariant(w, r, http.StatusOK, pageData{Variant: v, Page: "about", View: viewOverride(r.URL.Query().Get("view"))})
+	a.renderPage(w, r, http.StatusOK, pageData{Page: "about", View: viewOverride(r.URL.Query().Get("view"))})
 }
 
 // securityHeaders sets a strict policy: every asset is same-origin, so the site

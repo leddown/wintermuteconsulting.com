@@ -14,16 +14,15 @@ bleak, cold, forest, snow, threat, wolf, wolf eyes, dangers, AI, modern, high-qu
 
 ## Palette
 
-| Token | Default (chooser) | Signal | Use |
-|---|---|---|---|
-| `--bg` | `#07090a` | `#040607` | page background |
-| `--ink` | `#e4ebe8` | `#d6ecf2` | body text |
-| `--muted` | `#8d9b96` | `#6f8990` | secondary text |
-| `--accent` | `#e9a441` wolf amber | `#7fd4e8` ice | CTAs, highlights |
+| Token | Natt | Use |
+|---|---|---|
+| `--bg` | `#070729` night | page background |
+| `--surface` | `#0e0e3a` | tiles, panels, alternate sections |
+| `--ink` | `#ecebff` | body text |
+| `--muted` | `#a3a5d3` | secondary text |
+| `--accent` | `#f2b155` amber | CTAs, highlights |
 
-The research-led design Grense uses the same roles on a darkened cream: `#bab6aa` / `#0b1210` / `#2c332e` (light page, the cream `#e9e3d5` made 20% darker; dark forest rail). It keeps wolf amber `#e9a441` for the eyes and the primary action; small amber text on its light page uses `#4d2d00`, because the bright amber fails contrast on a light ground. (Its first ground, a cool fog white `#eef1f0`, was replaced on request.)
-
-Amber is reserved for the eyes and primary actions. Nothing else should glow.
+Amber is the single signal colour. Nothing else should glow.
 
 ## Typography
 
@@ -33,29 +32,27 @@ Amber is reserved for the eyes and primary actions. Nothing else should glow.
 
 ## Imagery
 
-Fog, spruce, moss, snow, dusk. Desaturate and darken photos. The forest should feel quiet, not horror-movie. Wolf eyes: real eyeshine footage (trail-camera style, eyes only, on black) composited over the forest, with a procedural canvas fallback. No stock-wolf clichés.
-**Still needed:** higher-resolution originals. `juliaboldt-woods` is only 640 px wide and looks soft on large screens.
+Fog, spruce, moss, snow, dusk. The forest should feel quiet, not horror-movie. No stock-wolf clichés.
+The site's one picture is the brickbard night illustration (`night-*` in `static/images/opt/`), shown as drawn under a scrim that keeps the copy readable. The forest photographs (`cocoparisienne-forest`, `juliaboldt-woods`) belonged to Signal and Grense; their originals are still in `static/images/`. A photograph that comes back should be desaturated and darkened, as those were.
 
 ## Motion rules
 
-1. One ambient motion per viewport: eyes *or* terminal.
+1. One ambient motion per viewport at most. The site has none at present: what moves is the scroll reveal, the count-up of the figures and the cross-fade between pages.
 2. No glitch effects: no flashes, tears, RGB splits or scrambled text.
-3. No motion under `prefers-reduced-motion`. Eyes render as a still frame.
+3. No motion under `prefers-reduced-motion`.
 4. Anything interactive responds to hover/focus with a small scramble, never a layout shift.
-5. Wolf eyes fade in on their own every 5 to 11 s, linger 1–3 s and fade out; they may be elsewhere or gone next time. They never follow the pointer. Real eyeshine footage (`data-footage`) is preferred; the drawn fallback is dim almond eyeshine with no pupils. Where the eyes sit deep in a picture, draw them smaller (`data-scale`) and keep them where an animal could stand: on the ground (`data-band`), not among the trunks or up in the canopy.
+5. No page shows wolf eyes now: they went with Signal and Grense (`wolfeyes.js` is in git history). The rules they followed, should they return: they fade in on their own every 5 to 11 s, linger 1–3 s and fade out, and may be elsewhere or gone next time; they never follow the pointer; they sit where an animal could stand, on the ground, not among the trunks or up in the canopy; under reduced motion they are a still frame.
 
-## Research-led design (Grense)
+## Designs considered
 
-Built around one finding, in the brief's own terms (cold, forest, wolf eyes, AI). Two others were built and removed on request: Snø (a light page, on the finding that dark text on a light ground reads best) and Vakt (a portrait-led page, on the finding that buyers choose a named expert).
+Natt was chosen as the site. The alternatives were built and removed on request, and are in git history: Signal (a supervision console: monospace, a simulated threat and remediation feed over the forest), Grense (research-led: the forest and the navigation in a rail down the left edge, a one-sentence hero, AI on both sides of the tree line), Snø (a light page, on the finding that dark text on a light ground reads best) and Vakt (a portrait-led page, on the finding that buyers choose a named expert).
 
-- **Grense: say what you do in the first screen.** Referred prospects most often rule a firm out because they cannot tell what it does, and a stranger gives a homepage a few seconds. The first screen states the offer in one sentence and shows the firm's subject, AI used against the client and AI put to work for them, side by side. The forest never leaves: it is the rail that carries the navigation.
-
-Rules it follows, from the review of the earlier designs: the hero fits a 1366×650 laptop screen; copy never sits on a bright part of a picture; section links are reachable at every width; no numbering on things that are not a sequence; no kicker that only repeats its heading.
+Findings from the review of those designs, worth holding any change against: referred prospects most often rule a firm out because they cannot tell what it does, and a stranger gives a homepage a few seconds, so the first screen has to say it; the hero should fit a 1366×650 laptop screen; copy never sits on a bright part of a picture; section links are reachable at every width; no numbering on things that are not a sequence; no kicker that only repeats its heading.
 
 ## About page and portrait
 
 - **Why it exists.** Buyers of advisory work check who they would be dealing with before they make contact: a named person with a photograph, a specific biography and the company's registered details. A firm that sells "one named advisor" has to show one.
-- **The photograph.** Head and shoulders, face filling the frame, eyes to the camera, plain background, daylight or soft light. Cropped 4:5. The designs treat it lightly (Signal and Grense show it in monochrome, Natt leaves it natural): do not darken a face the way the forest pictures are darkened.
+- **The photograph.** Head and shoulders, face filling the frame, eyes to the camera, plain background, daylight or soft light. Cropped 4:5. The site leaves it natural, in an amber frame: do not darken or tint a face the way a forest picture would be.
 - **The biography.** Roles, institutions and years, in the first person plural or the third person, in the same register as the rest of the site. No adjectives doing the work of facts, no client names.
 - **Company details** (legal name, form, registry code, registered office, VAT number, email) are on the page because EU law expects them on a company's site, not as decoration.
 
@@ -76,7 +73,7 @@ Calm, cold, precise. The forest is the regulatory and risk landscape; we are the
 - [REDOPS](https://redghostops.com/), [primeObjective](https://primeobjective.net/), [Secra](https://secra.es/en), [Atlan Digital](https://www.atlan.digital/)
 - [Fontsource](https://fontsource.org/) (self-hosted OFL fonts)
 - [Hinge: the Visible Expert](https://hingemarketing.com/blog/story/the-visible-expert-how-ordinary-professionals-become-thought-leaders) (buyers choose named experts: the About page)
-- [Bain value-proposition survey, via Media Logic](https://www.medialogic.com/blog/b2b-marketing/b2b-value-proposition/) and [Pitch Kitchen: State of B2B Homepage Messaging 2026](https://www.pitchkitchen.com/2026-state-of-b2b-homepage-messaging) (clarity in the first screen: Grense)
+- [Bain value-proposition survey, via Media Logic](https://www.medialogic.com/blog/b2b-marketing/b2b-value-proposition/) and [Pitch Kitchen: State of B2B Homepage Messaging 2026](https://www.pitchkitchen.com/2026-state-of-b2b-homepage-messaging) (clarity in the first screen)
 - [Stanford Web Credibility Guidelines](https://credibility.stanford.edu/guidelines/index.html) (show the real organisation and the people behind the site)
 - [Hinge Research Institute: referral marketing study](https://hingemarketing.com/uploads/hinge-research-referral-marketing.pdf) (referred prospects rule firms out on an unclear site)
 - [6sense: B2B Buyer Experience Report 2025](https://6sense.com/science-of-b2b/buyer-experience-report-2025/) and [Edelman–LinkedIn B2B Thought Leadership Impact Report 2025](https://www.edelman.com/expertise/Business-Marketing/2025-b2b-thought-leadership-report)

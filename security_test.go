@@ -44,9 +44,8 @@ func TestSecurityHeadersOnEveryResponse(t *testing.T) {
 		hdr    map[string]string
 		code   int
 	}{
-		{"index", "GET", "/", "", nil, 200},
-		{"variant", "GET", "/v/natt", "", nil, 200},
-		{"about", "GET", "/v/natt/about", "", nil, 200},
+		{"home", "GET", "/", "", nil, 200},
+		{"about", "GET", "/about", "", nil, 200},
 		{"static", "GET", "/static/css/base.css", "", nil, 200},
 		{"health", "GET", "/healthz", "", nil, 200},
 		{"not found", "GET", "/nope", "", nil, 404},
@@ -160,23 +159,16 @@ func checkHTMLPolicy(t *testing.T, where, html string) {
 
 func TestRenderedHTMLHasNoInlineOrThirdPartyCode(t *testing.T) {
 	h := testApp(t).routes()
-	pages := []string{"/"}
-	for _, v := range variants {
-		pages = append(pages, "/v/"+v.Slug, "/v/"+v.Slug+"?sent=1", "/v/"+v.Slug+"/about")
-	}
-	for _, p := range pages {
+	for _, p := range []string{"/", "/?sent=1", "/about"} {
 		rec := do(h, "GET", p, nil, nil)
 		checkHTMLPolicy(t, p, rec.Body.String())
 	}
 	// Error re-render path too.
-	for _, v := range variants {
-		f := url.Values{"variant": {v.Slug}}
-		rec := postContact(h, f, "")
-		if rec.Code != http.StatusUnprocessableEntity {
-			t.Fatalf("%s: code %d", v.Slug, rec.Code)
-		}
-		checkHTMLPolicy(t, "422 "+v.Slug, rec.Body.String())
+	rec := postContact(h, url.Values{}, "")
+	if rec.Code != http.StatusUnprocessableEntity {
+		t.Fatalf("empty form: code %d", rec.Code)
 	}
+	checkHTMLPolicy(t, "422", rec.Body.String())
 }
 
 func TestStaticAssetsAreSelfContained(t *testing.T) {
@@ -249,17 +241,21 @@ func TestContactReRenderEscapesInput(t *testing.T) {
 	}
 }
 
+// The redirect after a submission goes to the homepage and nowhere else: the
+// one form field that reaches it (view) is taken from a fixed list, and a
+// leftover "variant" field from the design previews is ignored.
 func TestContactRedirectStaysLocal(t *testing.T) {
-	for _, v := range []string{"//evil.example", "https://evil.example", `/\evil.example`, "natt\r\nSet-Cookie: x=1", "../../etc/passwd", "%2F%2Fevil", ""} {
-		f := validForm()
-		f.Set("variant", v)
-		rec := postContact(testApp(t).routes(), f, "")
-		loc := rec.Header().Get("Location")
-		if loc != "/v/"+variants[0].Slug+"?sent=1#contact" {
-			t.Errorf("variant=%q: Location = %q", v, loc)
-		}
-		if rec.Header().Get("Set-Cookie") != "" {
-			t.Errorf("variant=%q: header injection", v)
+	for _, field := range []string{"view", "variant"} {
+		for _, v := range []string{"//evil.example", "https://evil.example", `/\evil.example`, "desktop\r\nSet-Cookie: x=1", "../../etc/passwd", "%2F%2Fevil", ""} {
+			f := validForm()
+			f.Set(field, v)
+			rec := postContact(testApp(t).routes(), f, "")
+			if loc := rec.Header().Get("Location"); loc != "/?sent=1#contact" {
+				t.Errorf("%s=%q: Location = %q", field, v, loc)
+			}
+			if rec.Header().Get("Set-Cookie") != "" {
+				t.Errorf("%s=%q: header injection", field, v)
+			}
 		}
 	}
 }
@@ -296,7 +292,7 @@ func TestContactBodyLimit(t *testing.T) {
 func TestMethodsAreRestricted(t *testing.T) {
 	h := testApp(t).routes()
 	for _, c := range []struct{ method, path string }{
-		{"GET", "/contact"}, {"PUT", "/contact"}, {"DELETE", "/"}, {"PATCH", "/v/natt"}, {"POST", "/v/natt/about"},
+		{"GET", "/contact"}, {"PUT", "/contact"}, {"DELETE", "/"}, {"PATCH", "/about"}, {"POST", "/about"},
 		{"TRACE", "/"}, {"POST", "/"}, {"POST", "/static/css/base.css"}, {"PROPFIND", "/"},
 	} {
 		rec := do(h, c.method, c.path, nil, nil)

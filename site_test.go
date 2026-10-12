@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html"
 	"io"
 	"log/slog"
 	"net/http"
@@ -22,11 +23,7 @@ func testApp(t *testing.T) *app {
 
 func TestPagesRender(t *testing.T) {
 	h := testApp(t).routes()
-	paths := []string{"/", "/static/css/base.css", "/static/css/about.css", "/static/js/wolfeyes.js", "/static/images/opt/forest-1600.webp"}
-	for _, v := range variants {
-		paths = append(paths, "/v/"+v.Slug, "/v/"+v.Slug+"/about")
-	}
-	for _, p := range paths {
+	for _, p := range []string{"/", "/about", "/static/css/base.css", "/static/css/about.css", "/static/js/reveal.js", "/static/images/opt/night-1600.webp"} {
 		rec := httptest.NewRecorder()
 		h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, p, nil))
 		if rec.Code != http.StatusOK {
@@ -38,9 +35,16 @@ func TestPagesRender(t *testing.T) {
 	}
 }
 
+// The design previews under /v/ are gone with the designs that were not
+// chosen, and so are the files only they used.
 func TestNotFound(t *testing.T) {
 	h := testApp(t).routes()
-	for _, p := range []string{"/v/nope", "/v/nope/about", "/v/natt/nope", "/v/natt/about/x", "/v/varg", "/v/varg2", "/v/signal2", "/v/signal3", "/v/sno", "/v/vakt", "/v/vakt/about", "/v/spor", "/v/spor/about", "/v/spor2", "/v/spor2/about", "/v/grense2", "/v/grense2/about", "/v/natt2", "/v/natt2/about", "/v/natt3", "/v/natt3/about", "/v/signal2/about", "/v/signal3/about", "/about", "/nope", "/static/", "/static/css/"} {
+	for _, p := range []string{
+		"/nope", "/about/", "/about/x", "/index.html", "/static/", "/static/css/",
+		"/v", "/v/", "/v/natt", "/v/natt/about", "/v/signal", "/v/signal/about", "/v/grense", "/v/grense/about", "/v/nope",
+		"/static/css/signal.css", "/static/css/grense.css", "/static/css/index.css", "/static/js/terminal.js", "/static/js/wolfeyes.js",
+		"/static/images/opt/forest-1600.webp", "/static/images/opt/woods-640.webp",
+	} {
 		rec := httptest.NewRecorder()
 		h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, p, nil))
 		if rec.Code != http.StatusNotFound {
@@ -62,7 +66,6 @@ func postContact(h http.Handler, form url.Values, origin string) *httptest.Respo
 
 func validForm() url.Values {
 	return url.Values{
-		"variant": {"signal"},
 		"name":    {"Ada"},
 		"email":   {"ada@example.com"},
 		"message": {"We think someone is inside our network."},
@@ -78,11 +81,10 @@ func TestContact(t *testing.T) {
 		wantLoc  string
 		wantBody string
 	}{
-		{name: "valid", wantCode: http.StatusSeeOther, wantLoc: "/v/signal?sent=1#contact"},
-		{name: "honeypot", mutate: func(f url.Values) { f.Set("website", "http://spam") }, wantCode: http.StatusSeeOther, wantLoc: "/v/signal?sent=1#contact"},
+		{name: "valid", wantCode: http.StatusSeeOther, wantLoc: "/?sent=1#contact"},
+		{name: "honeypot", mutate: func(f url.Values) { f.Set("website", "http://spam") }, wantCode: http.StatusSeeOther, wantLoc: "/?sent=1#contact"},
 		{name: "bad email", mutate: func(f url.Values) { f.Set("email", "nope") }, wantCode: http.StatusUnprocessableEntity, wantBody: "valid email"},
 		{name: "short message", mutate: func(f url.Values) { f.Set("message", "hi") }, wantCode: http.StatusUnprocessableEntity, wantBody: "at least 10"},
-		{name: "unknown variant falls back", mutate: func(f url.Values) { f.Set("variant", "../x") }, wantCode: http.StatusSeeOther, wantLoc: "/v/" + variants[0].Slug + "?sent=1#contact"},
 		{name: "cross-origin", origin: "https://evil.example", wantCode: http.StatusForbidden},
 		{name: "same origin", origin: "http://example.com", wantCode: http.StatusSeeOther},
 	}
@@ -136,47 +138,28 @@ func TestRateLimiterWindow(t *testing.T) {
 	}
 }
 
-func TestChooserListsEveryDesign(t *testing.T) {
-	rec := httptest.NewRecorder()
-	testApp(t).routes().ServeHTTP(rec, httptest.NewRequest(http.MethodGet, "/", nil))
-	body := rec.Body.String()
-	for i, v := range variants {
-		if !strings.Contains(body, `href="/v/`+v.Slug+`"`) || !strings.Contains(body, ">"+v.Name+"<") {
-			t.Errorf("chooser does not list %s", v.Slug)
-		}
-		// Two digits, also past the ninth design ("10", not "010").
-		num := string(rune('0'+(i+1)/10)) + string(rune('0'+(i+1)%10))
-		if !strings.Contains(body, `chooser__num">`+num+"<") {
-			t.Errorf("chooser number for %s should be %s", v.Slug, num)
-		}
-	}
-}
-
-// The designs built on the professional-services furniture get its stylesheet,
-// navigation and footer on their About page; the others keep their own header.
-func TestProfessionalServicesFamily(t *testing.T) {
-	h := testApp(t).routes()
-	for _, v := range variants {
-		rec := httptest.NewRecorder()
-		req := httptest.NewRequest(http.MethodGet, "/v/"+v.Slug+"/about", nil)
-		req.Header.Set("User-Agent", uaDesktop)
-		h.ServeHTTP(rec, req)
-		body := rec.Body.String()
-		hasPS := strings.Contains(body, `/static/css/ps.css?v=`) && strings.Contains(body, `class="ps-footer"`)
-		if hasPS != v.PS() {
-			t.Errorf("%s: About page furniture = %v, want %v", v.Slug, hasPS, v.PS())
-		}
-		rail, nav := strings.Contains(body, `class="grense-rail"`), strings.Contains(body, `class="ps-nav"`)
-		if v.Theme() == "grense" && (!rail || nav) {
-			t.Errorf("%s: About page should carry the rail, not the top bar", v.Slug)
-		}
-		if v.PS() && v.Theme() != "grense" && (rail || !nav) {
-			t.Errorf("%s: About page should carry the top bar", v.Slug)
+// The site is one design, at / and /about: no chooser, no design switcher and
+// no link into the old /v/ previews, in either layout.
+func TestHomeIsTheSite(t *testing.T) {
+	a := testApp(t)
+	h := a.routes()
+	for _, p := range []string{"/", "/about"} {
+		for _, ua := range []string{uaDesktop, uaIPhone} {
+			rec := do(h, "GET", p, nil, map[string]string{"User-Agent": ua})
+			if rec.Code != http.StatusOK {
+				t.Fatalf("GET %s = %d", p, rec.Code)
+			}
+			for _, gone := range []string{`"/v/`, "All designs", "chooser", `class="switcher"`, `name="variant"`} {
+				if strings.Contains(rec.Body.String(), gone) {
+					t.Errorf("%s (%s): still contains %q", p, ua[13:20], gone)
+				}
+			}
 		}
 	}
-	for slug, want := range map[string]bool{"natt": true, "grense": true, "signal": false} {
-		if v, _ := findVariant(slug); v.PS() != want {
-			t.Errorf("%s.PS() = %v, want %v", slug, v.PS(), want)
+	_, _, body := getAs(t, "/", uaDesktop)
+	for _, want := range []string{`<body class="ps natt">`, `class="ps-nav"`, `class="ps-footer"`, html.EscapeString(a.content.Home.HeroTitle), `action="/contact#contact"`} {
+		if !strings.Contains(body, want) {
+			t.Errorf("homepage: missing %q", want)
 		}
 	}
 }
