@@ -5,12 +5,10 @@
      Section links put .Home in front of the anchor: it is empty on the
      homepage, so they stay in-page links there. */}}
 
-{{/* The moonlit forest illustration (brickbard, square). */}}
+{{/* The moonlit forest illustration (brickbard, square). WebP only: every
+     browser that can render the site's CSS reads it. */}}
 {{define "night-picture"}}
-<picture>
-  <source type="image/webp" srcset="/static/images/opt/night-960.webp 960w, /static/images/opt/night-1600.webp 1600w, /static/images/opt/night-2400.webp 2400w" sizes="(min-width: 900px) 60vw, 100vw">
-  <img src="/static/images/opt/night-1600.jpg" srcset="/static/images/opt/night-960.jpg 960w, /static/images/opt/night-1600.jpg 1600w, /static/images/opt/night-2400.jpg 2400w" sizes="(min-width: 900px) 60vw, 100vw" alt="" width="1600" height="1600" decoding="async" fetchpriority="high">
-</picture>
+<img src="/static/images/opt/night-1600.webp" srcset="/static/images/opt/night-960.webp 960w, /static/images/opt/night-1600.webp 1600w, /static/images/opt/night-2400.webp 2400w" sizes="(min-width: 900px) 60vw, 100vw" alt="" width="1600" height="1600" decoding="async" fetchpriority="high">
 {{end}}
 
 {{/* Brand mark: two peaks forming a W under a watchful amber point. */}}

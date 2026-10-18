@@ -308,7 +308,7 @@ func TestStaticCannotEscape(t *testing.T) {
 	paths := []string{
 		"/static/../main.go", "/static/..%2fmain.go", "/static/%2e%2e/main.go", "/static/%2e%2e%2fgo.mod",
 		"/static/css/../../go.mod", "/static//etc/passwd", "/static/..\\main.go", "/static/%5c..%5cmain.go",
-		"/static/images/cocoparisienne-forest-1258845.jpg", // originals are not embedded
+		"/static/images/brickbard-winter-7635363.jpg", // originals are not embedded
 		"/templates/partials.html", "/static/../templates/partials.html", "/.git/config", "/go.mod",
 		"/content.json", "/static/../content.json", "/static/content.json", // embedded beside the assets, but not a static file
 		"/static/css", "/static/images/opt", "/static/js/", "/static/css/base.css/",

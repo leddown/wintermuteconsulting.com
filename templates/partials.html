@@ -56,10 +56,7 @@
 <figure class="portrait">
   <div class="portrait__frame">
     {{if .Portrait}}
-    <picture>
-      <source type="image/webp" srcset="{{static "images/opt/portrait-480.webp"}} 480w, {{static "images/opt/portrait-960.webp"}} 960w" sizes="(min-width: 900px) 440px, 100vw">
-      <img itemprop="image" src="{{static "images/opt/portrait-960.jpg"}}" srcset="{{static "images/opt/portrait-480.jpg"}} 480w, {{static "images/opt/portrait-960.jpg"}} 960w" sizes="(min-width: 900px) 440px, 100vw" alt="Portrait of {{.Site.About.Principal.Name}}" width="960" height="1200" decoding="async" fetchpriority="high">
-    </picture>
+    <img itemprop="image" src="{{static "images/opt/portrait-960.webp"}}" srcset="{{static "images/opt/portrait-480.webp"}} 480w, {{static "images/opt/portrait-960.webp"}} 960w" sizes="(min-width: 900px) 440px, 100vw" alt="Portrait of {{.Site.About.Principal.Name}}" width="960" height="1200" decoding="async" fetchpriority="high">
     {{else}}
     <svg class="portrait__empty" viewBox="0 0 400 500" role="img" aria-label="Portrait to follow" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="200" cy="196" r="68"/><path d="M62 500c0-104 62-168 138-168s138 64 138 168"/></svg>
     <p class="portrait__note" aria-hidden="true">Portrait to follow</p>

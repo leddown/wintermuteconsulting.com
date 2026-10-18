@@ -27,7 +27,7 @@
   min-height: calc(100svh - 110px); padding: 0;
   display: grid; align-items: end;
 }
-.natt-hero__media, .natt-hero__media picture, .natt-hero__media img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.natt-hero__media, .natt-hero__media img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .natt-hero__media { z-index: -3; }
 .natt-hero__media img { object-fit: cover; object-position: 60% 8%; }
 .natt-hero__media::after {

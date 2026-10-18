@@ -9,7 +9,6 @@
   --brand-ink: #f4f3ff;
 }
 .ps {
-  --radius: 0;
   --section: clamp(4.5rem, 9vw, 7.5rem);
   --wide: 1280px;
 }

@@ -174,8 +174,8 @@ func loadContent(assets fs.FS) (*Content, error) {
 }
 
 // parseContent reads content.json strictly, because it is edited by hand: a
-// misspelled or repeated name, a missing text or a stray comma is an error
-// that says where, never a page that quietly shows the wrong thing.
+// misspelled name, a missing text or a stray comma is an error that says
+// where, never a page that quietly shows the wrong thing.
 func parseContent(b []byte) (*Content, error) {
 	dec := json.NewDecoder(bytes.NewReader(b))
 	dec.DisallowUnknownFields()
@@ -185,9 +185,6 @@ func parseContent(b []byte) (*Content, error) {
 	}
 	if _, err := dec.Token(); err != io.EOF {
 		return nil, fmt.Errorf("%s: %s: there is text after the closing brace", contentFile, position(b, dec.InputOffset()))
-	}
-	if err := repeatedName(b); err != nil {
-		return nil, fmt.Errorf("%s: %w", contentFile, err)
 	}
 	if err := c.validate(); err != nil {
 		return nil, fmt.Errorf("%s: %w", contentFile, err)
@@ -247,60 +244,6 @@ func position(b []byte, offset int64) string {
 	line := 1 + bytes.Count(before, []byte("\n"))
 	col := len(before) - bytes.LastIndexByte(before, '\n')
 	return fmt.Sprintf("line %d, column %d", line, col)
-}
-
-// repeatedName reports a name used twice in one object. encoding/json would
-// keep the last one and say nothing, which is what a pasted block looks like.
-func repeatedName(b []byte) error {
-	dec := json.NewDecoder(bytes.NewReader(b))
-	type object struct {
-		names   map[string]bool
-		wantKey bool
-	}
-	var stack []*object // nil for an array
-	for {
-		tok, err := dec.Token()
-		if err == io.EOF {
-			return nil
-		}
-		if err != nil {
-			return err
-		}
-		var top *object
-		if len(stack) > 0 {
-			top = stack[len(stack)-1]
-		}
-		if d, ok := tok.(json.Delim); ok {
-			switch d {
-			case '{':
-				if top != nil {
-					top.wantKey = true // this object is the value of the name just read
-				}
-				stack = append(stack, &object{names: map[string]bool{}, wantKey: true})
-			case '[':
-				if top != nil {
-					top.wantKey = true
-				}
-				stack = append(stack, nil)
-			default:
-				stack = stack[:len(stack)-1]
-			}
-			continue
-		}
-		if top == nil {
-			continue // a value in an array
-		}
-		if !top.wantKey {
-			top.wantKey = true // a plain value: the next token is a name again
-			continue
-		}
-		name := tok.(string)
-		if top.names[name] {
-			return fmt.Errorf("%s: %q appears twice in the same block", position(b, dec.InputOffset()), name)
-		}
-		top.names[name] = true
-		top.wantKey = false
-	}
 }
 
 // validate checks that every text the pages rely on is there.

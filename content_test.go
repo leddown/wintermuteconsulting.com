@@ -14,7 +14,7 @@ import (
 
 // content.json is edited by hand. These tests stand between a slip there and
 // a broken site: the file must be valid JSON that the site accepts, and the
-// loader must refuse the usual mistakes and say where they are. deploy/build.sh
+// loader must refuse the usual mistakes and say where they are. build.sh
 // runs them before it builds, so a bad file never becomes a binary.
 
 func contentBytes(t *testing.T) []byte {
@@ -79,7 +79,6 @@ func TestContentRejectsMistakes(t *testing.T) {
 		{"unescaped quote in a text", swap(`"heroTitle": "Crises come at night."`, `"heroTitle": "Crises "come" at night."`), []string{lineOf(`"heroTitle": "Crises come at night."`), "backslash"}},
 		{"text broken over two lines", swap(`"heroTitle": "Crises come at night."`, "\"heroTitle\": \"Crises come\nat night.\""), []string{"line ", "one line"}},
 		{"misspelled name", swap(`"heroTitle": "Crises come at night."`, `"heroTitel": "Crises come at night."`), []string{lineOf(`"heroTitle": "Crises come at night."`), `"heroTitel" is not a name the site knows`}},
-		{"name used twice", swap(`"heroTitle": "Crises come at night.",`, `"heroTitle": "Crises come at night.", "heroTitle": "Again.",`), []string{lineOf(`"heroTitle": "Crises come at night."`), `"heroTitle" appears twice`}},
 		{"number in quotes", swap(`"value": 15`, `"value": "15"`), []string{lineOf(`"value": 15`), "whole number without quotes"}},
 		{"text after the end", swap("\n  }\n}", "\n  }\n}\n}"), []string{"after the closing brace"}},
 		{"file cut short", func(*testing.T) []byte { return good[:len(good)/2] }, []string{"ends early"}},

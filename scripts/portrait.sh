@@ -4,9 +4,9 @@
 #   scripts/portrait.sh path/to/photo.jpg       # crop a little above the middle
 #   FOCUS=0.1 scripts/portrait.sh photo.jpg     # 0 keeps the top of the photo, 1 the bottom
 #
-# Writes static/images/opt/portrait-{480,960}.{webp,jpg}: a 4:5 crop, turned
+# Writes static/images/opt/portrait-{480,960}.webp: a 4:5 crop, turned
 # upright, with the camera's metadata (EXIF: GPS position, device, time)
-# removed. Once all four files exist the About page shows the photo instead of
+# removed. Once both files exist the About page shows the photo instead of
 # its placeholder: reload in -dev, rebuild to deploy. The original is not
 # copied anywhere; only static/images/opt is embedded in the binary.
 # Needs ffmpeg and ffprobe on the workstation.
@@ -51,8 +51,6 @@ for w in 480 960; do
 	vf="${turn}${crop},scale=$w:$h:flags=lanczos"
 	ffmpeg -v error -y -noautorotate -i "$src" -frames:v 1 -vf "$vf" -map_metadata -1 \
 		-c:v libwebp -quality 80 "$out/portrait-$w.webp"
-	ffmpeg -v error -y -noautorotate -i "$src" -frames:v 1 -vf "$vf" -map_metadata -1 \
-		-pix_fmt yuvj420p -q:v 3 "$out/portrait-$w.jpg"
 done
 
 ls -l "$out"/portrait-*

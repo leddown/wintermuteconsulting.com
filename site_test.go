@@ -41,9 +41,8 @@ func TestNotFound(t *testing.T) {
 	h := testApp(t).routes()
 	for _, p := range []string{
 		"/nope", "/about/", "/about/x", "/privacy/", "/privacy.html", "/index.html", "/static/", "/static/css/",
-		"/v", "/v/", "/v/natt", "/v/natt/about", "/v/signal", "/v/signal/about", "/v/grense", "/v/grense/about", "/v/nope",
-		"/static/css/signal.css", "/static/css/grense.css", "/static/css/index.css", "/static/js/terminal.js", "/static/js/wolfeyes.js",
-		"/static/images/opt/forest-1600.webp", "/static/images/opt/woods-640.webp",
+		"/v", "/v/", "/v/natt", "/v/natt/about", // the old design URLs
+		"/static/images/opt/night-1600.jpg", // WebP only
 	} {
 		rec := httptest.NewRecorder()
 		h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, p, nil))

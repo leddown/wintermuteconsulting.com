@@ -1,11 +1,12 @@
 #!/bin/sh
-# Cross-compile the site into a single static binary for a target host.
+# Test, then cross-compile the site into a single static binary.
 #
-#   deploy/build.sh linux            # -> dist/wintermuteconsulting-linux-amd64
-#   deploy/build.sh openbsd arm64    # -> dist/wintermuteconsulting-openbsd-arm64
+#   ./build.sh linux            # -> dist/wintermuteconsulting-linux-amd64
+#   ./build.sh openbsd arm64    # -> dist/wintermuteconsulting-openbsd-arm64
 #
 # Templates and assets are embedded, so the binary is the whole deployment.
-# Run from anywhere inside the repo; needs Go on the build machine only.
+# webmaster (~/code/webmaster) runs "build.sh openbsd ARCH" and installs
+# dist/wintermuteconsulting-openbsd-ARCH: keep both as they are.
 set -eu
 
 os=${1:-linux}
@@ -19,7 +20,7 @@ linux | openbsd) ;;
 	;;
 esac
 
-root=$(cd "$(dirname "$0")/.." && pwd)
+root=$(cd "$(dirname "$0")" && pwd)
 out="$root/dist/wintermuteconsulting-$os-$arch"
 mkdir -p "$root/dist"
 

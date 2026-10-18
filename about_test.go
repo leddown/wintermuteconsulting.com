@@ -16,7 +16,7 @@ func TestAboutPage(t *testing.T) {
 	h, site := a.routes(), a.content.Site
 	portrait := "Portrait to follow"
 	if hasPortrait(embedded) {
-		portrait = `src="/static/images/opt/portrait-960.jpg?v=`
+		portrait = `src="/static/images/opt/portrait-960.webp?v=`
 	}
 	const path = "/about"
 	for _, ua := range []string{uaDesktop, uaIPhone} {
@@ -110,7 +110,7 @@ func TestAboutShowsPortraitOnceAllRenditionsExist(t *testing.T) {
 	for _, ua := range []string{uaDesktop, uaIPhone} {
 		body := do(h, "GET", "/about", nil, map[string]string{"User-Agent": ua}).Body.String()
 		checkHTMLPolicy(t, "about with portrait", body)
-		for _, want := range []string{`src="/static/images/opt/portrait-960.jpg?v=`, `/static/images/opt/portrait-480.webp?v=`, ` 480w, `, `alt="Portrait of ` + site.About.Principal.Name + `"`, `width="960" height="1200"`} {
+		for _, want := range []string{`src="/static/images/opt/portrait-960.webp?v=`, `/static/images/opt/portrait-480.webp?v=`, ` 480w, `, `alt="Portrait of ` + site.About.Principal.Name + `"`, `width="960" height="1200"`} {
 			if !strings.Contains(body, want) {
 				t.Errorf("about with portrait (%s): missing %q", ua[13:20], want)
 			}

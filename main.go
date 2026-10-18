@@ -24,7 +24,7 @@ func main() {
 	addr := flag.String("addr", envOr("ADDR", "127.0.0.1:8080"), "listen address")
 	dev := flag.Bool("dev", os.Getenv("DEV") == "1", "serve templates, content.json and static files from disk and re-read templates and content on every request")
 	trustProxy := flag.Bool("trust-proxy", os.Getenv("TRUST_PROXY") == "1", "take the client IP from X-Forwarded-For (only behind a reverse proxy)")
-	mailConfig := flag.String("mail-config", os.Getenv("MAIL_CONFIG"), "file with the SMTP settings for contact-form email (see deploy/mail.conf.example); without it enquiries only reach the log")
+	mailConfig := flag.String("mail-config", os.Getenv("MAIL_CONFIG"), "file with the SMTP settings for contact-form email (see mail.conf.example); without it enquiries only reach the log")
 	mailTest := flag.Bool("mail-test", false, "send a test enquiry with the -mail-config settings and exit")
 	accessLog := flag.String("access-log", os.Getenv("ACCESS_LOG"), `one line per request (Combined Log Format): "syslog" (facility local0), "stderr", or "" for none`)
 	flag.Parse()

@@ -157,7 +157,7 @@ func (d pageData) Home() string {
 // portraitFiles are the renditions of the principal's photo that
 // scripts/portrait.sh writes to static/images/opt. Until all of them exist the
 // About page shows a placeholder in the photo's place.
-var portraitFiles = []string{"portrait-480.webp", "portrait-960.webp", "portrait-480.jpg", "portrait-960.jpg"}
+var portraitFiles = []string{"portrait-480.webp", "portrait-960.webp"}
 
 func hasPortrait(assets fs.FS) bool {
 	for _, f := range portraitFiles {

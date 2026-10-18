@@ -92,10 +92,10 @@ func TestPrivacyPolicyMatchesTheSite(t *testing.T) {
 
 	// "30 days, then deleted" (the access log) and "after 30 days at most" (a
 	// failed enquiry in /var/log/daemon): production's newsyslog.conf keeps
-	// them (TestProductionKeepsThePrivacyPromises).
+	// them, which webmaster's test/site-config checks against these words.
 	for _, promise := range []string{"30 days, then deleted", "after 30 days at most"} {
 		if !strings.Contains(policy, promise) {
-			t.Errorf("the policy no longer says %q: check it against webmaster's server/newsyslog.conf", promise)
+			t.Errorf("the policy no longer says %q: webmaster's test/site-config looks for these words; change both together", promise)
 		}
 	}
 	// "in memory for ten minutes": the contact form's rate-limit window.

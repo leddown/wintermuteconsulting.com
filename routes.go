@@ -13,26 +13,21 @@ func (a *app) routes() http.Handler {
 	fileServer := http.StripPrefix("/static/", http.FileServerFS(static))
 	mux.Handle("GET /static/", a.cacheStatic(staticGuard(fileServer)))
 
-	mux.HandleFunc("GET /{$}", a.handleHome)
-	mux.HandleFunc("GET /about", a.handleAbout)
-	mux.HandleFunc("GET /privacy", a.handlePrivacy)
+	mux.HandleFunc("GET /{$}", a.handlePage(""))
+	mux.HandleFunc("GET /about", a.handlePage("about"))
+	mux.HandleFunc("GET /privacy", a.handlePage("privacy"))
 	mux.HandleFunc("POST /contact", a.handleContact)
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) { _, _ = w.Write([]byte("ok")) })
 
 	return a.accessLog(securityHeaders(mux))
 }
 
-func (a *app) handleHome(w http.ResponseWriter, r *http.Request) {
-	q := r.URL.Query()
-	a.renderPage(w, r, http.StatusOK, pageData{Sent: q.Get("sent") == "1", View: viewOverride(q.Get("view"))})
-}
-
-func (a *app) handleAbout(w http.ResponseWriter, r *http.Request) {
-	a.renderPage(w, r, http.StatusOK, pageData{Page: "about", View: viewOverride(r.URL.Query().Get("view"))})
-}
-
-func (a *app) handlePrivacy(w http.ResponseWriter, r *http.Request) {
-	a.renderPage(w, r, http.StatusOK, pageData{Page: "privacy", View: viewOverride(r.URL.Query().Get("view"))})
+// handlePage serves a page: "" (the homepage), "about" or "privacy".
+func (a *app) handlePage(page string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		q := r.URL.Query()
+		a.renderPage(w, r, http.StatusOK, pageData{Page: page, Sent: page == "" && q.Get("sent") == "1", View: viewOverride(q.Get("view"))})
+	}
 }
 
 // securityHeaders sets a strict policy: every asset is same-origin, so the site

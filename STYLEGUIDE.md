@@ -33,7 +33,7 @@ Amber is the single signal colour. Nothing else should glow.
 ## Imagery
 
 Fog, spruce, moss, snow, dusk. The forest should feel quiet, not horror-movie. No stock-wolf clichés.
-The site's one picture is the brickbard night illustration (`night-*` in `static/images/opt/`), shown as drawn under a scrim that keeps the copy readable. The forest photographs (`cocoparisienne-forest`, `juliaboldt-woods`) belonged to Signal and Grense; their originals are still in `static/images/`. A photograph that comes back should be desaturated and darkened, as those were.
+The site's one picture is the brickbard night illustration (`night-*.webp` in `static/images/opt/`, original in `static/images/`), shown as drawn under a scrim that keeps the copy readable. Any photograph added later should be desaturated and darkened to match.
 
 ## Motion rules
 
@@ -41,11 +41,10 @@ The site's one picture is the brickbard night illustration (`night-*` in `static
 2. No glitch effects: no flashes, tears, RGB splits or scrambled text.
 3. No motion under `prefers-reduced-motion`.
 4. Anything interactive responds to hover/focus with a small scramble, never a layout shift.
-5. No page shows wolf eyes now: they went with Signal and Grense (`wolfeyes.js` is in git history). The rules they followed, should they return: they fade in on their own every 5 to 11 s, linger 1–3 s and fade out, and may be elsewhere or gone next time; they never follow the pointer; they sit where an animal could stand, on the ground, not among the trunks or up in the canopy; under reduced motion they are a still frame.
 
 ## Designs considered
 
-Natt was chosen as the site. The alternatives were built and removed on request, and are in git history: Signal (a supervision console: monospace, a simulated threat and remediation feed over the forest), Grense (research-led: the forest and the navigation in a rail down the left edge, a one-sentence hero, AI on both sides of the tree line), Snø (a light page, on the finding that dark text on a light ground reads best) and Vakt (a portrait-led page, on the finding that buyers choose a named expert).
+Natt was chosen as the site; the alternatives (Signal, Grense, Snø, Vakt and others) are in git history.
 
 Findings from the review of those designs, worth holding any change against: referred prospects most often rule a firm out because they cannot tell what it does, and a stranger gives a homepage a few seconds, so the first screen has to say it; the hero should fit a 1366×650 laptop screen; copy never sits on a bright part of a picture; section links are reachable at every width; no numbering on things that are not a sequence; no kicker that only repeats its heading.
 
