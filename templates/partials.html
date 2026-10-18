@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{{static "css/base.css"}}">
 {{end}}
 
-{{define "meta-description"}}{{if eq .Page "about"}}{{.Site.About.Summary}}{{else}}{{.Site.Name}}: {{.Site.Descriptor}}. {{.Site.Lede}}{{end}}{{end}}
+{{define "meta-description"}}{{if eq .Page "about"}}{{.Site.About.Summary}}{{else if eq .Page "privacy"}}{{.Site.Privacy.Summary}}{{else}}{{.Site.Name}}: {{.Site.Descriptor}}. {{.Site.Lede}}{{end}}{{end}}
 
 {{/* Logo lockup, called with .Site. Kept as one link-able phrase for screen readers. */}}
 {{define "logo"}}<span class="logo"><span class="logo-mark">{{.LogoMark}}</span> <span class="logo-sub">{{.LogoSub}}</span></span>{{end}}
@@ -44,7 +44,7 @@
     {{with .Errors.message}}<p class="field-err" id="e-message">{{.}}</p>{{end}}
   </div>
   <button class="btn btn--primary" type="submit">Send securely</button>
-  <p class="form-note">Sent encrypted. Used only to reply to you, and never shared.</p>
+  <p class="form-note">Sent encrypted. Used only to reply to you, and never shared. <a href="/privacy{{.ViewQuery}}">How we handle your data</a></p>
 </form>
 {{end}}
 {{end}}

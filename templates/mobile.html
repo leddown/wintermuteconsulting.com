@@ -1,6 +1,7 @@
 {{/* The phone layout, served to phones at the same URL (see mobile.go): the
      shell (bar, menu, footer) with the homepage in "m-main". The About page
-     (templates/m/about.html) replaces "m-main" and keeps the bar and footer.
+     (templates/m/about.html) and the privacy policy (templates/m/privacy.html)
+     replace "m-main" and keep the bar and footer.
      The wording is "home" in content.json (.Copy), the same as on the desktop
      page; a heading's kicker is shown only where one is set.
 
@@ -108,6 +109,7 @@
   <p>{{.Site.Descriptor}}</p>
   <p>{{.Site.Location}}</p>
   <p class="m-footer__note">No cookies. No trackers. Nothing loaded from third parties.</p>
+  <p class="m-footer__links"><a href="/privacy{{.ViewQuery}}"{{if eq .Page "privacy"}} aria-current="page"{{end}}>Privacy policy</a></p>
   {{template "layout-switch" .}}
 </footer>
 </body>

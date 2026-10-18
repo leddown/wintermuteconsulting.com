@@ -12,7 +12,7 @@
 #   security/run.sh prod example.com      external posture of production: ports, TLS, headers,
 #                                         passive web scan. ACTIVE=1 adds the attack scans.
 #   sh run.sh host                        run ON a server: audit OS, services, firewall, keys
-#                                         (deploy/push.sh copies run.sh there)
+#                                         (copy it there first: scp security/run.sh HOST:)
 #   security/run.sh all                   code + local
 #
 # Settings (environment):

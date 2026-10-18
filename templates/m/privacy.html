@@ -1,0 +1,5 @@
+{{/* Privacy policy on a phone: the mobile shell (bar, menu and footer in
+     templates/mobile.html) around the shared policy content. */}}
+{{define "m-title"}}Privacy policy: {{.Site.Name}}{{end}}
+{{define "m-styles"}}<link rel="stylesheet" href="{{static "css/about.css"}}">{{end}}
+{{define "m-main"}}{{template "privacy-body" .}}{{end}}

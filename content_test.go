@@ -89,6 +89,8 @@ func TestContentRejectsMistakes(t *testing.T) {
 		{"shared text emptied", change(func(c *Content) { c.Site.Brief = " " }), []string{"missing or empty", "site.brief"}},
 		{"homepage text emptied", change(func(c *Content) { c.Home.Contact.Title = "" }), []string{"home.contact.title"}},
 		{"service code too short for an icon", change(func(c *Content) { c.Site.Services[0].Code = "A" }), []string{"site.services[1].code"}},
+		{"policy date written another way", swap(`"updated": "2026-10-18"`, `"updated": "18.10.2026"`), []string{"site.privacy.updated", "2026-10-18"}},
+		{"policy section left empty", change(func(c *Content) { c.Site.Privacy.Sections[1] = PrivacySection{Title: "Empty"} }), []string{"site.privacy.sections[2].body"}},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			_, err := parseContent(tc.input(t))

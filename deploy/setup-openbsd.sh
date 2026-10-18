@@ -27,6 +27,14 @@
 #   LISTEN4/LISTEN6 addresses for relayd to listen on (default: egress addresses)
 set -eu
 
+# RETIRED: production is run by webmaster (~/code/webmaster), which owns the
+# server's whole /etc (pf, relayd, httpd, acme-client, syslog, newsyslog,
+# rc.d). Running this there would overwrite pf.conf (dropping its WireGuard
+# rules), httpd.conf and relayd.conf. Kept only until it is deleted
+# (git rm deploy/setup-openbsd.sh); everything it did is in webmaster now.
+echo "setup-openbsd.sh is retired: OpenBSD production is set up by webmaster (deploy/production.sh -S)" >&2
+exit 2
+
 DOMAIN=${DOMAIN:-}
 WWW=${WWW:-0}
 PORT=${PORT:-8080}
@@ -97,13 +105,61 @@ else
 	say "no $MAIL_CONF: contact enquiries will only be logged (see deploy/mail.conf.example)"
 fi
 
+# Access log: one line per request (Combined Log Format plus the time taken),
+# sent to syslog facility local0, which nothing else in base uses, and from
+# there to a file of its own. newsyslog rotates it at midnight and keeps 30
+# days, compressed: 29 archives plus today's file, so no line is older than 30
+# days. The client IPs in it are personal data: the privacy policy says what is
+# logged and for how long (TestPrivacyPolicyMatchesTheSite holds the two
+# together). A line you change by hand in syslog.conf or newsyslog.conf
+# (another retention, say) is kept on re-runs.
+ACCESS_LOG=/var/log/wintermuteconsulting-access
+[ -f "$ACCESS_LOG" ] || install -m 0640 -o root -g wheel /dev/null "$ACCESS_LOG"
+if ! grep -qF "$ACCESS_LOG" /etc/syslog.conf; then
+	cp -p /etc/syslog.conf "/etc/syslog.conf.bak.$(date +%Y%m%d%H%M%S)"
+	printf 'local0.info\t\t\t\t\t\t%s\n' "$ACCESS_LOG" >>/etc/syslog.conf
+	rcctl reload syslogd
+	say "syslog.conf: access log goes to $ACCESS_LOG"
+fi
+if ! grep -qF "$ACCESS_LOG" /etc/newsyslog.conf; then
+	# shellcheck disable=SC2016 # $D0 is newsyslog's "daily at midnight"
+	printf '%s\t\troot:wheel\t640  29    *    $D0   Z\n' "$ACCESS_LOG" >>/etc/newsyslog.conf
+	say "newsyslog.conf: $ACCESS_LOG rotated daily, 30 days kept"
+fi
+
+# The service's own output goes to /var/log/daemon, and with it the full text
+# of any enquiry whose email failed (every enquiry, while mail.conf is
+# missing). OpenBSD's stock newsyslog line rotates that file by size (five
+# archives of 300 KB), so on a quiet server an enquiry could stay for months;
+# the privacy policy says it is gone within 30 days. So: daily at midnight, 29
+# archives plus today's file, like the access log. Only the stock line is
+# replaced; one you have changed by hand is left alone, with a warning.
+# shellcheck disable=SC2016 # $D0 is newsyslog's "daily at midnight"
+daemon_line=$(printf '/var/log/daemon\t\t\t\t640  29    *    $D0   Z')
+# shellcheck disable=SC2016 # an awk pattern: $1 and friends are awk's fields
+daemon_stock='$1 == "/var/log/daemon" && NF == 6 && $2 == "640" && $3 == "5" && $4 == "300" && $5 == "*" && $6 == "Z"'
+if awk "$daemon_stock"' { found = 1 } END { exit !found }' /etc/newsyslog.conf; then
+	cp -p /etc/newsyslog.conf "/etc/newsyslog.conf.bak.$(date +%Y%m%d%H%M%S)"
+	tmp=$(mktemp)
+	awk -v line="$daemon_line" "$daemon_stock"' { print line; next } { print }' /etc/newsyslog.conf >"$tmp"
+	cat "$tmp" >/etc/newsyslog.conf # keeps the file's owner and mode
+	rm -f "$tmp"
+	say "newsyslog.conf: /var/log/daemon rotated daily, 30 days kept (was by size)"
+elif ! awk '$1 == "/var/log/daemon" { found = 1 } END { exit !found }' /etc/newsyslog.conf; then
+	printf '%s\n' "$daemon_line" >>/etc/newsyslog.conf
+	say "newsyslog.conf: /var/log/daemon rotated daily, 30 days kept"
+elif ! awk -v line="$daemon_line" '$0 == line { found = 1 } END { exit !found }' /etc/newsyslog.conf; then
+	say "warning: /var/log/daemon has a newsyslog.conf line of your own; left as it is."
+	say "         Failed enquiries are logged there: the privacy policy promises they are gone within 30 days."
+fi
+
 # Output goes to syslog: /var/log/daemon (and contact enquiries too, while
-# mail.conf is missing or if a delivery fails).
+# mail.conf is missing or if a delivery fails); requests to $ACCESS_LOG.
 put /etc/rc.d/wintermuteconsulting 0555 <<EOF
 #!/bin/ksh
 
 daemon="/usr/local/bin/wintermuteconsulting"
-daemon_flags="-addr 127.0.0.1:$PORT -trust-proxy$mail_flag"
+daemon_flags="-addr 127.0.0.1:$PORT -trust-proxy -access-log syslog$mail_flag"
 daemon_user="_wintermuteconsulting"
 daemon_logger="daemon.info"
 
@@ -285,5 +341,6 @@ ftp -Vo /dev/null "http://127.0.0.1:$PORT/healthz" >/dev/null 2>&1 ||
 say "done"
 echo "    site:   https://$DOMAIN/"
 echo "    logs:   tail -f /var/log/daemon     (contact submissions are logged here for now)"
+echo "    access: tail -f $ACCESS_LOG   (30 days kept, as the privacy policy says; so is /var/log/daemon)"
 echo "    update: copy the new binary here and re-run this script"
 echo "    keep the OS patched: syspatch (and sysupgrade for each new release)"

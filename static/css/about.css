@@ -2,7 +2,8 @@
    tokens (--bg, --ink, --accent, fonts); the block at the end gives it Natt's
    character. Sized with container queries rather than viewport ones, because
    the same markup sits in the full-width desktop page and in the phone-shaped
-   mobile shell (.m). */
+   mobile shell (.m). The privacy policy (templates/privacy-body.html) is laid
+   out with the same intro and sections, plus the .privacy rules below. */
 
 .about-shell { container: about / inline-size; }
 
@@ -51,6 +52,22 @@
 .about-cta p { max-width: 34rem; color: var(--muted); }
 .about-cta__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
 .m .about-cta__actions { display: grid; }
+
+/* ---- Privacy policy: lists in the prose, and what/why/basis/how-long rows ---- */
+.about-prose ul { margin-top: 1em; padding-left: 1.25em; }
+.about-prose li + li { margin-top: 0.5em; }
+.about-prose li::marker { color: var(--accent); }
+.privacy__updated { margin-top: 1.25rem; font: 500 0.75rem/1.4 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.privacy .about-section__body { max-width: 40rem; }
+.privacy-facts { display: grid; gap: 1rem; }
+.about-prose + .privacy-facts { margin-top: 1.75rem; }
+.privacy-facts > div { display: grid; gap: 0.35rem 1.5rem; padding-top: 0.8rem; border-top: 1px solid var(--line); }
+.privacy-facts dt { font: 500 0.75rem/1.6 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.privacy-facts dd { color: var(--soft); }
+
+@container about (min-width: 560px) {
+  .privacy-facts > div { grid-template-columns: 8.5rem minmax(0, 1fr); }
+}
 
 @container about (min-width: 560px) {
   .about-section { grid-template-columns: 10rem minmax(0, 1fr); }

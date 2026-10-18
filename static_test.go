@@ -15,7 +15,7 @@ import (
 
 func TestStaticURLsCarryTheContentVersion(t *testing.T) {
 	h := testApp(t).routes()
-	pages := []string{"/", "/about"}
+	pages := []string{"/", "/about", "/privacy"}
 	asset := regexp.MustCompile(`(?:href|src)="(/static/(?:css|js)/[^"]*)"`)
 	seen := map[string]bool{}
 	for _, p := range pages {

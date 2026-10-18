@@ -1,0 +1,23 @@
+{{/* Privacy policy, desktop layout: the site's header and footer around the
+     shared content (templates/privacy-body.html). The page loads no scripts. */}}
+{{define "page"}}<!doctype html>
+<html lang="en">
+<head>
+{{template "head-common" .}}
+<title>Privacy policy: {{.Site.Name}}</title>
+<link rel="stylesheet" href="{{static "css/ps.css"}}">
+<link rel="stylesheet" href="{{static "css/natt.css"}}">
+<link rel="stylesheet" href="{{static "css/about.css"}}">
+</head>
+<body class="ps natt about-page">
+<a class="skip" href="#main">Skip to content</a>
+{{template "ps-util" .}}
+{{template "ps-nav" .}}
+
+<main id="main">
+{{template "privacy-body" .}}
+</main>
+{{template "ps-footer" .}}
+</body>
+</html>
+{{end}}

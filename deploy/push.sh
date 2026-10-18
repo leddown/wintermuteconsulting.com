@@ -1,27 +1,27 @@
 #!/bin/sh
 # Build on this workstation and deploy over SSH. The target never compiles.
 #
-# OpenBSD production (smallest footprint: base system only, nothing installed):
-#   deploy/push.sh openbsd user@vps DOMAIN=example.com WWW=1   # first time / config change:
-#                                                              #   full setup-openbsd.sh
-#   deploy/push.sh openbsd user@vps                            # every update after that:
-#                                                              #   new binary + restart only
+# OpenBSD production is run by webmaster (~/code/webmaster), which owns the
+# server's /etc and calls this script for binary updates. Deploy production
+# with deploy/production.sh (webmaster's bin/push-site), not by hand:
+#   deploy/push.sh openbsd HOST          # new binary + restart only
 #
 # Linux dev server (usually updated on the box with deploy/update-linux.sh
 # instead; this is the push alternative):
-#   deploy/push.sh linux user@devbox
+#   deploy/push.sh linux user@devbox                 # new binary + restart only
+#   deploy/push.sh linux user@devbox NAME=value...   # full setup-linux.sh
 #
-# Rule: NAME=value settings mean "run the full setup script"; none means
-# "replace the binary". A binary-only update keeps the previous binary as
-# <binary>.prev and puts it back automatically if the new one fails its health
-# check. Needs doas (OpenBSD) or sudo (Linux) on the target; you'll be prompted
-# if they ask for a password.
+# A binary-only update keeps the previous binary as <binary>.prev and puts it
+# back automatically if the new one fails its health check. Needs doas
+# (OpenBSD) or sudo (Linux) on the target; you'll be prompted if they ask for
+# a password. webmaster runs "push.sh openbsd HOST" and reads build.sh's
+# output path: keep both as they are.
 set -eu
 
 os=${1:-}
 target=${2:-}
 case $os in linux | openbsd) ;; *)
-	sed -n '2,19p' "$0" | sed 's/^# \{0,1\}//'
+	sed -n '2,18p' "$0" | sed 's/^# \{0,1\}//'
 	exit 2
 	;;
 esac
@@ -30,6 +30,11 @@ esac
 	exit 2
 }
 shift 2
+if [ "$os" = openbsd ] && [ $# -gt 0 ]; then
+	echo "OpenBSD setup is webmaster's job (it owns pf, relayd, httpd, syslog and rc.d there):" >&2
+	echo "  deploy/production.sh -S" >&2
+	exit 2
+fi
 for kv in "$@"; do
 	case $kv in [A-Z_]*=*) ;; *)
 		echo "not a NAME=value setting: $kv" >&2
@@ -59,7 +64,7 @@ if [ $# -eq 0 ]; then
 	cat >"$tmp" <<'EOF'
 set -eu
 b=/usr/local/bin/wintermuteconsulting
-[ -x "$b" ] || { echo "not installed yet: run push.sh with settings (e.g. DOMAIN=...) for the first setup" >&2; exit 1; }
+[ -x "$b" ] || { echo "not installed yet: the first setup is deploy/production.sh -S (OpenBSD) or push.sh linux HOST with settings" >&2; exit 1; }
 install -m 0555 "$1" "$b.new"
 cp -p "$b" "$b.prev"
 mv -f "$b.new" "$b"

@@ -1,0 +1,46 @@
+{{/* The privacy policy's content, shared by the desktop page
+     (templates/privacy.html) and the mobile shell (templates/m/privacy.html).
+     Copy lives in content.json (site.privacy); the first section names the
+     controller with the company details from site.about.company. It is laid
+     out with the About page's sections (static/css/about.css). */}}
+
+{{define "privacy-body"}}
+<div class="about-shell">
+<div class="about privacy">
+  <header class="about-intro">
+    <p class="eyebrow about-kicker">{{.Site.Privacy.Kicker}}</p>
+    <h1>{{.Site.Privacy.Title}}</h1>
+    <p class="about-intro__lede">{{.Site.Privacy.Lede}}</p>
+    <p class="privacy__updated">Last updated <time datetime="{{.Site.Privacy.Updated}}">{{.Site.Privacy.UpdatedText}}</time></p>
+  </header>
+
+  <section class="about-section" aria-labelledby="privacy-1">
+    <h2 id="privacy-1">{{.Site.Privacy.Controller.Title}}</h2>
+    <div class="about-section__body">
+      <div class="about-prose">{{range .Site.Privacy.Controller.Body}}<p>{{.}}</p>{{end}}</div>
+      <dl class="about-facts">
+        <div><dt>Legal name</dt><dd>{{.Site.Name}}</dd></div>
+        {{range .Site.About.Company}}<div><dt>{{.Label}}</dt><dd>{{.Value}}</dd></div>
+        {{end}}<div><dt>Email</dt><dd><a href="mailto:{{.Site.Email}}">{{.Site.Email}}</a></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  {{range $i, $s := .Site.Privacy.Sections}}
+  <section class="about-section" aria-labelledby="privacy-{{inc (inc $i)}}">
+    <h2 id="privacy-{{inc (inc $i)}}">{{$s.Title}}</h2>
+    <div class="about-section__body">
+      {{if or $s.Body $s.Points}}<div class="about-prose">
+        {{range $s.Body}}<p>{{.}}</p>
+        {{end}}{{with $s.Points}}<ul>{{range .}}<li>{{.}}</li>{{end}}</ul>{{end}}
+      </div>{{end}}
+      {{with $s.Facts}}<dl class="privacy-facts">
+        {{range .}}<div><dt>{{.Label}}</dt><dd>{{.Value}}</dd></div>
+        {{end}}
+      </dl>{{end}}
+    </div>
+  </section>
+  {{end}}
+</div>
+</div>
+{{end}}

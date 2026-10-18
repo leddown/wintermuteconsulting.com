@@ -20,7 +20,8 @@ const (
 )
 
 // openAccessLog returns where -access-log sends request lines: "syslog"
-// (facility local0, which setup-openbsd.sh routes to its own file), "stderr",
+// (facility local0, which production's syslog.conf, managed by webmaster,
+// routes to its own file), "stderr",
 // or nil for "" (no access log).
 func openAccessLog(dest string) (io.Writer, error) {
 	switch dest {

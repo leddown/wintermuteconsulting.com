@@ -93,14 +93,16 @@ func (a *app) staticVersion(file string) string {
 // parseTemplates builds one template set per page and layout: the shared
 // partials plus that page's own file, which defines "page". On a phone both
 // pages are templates/mobile.html, the shell with the homepage in it;
-// templates/m/about.html replaces its "m-main" for the About page.
+// templates/m/about.html and templates/m/privacy.html replace its "m-main".
 func (a *app) parseTemplates() error {
 	pages := map[string]*template.Template{}
 	sets := map[string][]string{
-		"home":    {"templates/home.html"},
-		"about":   {"templates/about-body.html", "templates/about.html"},
-		"m/home":  {"templates/mobile.html"},
-		"m/about": {"templates/about-body.html", "templates/mobile.html", "templates/m/about.html"},
+		"home":      {"templates/home.html"},
+		"about":     {"templates/about-body.html", "templates/about.html"},
+		"m/home":    {"templates/mobile.html"},
+		"m/about":   {"templates/about-body.html", "templates/mobile.html", "templates/m/about.html"},
+		"privacy":   {"templates/privacy-body.html", "templates/privacy.html"},
+		"m/privacy": {"templates/privacy-body.html", "templates/mobile.html", "templates/m/privacy.html"},
 	}
 	for name, files := range sets {
 		t, err := template.New(name).Funcs(templateFuncs).Funcs(template.FuncMap{"static": a.staticURL}).ParseFS(a.assets, append([]string{"templates/partials.html", "templates/ps.html"}, files...)...)
@@ -118,7 +120,7 @@ func (a *app) parseTemplates() error {
 type pageData struct {
 	Site     Site
 	Copy     Copy   // the homepage's own wording ("home" in content.json)
-	Page     string // "" for the homepage, "about" for the About page
+	Page     string // "" for the homepage, "about" or "privacy" for those pages
 	Form     contactForm
 	Errors   map[string]string
 	Sent     bool
@@ -144,7 +146,7 @@ func (d pageData) Path() string {
 
 // Home goes in front of the homepage's anchors (#services, #contact): empty on
 // the homepage itself, so they stay in-page links, and the homepage's URL on
-// the About page.
+// every other page.
 func (d pageData) Home() string {
 	if d.Page == "" {
 		return ""

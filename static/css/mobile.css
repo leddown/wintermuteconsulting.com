@@ -158,6 +158,7 @@ html.m-menu-open { overflow: hidden; }
 }
 .m-footer__brand { margin-bottom: 8px; font: 600 0.9rem/1 var(--font-display); letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink); }
 .m-footer__note { margin-top: 12px; font: 0.72rem/1.5 var(--font-mono); }
+.m-footer__links a { display: inline-block; padding: 12px 0; color: var(--ink); text-underline-offset: 3px; } /* 44px tap target */
 .m .layout-switch { margin-top: 20px; }
 .m .layout-switch a, .layout-switch a { color: var(--ink); font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; text-underline-offset: 4px; }
 

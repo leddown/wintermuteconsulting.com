@@ -159,7 +159,7 @@ func TestNoGlitchAnywhere(t *testing.T) {
 	bad := validForm()
 	bad.Set("email", "nope")
 	for _, ua := range []string{uaDesktop, uaIPhone} {
-		for _, p := range []string{"/", "/about"} {
+		for _, p := range []string{"/", "/about", "/privacy"} {
 			check("GET "+p+" "+ua[13:20], do(h, "GET", p, nil, map[string]string{"User-Agent": ua}).Body.String())
 		}
 		rec := do(h, "POST", "/contact", strings.NewReader(bad.Encode()), map[string]string{

@@ -23,7 +23,7 @@ func testApp(t *testing.T) *app {
 
 func TestPagesRender(t *testing.T) {
 	h := testApp(t).routes()
-	for _, p := range []string{"/", "/about", "/static/css/base.css", "/static/css/about.css", "/static/js/reveal.js", "/static/images/opt/night-1600.webp"} {
+	for _, p := range []string{"/", "/about", "/privacy", "/static/css/base.css", "/static/css/about.css", "/static/js/reveal.js", "/static/images/opt/night-1600.webp"} {
 		rec := httptest.NewRecorder()
 		h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, p, nil))
 		if rec.Code != http.StatusOK {
@@ -40,7 +40,7 @@ func TestPagesRender(t *testing.T) {
 func TestNotFound(t *testing.T) {
 	h := testApp(t).routes()
 	for _, p := range []string{
-		"/nope", "/about/", "/about/x", "/index.html", "/static/", "/static/css/",
+		"/nope", "/about/", "/about/x", "/privacy/", "/privacy.html", "/index.html", "/static/", "/static/css/",
 		"/v", "/v/", "/v/natt", "/v/natt/about", "/v/signal", "/v/signal/about", "/v/grense", "/v/grense/about", "/v/nope",
 		"/static/css/signal.css", "/static/css/grense.css", "/static/css/index.css", "/static/js/terminal.js", "/static/js/wolfeyes.js",
 		"/static/images/opt/forest-1600.webp", "/static/images/opt/woods-640.webp",
@@ -138,12 +138,12 @@ func TestRateLimiterWindow(t *testing.T) {
 	}
 }
 
-// The site is one design, at / and /about: no chooser, no design switcher and
+// The site is one design, at /, /about and /privacy: no chooser, no design switcher and
 // no link into the old /v/ previews, in either layout.
 func TestHomeIsTheSite(t *testing.T) {
 	a := testApp(t)
 	h := a.routes()
-	for _, p := range []string{"/", "/about"} {
+	for _, p := range []string{"/", "/about", "/privacy"} {
 		for _, ua := range []string{uaDesktop, uaIPhone} {
 			rec := do(h, "GET", p, nil, map[string]string{"User-Agent": ua})
 			if rec.Code != http.StatusOK {

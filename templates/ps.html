@@ -130,6 +130,7 @@
   <div class="ps-footer__legal">
     <p>© {{.Site.Name}}</p>
     <p>No cookies. No trackers. Nothing loaded from third parties.</p>
+    <p><a href="/privacy{{.ViewQuery}}"{{if eq .Page "privacy"}} aria-current="page"{{end}}>Privacy policy</a></p>
     {{template "layout-switch" .}}
   </div>
 </footer>

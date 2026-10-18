@@ -125,6 +125,7 @@ p { text-wrap: pretty; }
 .field-err { color: var(--err); font-size: 0.85rem; }
 .contact-form .btn { justify-self: start; }
 .form-note { font-size: 0.8rem; color: var(--muted); }
+.form-note a { color: var(--ink); text-underline-offset: 3px; }
 .form-status { padding: 1rem 1.2rem; border: 1px solid; border-radius: 2px; max-width: 720px; }
 /* contact.js focuses the notice so screen readers read it; it isn't a control. */
 .form-status:focus { outline: none; }

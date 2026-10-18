@@ -3,12 +3,13 @@
     "All the text on the site is in this file. The site reads it; nothing here is shown except what is under 'site' and 'home'.",
     "Change the text between the quotes and leave the names on the left of each colon as they are.",
     "Each text stays on one line. A double quote inside a text needs a backslash in front of it.",
-    "'site' is what the firm says about itself: services, principles, numbers, industries, insights, the brief, the lede and the About page.",
+    "'site' is what the firm says about itself: services, principles, numbers, industries, insights, the brief, the lede, the About page and the privacy policy.",
     "'home' is the homepage's own wording: the hero title, the buttons and each section's heading. The desktop page and the phone page both use it, so a change here shows on both.",
     "The phone page leaves some pieces out: it has no Insights or Industries sections, no section paragraphs and no contact points. Its hero shows site.brief; the desktop hero shows site.lede.",
     "In a heading, 'kicker' is the small label above the title and 'accent' is the rest of the title in the accent colour. Leave either out for none.",
     "Limits: heroTitle plus heroTitleAccent may be 60 characters and site.brief 180 (the phone hero must stay short); site.about.summary should stay under 160.",
     "A service's code starts with two letters that pick its icon: AI, RM, TI, VC, RG, FT, CX or TR.",
+    "site.privacy is the privacy policy at /privacy. Its first section is shown with the company details under site.about.company. Change 'updated' (written as 2026-10-18) whenever the policy changes in substance, and keep the policy true to what the site and the server actually do.",
     "site.stats are placeholder figures: replace them with real ones before launch. Text in [square brackets] is a placeholder for your own details.",
     "To check the file after a change, run: go test ./...   To see changes on a browser refresh, run: go run . -dev"
   ],
@@ -190,6 +191,134 @@
         {
           "label": "VAT number",
           "value": "[EE number, if VAT-registered]"
+        }
+      ]
+    },
+    "privacy": {
+      "kicker": "Privacy",
+      "title": "How we handle personal data",
+      "lede": "We collect as little as we can: a short-lived server log for every visit, and what you choose to send us when you get in touch. This page sets out what that is, why we hold it, for how long, and the rights you have over it.",
+      "summary": "What personal data Wintermute Consulting OÜ collects on this site and from enquiries, why, for how long, and your rights under the GDPR.",
+      "updated": "2026-10-18",
+      "controller": {
+        "title": "Who is responsible",
+        "body": [
+          "Wintermute Consulting OÜ is the controller of the personal data described on this page. Write to us at the address below with any question about this policy or about your data."
+        ]
+      },
+      "sections": [
+        {
+          "title": "In brief",
+          "points": [
+            "The site sets no cookies, stores nothing on your device and loads nothing from third parties.",
+            "Our server keeps a log of each visit, including your IP address, for 30 days, to keep the site secure.",
+            "What you send us is used to reply to you and for nothing else.",
+            "We never sell personal data or use it for advertising."
+          ]
+        },
+        {
+          "title": "When you visit the site",
+          "body": [
+            "Like any web server, ours writes a line to its access log for every request it answers. We read the log ourselves, on our own systems, to recognise and stop attacks, find faults and count visits. No analytics provider receives it, and we do not combine it with other data to identify you."
+          ],
+          "facts": [
+            {
+              "label": "What",
+              "value": "Your IP address, the date and time, the page or file requested, the status and size of the response, the page that linked to ours if your browser reports it, and your browser's user-agent string."
+            },
+            {
+              "label": "Why",
+              "value": "To keep the site secure and working, and to count visits."
+            },
+            {
+              "label": "Legal basis",
+              "value": "Our legitimate interest in running a secure website (Article 6(1)(f) GDPR)."
+            },
+            {
+              "label": "How long",
+              "value": "30 days, then deleted automatically. Visit statistics we keep for longer are totals that contain no IP address."
+            }
+          ]
+        },
+        {
+          "title": "When you contact us",
+          "body": [
+            "The contact form sends your enquiry to our mailbox by encrypted email, where email you send us directly also arrives. If delivery from the form fails, the server keeps a copy in its protected system log so that your message is not lost. We delete it from there once we have retrieved it, and the log discards it after 30 days at most.",
+            "Giving us your details is voluntary, but we cannot reply without an email address."
+          ],
+          "facts": [
+            {
+              "label": "What",
+              "value": "Your name, email address, company if you give it, and your message. To limit how many messages one connection can send, the form also holds your IP address in memory for ten minutes; it is never written to disk."
+            },
+            {
+              "label": "Why",
+              "value": "To reply to you and, if you wish, to prepare an engagement."
+            },
+            {
+              "label": "Legal basis",
+              "value": "Steps you ask us to take before a possible contract (Article 6(1)(b) GDPR); otherwise our legitimate interest in answering enquiries (Article 6(1)(f))."
+            },
+            {
+              "label": "How long",
+              "value": "Up to two years after our last exchange if no engagement follows. If one does, for as long as the engagement and Estonian accounting and contract law require."
+            }
+          ]
+        },
+        {
+          "title": "Cookies",
+          "body": [
+            "The site sets no cookies and stores nothing on your device: no local storage, no tracking pixels, no fingerprinting. Fonts, images and scripts all come from our own server, so no third party learns that you visited. That is why the site shows no cookie banner.",
+            "Whether you see the phone or the desktop layout is decided afresh from what your browser sends with each request. Nothing is remembered."
+          ]
+        },
+        {
+          "title": "Who else handles your data",
+          "body": [
+            "Two service providers process personal data on our behalf, on our instructions only and under data processing agreements:"
+          ],
+          "points": [
+            "Vultr, which hosts the server that runs this site and keeps its logs, in [data centre city, country].",
+            "Google, through Google Workspace, which provides our email: enquiries from the form and messages you send us are stored in our mailbox there."
+          ]
+        },
+        {
+          "title": "Transfers outside the EU",
+          "body": [
+            "Both providers belong to groups based in the United States and may process data there. Where they do, the transfer rests on the European Commission's adequacy decision for the EU–US Data Privacy Framework or on its standard contractual clauses."
+          ]
+        },
+        {
+          "title": "Your rights",
+          "body": [
+            "Under the GDPR you may ask us at any time to:"
+          ],
+          "points": [
+            "tell you whether we hold personal data about you, and give you a copy;",
+            "correct data that is inaccurate or incomplete;",
+            "erase your data, or restrict how we use it;",
+            "send data you gave us to you or to another controller in a machine-readable form;",
+            "stop processing based on our legitimate interest: you may object at any time, on grounds relating to your situation."
+          ]
+        },
+        {
+          "title": "Using your rights",
+          "body": [
+            "Email us at the address above. We reply within one month, and may first ask you to confirm who you are. Using your rights costs nothing.",
+            "You may also complain to the Estonian Data Protection Inspectorate (Andmekaitse Inspektsioon, www.aki.ee) or to the supervisory authority where you live or work."
+          ]
+        },
+        {
+          "title": "Security",
+          "body": [
+            "Every connection to the site is encrypted. The server runs a minimal, hardened system, and only we can read its logs. We make no decisions about you by automated means and build no profiles."
+          ]
+        },
+        {
+          "title": "Changes",
+          "body": [
+            "When the way we handle personal data changes, we update this page and the date at the top."
+          ]
         }
       ]
     }

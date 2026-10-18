@@ -8,6 +8,7 @@ import (
 	"io"
 	"io/fs"
 	"strings"
+	"time"
 )
 
 // The site's text is data, not code: it lives in content.json, which is
@@ -72,6 +73,39 @@ type About struct {
 	Company   []Fact    `json:"company"`  // registration details; the legal name and email come from Site
 }
 
+// Privacy is the privacy policy (/privacy). Its first section, Controller, is
+// shown with the company's details (the legal name, Site.About.Company and
+// Site.Email). Text in [square brackets] is a placeholder for a detail only the
+// owner can supply.
+type Privacy struct {
+	Kicker     string           `json:"kicker"` // small label above the title
+	Title      string           `json:"title"`
+	Lede       string           `json:"lede"`
+	Summary    string           `json:"summary"` // meta description: keep it under 160 characters
+	Updated    string           `json:"updated"` // date of the last change of substance, as 2026-10-18
+	Controller PrivacySection   `json:"controller"`
+	Sections   []PrivacySection `json:"sections"`
+}
+
+// PrivacySection is one heading of the privacy policy with its paragraphs,
+// then a list, then labelled facts (what, why, legal basis, how long), each
+// left out where empty.
+type PrivacySection struct {
+	Title  string   `json:"title"`
+	Body   []string `json:"body"`
+	Points []string `json:"points"`
+	Facts  []Fact   `json:"facts"`
+}
+
+// UpdatedText is Updated as the page shows it: "18 October 2026".
+func (p Privacy) UpdatedText() string {
+	d, err := time.Parse(time.DateOnly, p.Updated)
+	if err != nil {
+		return p.Updated
+	}
+	return d.Format("2 January 2006")
+}
+
 // Site is what the firm says about itself, wherever a page needs it.
 type Site struct {
 	Name       string      `json:"name"`     // full legal name: titles, meta, footers
@@ -88,6 +122,7 @@ type Site struct {
 	Industries []Industry  `json:"industries"`
 	Insights   []Insight   `json:"insights"`
 	About      About       `json:"about"`
+	Privacy    Privacy     `json:"privacy"`
 }
 
 // Heading is one section's heading on the homepage.
@@ -288,6 +323,23 @@ func (c *Content) validate() error {
 	need("site.about.lede", s.About.Lede)
 	need("site.about.summary", s.About.Summary)
 	need("site.about.principal.name", s.About.Principal.Name)
+	need("site.privacy.title", s.Privacy.Title)
+	need("site.privacy.lede", s.Privacy.Lede)
+	need("site.privacy.summary", s.Privacy.Summary)
+	need("site.privacy.controller.title", s.Privacy.Controller.Title)
+	if len(s.Privacy.Sections) == 0 {
+		missing = append(missing, "site.privacy.sections")
+	}
+	for i, v := range s.Privacy.Sections {
+		at := fmt.Sprintf("site.privacy.sections[%d]", i+1)
+		need(at+".title", v.Title)
+		if len(v.Body)+len(v.Points)+len(v.Facts) == 0 {
+			missing = append(missing, at+".body")
+		}
+	}
+	if _, err := time.Parse(time.DateOnly, s.Privacy.Updated); err != nil {
+		return fmt.Errorf("site.privacy.updated %q is not a date written as 2026-10-18", s.Privacy.Updated)
+	}
 	if len(s.Services) == 0 {
 		missing = append(missing, "site.services")
 	}

@@ -46,6 +46,7 @@ func TestSecurityHeadersOnEveryResponse(t *testing.T) {
 	}{
 		{"home", "GET", "/", "", nil, 200},
 		{"about", "GET", "/about", "", nil, 200},
+		{"privacy", "GET", "/privacy", "", nil, 200},
 		{"static", "GET", "/static/css/base.css", "", nil, 200},
 		{"health", "GET", "/healthz", "", nil, 200},
 		{"not found", "GET", "/nope", "", nil, 404},
@@ -159,7 +160,7 @@ func checkHTMLPolicy(t *testing.T, where, html string) {
 
 func TestRenderedHTMLHasNoInlineOrThirdPartyCode(t *testing.T) {
 	h := testApp(t).routes()
-	for _, p := range []string{"/", "/?sent=1", "/about"} {
+	for _, p := range []string{"/", "/?sent=1", "/about", "/privacy"} {
 		rec := do(h, "GET", p, nil, nil)
 		checkHTMLPolicy(t, p, rec.Body.String())
 	}
@@ -292,7 +293,7 @@ func TestContactBodyLimit(t *testing.T) {
 func TestMethodsAreRestricted(t *testing.T) {
 	h := testApp(t).routes()
 	for _, c := range []struct{ method, path string }{
-		{"GET", "/contact"}, {"PUT", "/contact"}, {"DELETE", "/"}, {"PATCH", "/about"}, {"POST", "/about"},
+		{"GET", "/contact"}, {"PUT", "/contact"}, {"DELETE", "/"}, {"PATCH", "/about"}, {"POST", "/about"}, {"POST", "/privacy"},
 		{"TRACE", "/"}, {"POST", "/"}, {"POST", "/static/css/base.css"}, {"PROPFIND", "/"},
 	} {
 		rec := do(h, c.method, c.path, nil, nil)

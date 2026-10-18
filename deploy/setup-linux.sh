@@ -44,7 +44,7 @@ put() {
 	say "wrote $1"
 }
 
-[ "$(uname -s)" = Linux ] || die "this script is for Linux; use setup-openbsd.sh on OpenBSD"
+[ "$(uname -s)" = Linux ] || die "this script is for Linux; OpenBSD production is set up by webmaster (deploy/production.sh -S)"
 [ "$(id -u)" -eq 0 ] || die "run as root (sudo sh $0)"
 command -v systemctl >/dev/null || die "systemd is required"
 
@@ -90,6 +90,10 @@ TRUST_PROXY=1
 
 # The Go runtime tries to stay under this; keep it below the unit's MemoryMax (256M).
 GOMEMLIMIT=180MiB
+
+# One line per request: "stderr" (the journal; the unit's default), "syslog",
+# or empty for no access log.
+#ACCESS_LOG=stderr
 EOF
 	chmod 0644 "$ENV_FILE"
 	say "wrote $ENV_FILE (edit it to change the port)"
@@ -132,6 +136,8 @@ Description=Wintermute Consulting website
 After=network.target
 
 [Service]
+# One line per request into the journal; ACCESS_LOG= in the env file overrides it.
+Environment=ACCESS_LOG=stderr
 EnvironmentFile=$ENV_FILE
 $mail_unit
 ExecStart=/usr/local/bin/wintermuteconsulting
@@ -184,7 +190,7 @@ fi
 say "done: listening on $addr"
 cat <<EOF
     settings: $ENV_FILE  (then: sudo systemctl restart wintermuteconsulting)
-    logs:     journalctl -u wintermuteconsulting -f   (and contact enquiries, if mail.conf is missing or a delivery fails)
+    logs:     journalctl -u wintermuteconsulting -f   (requests too; and contact enquiries, if mail.conf is missing or a delivery fails)
 
     nginx location block for the site (both headers matter):
         location / {
