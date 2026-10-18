@@ -88,9 +88,22 @@ func (a *app) handleContact(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO: deliver via a transactional email provider (Postmark/SES/etc.).
-	// Until then submissions only reach the server log.
-	a.log.Info("contact submission", "name", form.Name, "email", form.Email, "company", form.Company, "message", form.Message)
+	a.mu.Lock()
+	siteName := a.content.Site.Name
+	a.mu.Unlock()
+	if a.mail == nil {
+		a.log.Info("contact submission (mail delivery not configured)", "name", form.Name, "email", form.Email, "company", form.Company, "message", form.Message)
+	} else if err := a.mail.send(a.mail.compose(form, siteName, time.Now())); err != nil {
+		// Logged in full so that the enquiry isn't lost; the visitor is told
+		// it didn't go through and keeps what they typed.
+		a.log.Error("contact delivery failed", "err", err, "name", form.Name, "email", form.Email, "company", form.Company, "message", form.Message)
+		a.renderPage(w, r, http.StatusServiceUnavailable, pageData{Form: form, View: view,
+			Errors: map[string]string{"form": "Your message could not be sent just now. Please try again in a few minutes, or write to us directly."}})
+		return
+	} else {
+		// The enquiry is in the mailbox; keep personal data out of the log.
+		a.log.Info("contact delivered")
+	}
 
 	http.Redirect(w, r, back, http.StatusSeeOther)
 }

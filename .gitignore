@@ -2,3 +2,4 @@ dist/
 security/.local.log
 security/reports/
 /wintermuteconsulting
+mail.conf

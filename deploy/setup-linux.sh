@@ -109,6 +109,21 @@ fi
 
 # --- service ----------------------------------------------------------------
 
+# Contact-form email: on if mail.conf exists (see deploy/mail.conf.example; you
+# create it, this script never writes it). It holds a password, so it stays
+# root-only and systemd hands the DynamicUser service a private copy.
+MAIL_CONF=/etc/wintermuteconsulting/mail.conf
+mail_unit=""
+if [ -f "$MAIL_CONF" ]; then
+	chown root:root "$MAIL_CONF"
+	chmod 0600 "$MAIL_CONF"
+	mail_unit="LoadCredential=mail.conf:$MAIL_CONF
+Environment=MAIL_CONFIG=%d/mail.conf"
+	say "contact form will email via $MAIL_CONF"
+else
+	say "no $MAIL_CONF: contact enquiries will only be logged (see deploy/mail.conf.example)"
+fi
+
 # DynamicUser gives the service a throwaway unprivileged account; it needs no
 # files on disk because templates and assets are embedded in the binary.
 put /etc/systemd/system/wintermuteconsulting.service 0644 <<EOF
@@ -118,6 +133,7 @@ After=network.target
 
 [Service]
 EnvironmentFile=$ENV_FILE
+$mail_unit
 ExecStart=/usr/local/bin/wintermuteconsulting
 Restart=on-failure
 RestartSec=2s
@@ -168,7 +184,7 @@ fi
 say "done: listening on $addr"
 cat <<EOF
     settings: $ENV_FILE  (then: sudo systemctl restart wintermuteconsulting)
-    logs:     journalctl -u wintermuteconsulting -f   (contact submissions are logged here for now)
+    logs:     journalctl -u wintermuteconsulting -f   (and contact enquiries, if mail.conf is missing or a delivery fails)
 
     nginx location block for the site (both headers matter):
         location / {

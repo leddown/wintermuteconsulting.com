@@ -24,6 +24,9 @@ func main() {
 	addr := flag.String("addr", envOr("ADDR", "127.0.0.1:8080"), "listen address")
 	dev := flag.Bool("dev", os.Getenv("DEV") == "1", "serve templates, content.json and static files from disk and re-read templates and content on every request")
 	trustProxy := flag.Bool("trust-proxy", os.Getenv("TRUST_PROXY") == "1", "take the client IP from X-Forwarded-For (only behind a reverse proxy)")
+	mailConfig := flag.String("mail-config", os.Getenv("MAIL_CONFIG"), "file with the SMTP settings for contact-form email (see deploy/mail.conf.example); without it enquiries only reach the log")
+	mailTest := flag.Bool("mail-test", false, "send a test enquiry with the -mail-config settings and exit")
+	accessLog := flag.String("access-log", os.Getenv("ACCESS_LOG"), `one line per request (Combined Log Format): "syslog" (facility local0), "stderr", or "" for none`)
 	flag.Parse()
 
 	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
@@ -36,6 +39,38 @@ func main() {
 	app, err := newApp(assets, *dev, *trustProxy, logger)
 	if err != nil {
 		logger.Error("init", "err", err)
+		os.Exit(1)
+	}
+	if *mailConfig != "" {
+		// The path is the operator's own flag, never anything from a request.
+		b, err := os.ReadFile(*mailConfig) // #nosec G703 G304 -- operator-supplied path
+		if err == nil {
+			app.mail, err = parseMailConfig(*mailConfig, b)
+		}
+		if err != nil {
+			logger.Error("mail config", "err", err)
+			os.Exit(1)
+		}
+		logger.Info("contact form delivers by email", "smtp", app.mail.addr, "to", app.mail.to)
+	} else {
+		logger.Warn("no -mail-config: contact enquiries are only logged, not emailed")
+	}
+	if *mailTest {
+		if app.mail == nil {
+			logger.Error("-mail-test needs -mail-config")
+			os.Exit(1)
+		}
+		f := contactForm{Name: "Mail test", Email: app.mail.from, Message: "A test enquiry sent with -mail-test. If you can read this, the contact form can deliver email."}
+		if err := app.mail.send(app.mail.compose(f, app.content.Site.Name, time.Now())); err != nil {
+			logger.Error("mail test failed", "err", err)
+			os.Exit(1)
+		}
+		logger.Info("mail test sent", "to", app.mail.to)
+		return
+	}
+
+	if app.access, err = openAccessLog(*accessLog); err != nil {
+		logger.Error("access log", "err", err)
 		os.Exit(1)
 	}
 

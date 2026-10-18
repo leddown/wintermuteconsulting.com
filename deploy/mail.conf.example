@@ -1,0 +1,27 @@
+# Contact-form email. Copy to /etc/wintermuteconsulting/mail.conf on the server
+# (never into the repository: it holds a password) and re-run the setup script,
+# which makes it readable by root and the service only and switches delivery on.
+# Without this file enquiries only reach the service log.
+#
+# Google Workspace: the mailbox signs in to smtp.gmail.com:465 with an app password.
+#   1. The account needs 2-Step Verification
+#      (myaccount.google.com > Security). In a Workspace org the admin must also
+#      allow it: Admin console > Security > Authentication > 2-step verification.
+#   2. Create an app password: myaccount.google.com/apppasswords. Google shows
+#      16 letters once; paste them below (spaces don't matter).
+#   3. Test before relying on it, as the service user, e.g. on OpenBSD:
+#        doas -u _wintermuteconsulting /usr/local/bin/wintermuteconsulting \
+#          -mail-config /etc/wintermuteconsulting/mail.conf -mail-test
+#
+# Unknown or repeated settings stop the program at start, so a typo can't
+# silently lose enquiries.
+
+# The mailbox that sends (and, unless MAIL_TO says otherwise, receives).
+SMTP_USER=info@wintermuteconsulting.com
+SMTP_PASSWORD=abcd efgh ijkl mnop
+
+# Optional:
+# SMTP_ADDR=smtp.gmail.com:465     default (TLS from the first byte); :587 uses STARTTLS,
+#                                  which timed out from the Vultr host
+# MAIL_FROM=info@wintermuteconsulting.com       default SMTP_USER; Gmail only allows the account or its "Send mail as" aliases
+# MAIL_TO=info@wintermuteconsulting.com         default MAIL_FROM

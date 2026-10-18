@@ -15,10 +15,10 @@
 
 {{define "contact-form"}}
 {{if .Sent}}
-<p class="form-status form-status--ok" role="status">Thank you. Your enquiry has been received in confidence, and a senior advisor will reply within one working day.</p>
+<p class="form-status form-status--ok" role="status" tabindex="-1">Thank you. Your enquiry has been received in confidence, and a senior advisor will reply within one working day.</p>
 {{else}}
-<form class="contact-form" method="post" action="/contact#contact" novalidate>
-  {{with .Errors.form}}<p class="form-status form-status--err" role="alert">{{.}}</p>{{end}}
+<form class="contact-form" method="post" action="/contact#contact" novalidate data-contact>
+  {{with .Errors.form}}<p class="form-status form-status--err" role="alert" tabindex="-1">{{.}}</p>{{end}}
   {{with .View}}<input type="hidden" name="view" value="{{.}}">{{end}}
   <div class="hp" aria-hidden="true">
     <label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>

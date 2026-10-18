@@ -18,7 +18,7 @@ func (a *app) routes() http.Handler {
 	mux.HandleFunc("POST /contact", a.handleContact)
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) { _, _ = w.Write([]byte("ok")) })
 
-	return securityHeaders(mux)
+	return a.accessLog(securityHeaders(mux))
 }
 
 func (a *app) handleHome(w http.ResponseWriter, r *http.Request) {

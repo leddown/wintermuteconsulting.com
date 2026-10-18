@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"io/fs"
 	"log/slog"
@@ -153,6 +154,59 @@ func FuzzClientIP(f *testing.F) {
 			if rateKey(k) != k {
 				t.Fatalf("rateKey not stable: %q -> %q", k, rateKey(k))
 			}
+		}
+	})
+}
+
+func FuzzAppendQuoted(f *testing.F) {
+	for _, s := range []string{"", "Mozilla/5.0", `a"b\c`, "line\nforged", "\x00\x1b\x7f\xff", "é", strings.Repeat(`"`, 100)} {
+		f.Add(s, 20)
+	}
+	f.Fuzz(func(t *testing.T, s string, limit int) {
+		limit = limit&0xff + 1
+		q := string(appendQuoted(nil, s, limit))
+		if len(q) < 2 || q[0] != '"' || q[len(q)-1] != '"' {
+			t.Fatalf("not quoted: %q", q)
+		}
+		inner := q[1 : len(q)-1]
+		cut := len(appendQuoted(nil, s, len(s)*4)) > limit+2
+		if cut {
+			if !strings.HasSuffix(inner, "...") {
+				t.Fatalf("cut without a mark: %q", q)
+			}
+			inner = strings.TrimSuffix(inner, "...")
+		}
+		if len(inner) > limit {
+			t.Fatalf("%d bytes escaped, limit %d", len(inner), limit)
+		}
+		// Unescape: every byte must be printable ASCII, every '"' and '\' escaped,
+		// and the result must give back (the start of) s.
+		var got []byte
+		for i := 0; i < len(inner); i++ {
+			c := inner[i]
+			switch {
+			case c < 0x20 || c >= 0x7f:
+				t.Fatalf("raw byte %q in %q", c, q)
+			case c == '"':
+				t.Fatalf("unescaped quote in %q", q)
+			case c == '\\' && i+1 < len(inner) && (inner[i+1] == '"' || inner[i+1] == '\\'):
+				got = append(got, inner[i+1])
+				i++
+			case c == '\\' && i+3 < len(inner) && inner[i+1] == 'x':
+				var v byte
+				if _, err := fmt.Sscanf(inner[i+2:i+4], "%02x", &v); err != nil {
+					t.Fatalf("bad escape in %q", q)
+				}
+				got = append(got, v)
+				i += 3
+			case c == '\\':
+				t.Fatalf("dangling backslash in %q", q)
+			default:
+				got = append(got, c)
+			}
+		}
+		if cut && !strings.HasPrefix(s, string(got)) || !cut && string(got) != s {
+			t.Fatalf("%q came back as %q", s, got)
 		}
 	})
 }

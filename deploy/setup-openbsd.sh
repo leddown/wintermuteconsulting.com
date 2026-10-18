@@ -83,12 +83,27 @@ mv -f /usr/local/bin/wintermuteconsulting.new /usr/local/bin/wintermuteconsultin
 
 # --- service ----------------------------------------------------------------
 
-# Output (including contact submissions, for now) goes to syslog: /var/log/daemon.
+# Contact-form email: on if /etc/wintermuteconsulting/mail.conf exists (see
+# deploy/mail.conf.example; you create it, this script never writes it). It
+# holds a password, so only root and the service may read it.
+MAIL_CONF=/etc/wintermuteconsulting/mail.conf
+mail_flag=""
+if [ -f "$MAIL_CONF" ]; then
+	chown root:_wintermuteconsulting "$MAIL_CONF"
+	chmod 0640 "$MAIL_CONF"
+	mail_flag=" -mail-config $MAIL_CONF"
+	say "contact form will email via $MAIL_CONF"
+else
+	say "no $MAIL_CONF: contact enquiries will only be logged (see deploy/mail.conf.example)"
+fi
+
+# Output goes to syslog: /var/log/daemon (and contact enquiries too, while
+# mail.conf is missing or if a delivery fails).
 put /etc/rc.d/wintermuteconsulting 0555 <<EOF
 #!/bin/ksh
 
 daemon="/usr/local/bin/wintermuteconsulting"
-daemon_flags="-addr 127.0.0.1:$PORT -trust-proxy"
+daemon_flags="-addr 127.0.0.1:$PORT -trust-proxy$mail_flag"
 daemon_user="_wintermuteconsulting"
 daemon_logger="daemon.info"
 

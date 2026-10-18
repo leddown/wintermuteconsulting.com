@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"html/template"
+	"io"
 	"io/fs"
 	"log/slog"
 	"net/http"
@@ -22,6 +23,8 @@ type app struct {
 	trustProxy bool
 	log        *slog.Logger
 	limiter    *rateLimiter
+	mail       *mailer   // nil: enquiries only reach the log (development)
+	access     io.Writer // nil: no access log; see accessLog
 
 	mu      sync.Mutex
 	content *Content // content.json: the site's text
