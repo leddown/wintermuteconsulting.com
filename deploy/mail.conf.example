@@ -1,7 +1,8 @@
 # Contact-form email. Copy to /etc/wintermuteconsulting/mail.conf on the server
-# (never into the repository: it holds a password) and re-run the setup script,
-# which makes it readable by root and the service only and switches delivery on.
-# Without this file enquiries only reach the service log.
+# (never into the repository: it holds a password), then run
+# deploy/production.sh -S: webmaster's setup makes it readable by root and the
+# service only, and the rc.d script switches delivery on. (LAN dev box: re-run
+# setup-linux.sh.) Without this file enquiries only reach the service log.
 #
 # Google Workspace: the mailbox signs in to smtp.gmail.com:465 with an app password.
 #   1. The account needs 2-Step Verification

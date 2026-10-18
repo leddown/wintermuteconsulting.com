@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -72,6 +73,10 @@ func TestProductionKeepsThePrivacyPromises(t *testing.T) {
 	if !routed {
 		t.Errorf("server/syslog.conf: no \"local0.info %s\" line before the program blocks", productionAccessLog)
 	}
+	// bin/site-logs mirrors this file, so its local copies keep the same 30 days.
+	if !strings.Contains(webmasterFile(t, "config/apps/wintermuteconsulting.conf"), "ACCESS_LOG="+productionAccessLog+"\n") {
+		t.Errorf("config/apps/wintermuteconsulting.conf: ACCESS_LOG is not %s", productionAccessLog)
+	}
 
 	// newsyslog.conf: rotated at midnight, 29 archives besides today's file,
 	// so no line is older than 30 days.
@@ -109,6 +114,25 @@ func TestProductionConfigFitsTheSite(t *testing.T) {
 	appends := strings.Count(relayd, `match request header append "X-Forwarded-For" value "$REMOTE_ADDR"`)
 	if protocols == 0 || appends != protocols {
 		t.Errorf("relayd.conf: %d http protocols but %d append the client to X-Forwarded-For; -trust-proxy is spoofable without it", protocols, appends)
+	}
+	// HSTS on 443, for at least a year (security/run.sh prod checks the same
+	// from outside): the protocol that holds the TLS keypair sends it.
+	hsts := regexp.MustCompile(`match response header set "Strict-Transport-Security" value "max-age=(\d+)`)
+	tlsProtocols := 0
+	for _, block := range strings.Split(relayd, "\nhttp protocol ")[1:] {
+		if !strings.Contains(block, "tls keypair") {
+			continue
+		}
+		tlsProtocols++
+		m := hsts.FindStringSubmatch(block)
+		if m == nil {
+			t.Error("relayd.conf: the TLS protocol sends no Strict-Transport-Security header")
+		} else if age, _ := strconv.Atoi(m[1]); age < 31536000 {
+			t.Errorf("relayd.conf: Strict-Transport-Security max-age=%s is under a year", m[1])
+		}
+	}
+	if tlsProtocols == 0 {
+		t.Error("relayd.conf: no http protocol with a tls keypair")
 	}
 	// Mail goes out once mail.conf exists (deploy/mail.conf.example).
 	if !strings.Contains(rc, "-mail-config /etc/wintermuteconsulting/mail.conf") {
