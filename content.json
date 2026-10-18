@@ -311,7 +311,7 @@
         {
           "title": "Security",
           "body": [
-            "Every connection to the site is encrypted. The server runs a minimal, hardened system, and only we can read its logs. We make no decisions about you by automated means and build no profiles."
+            "The site is served only over encrypted connections (HTTPS): a request over plain HTTP gets nothing but a redirect to HTTPS, and browsers that have visited before go straight to HTTPS. The server runs a minimal, hardened system, and only we can read its logs. We make no decisions about you by automated means and build no profiles."
           ]
         },
         {

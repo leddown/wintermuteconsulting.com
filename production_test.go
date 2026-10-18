@@ -134,6 +134,23 @@ func TestProductionConfigFitsTheSite(t *testing.T) {
 	if tlsProtocols == 0 {
 		t.Error("relayd.conf: no http protocol with a tls keypair")
 	}
+	// Port 80 never serves the site: relayd sends its plain-HTTP side to httpd,
+	// which answers with a 301 to the same URL on https:// (the privacy policy
+	// says the site is served only over HTTPS).
+	for _, block := range strings.Split(relayd, "\nhttp protocol ")[1:] {
+		if !strings.Contains(block, "tls keypair") && strings.Contains(block, "forward to <wintermuteconsulting>") {
+			t.Error("relayd.conf: the plain-HTTP protocol forwards to the site; it must go to httpd's redirect")
+		}
+	}
+	for _, block := range strings.Split(relayd, "\nrelay ")[1:] {
+		if !regexp.MustCompile(`listen on \S+ port \d+ tls`).MatchString(block) && strings.Contains(block, "forward to <wintermuteconsulting>") {
+			t.Error("relayd.conf: a relay without tls forwards to the site")
+		}
+	}
+	httpd := webmasterFile(t, "server/httpd.conf")
+	if !strings.Contains(httpd, `block return 301 "https://$HTTP_HOST$REQUEST_URI"`) {
+		t.Error(`httpd.conf: no 'block return 301 "https://$HTTP_HOST$REQUEST_URI"', so port 80 doesn't redirect to HTTPS`)
+	}
 	// Mail goes out once mail.conf exists (deploy/mail.conf.example).
 	if !strings.Contains(rc, "-mail-config /etc/wintermuteconsulting/mail.conf") {
 		t.Error("rc.d: never passes -mail-config, so enquiries would only be logged, never emailed")
